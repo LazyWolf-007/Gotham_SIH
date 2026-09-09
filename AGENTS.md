@@ -7,7 +7,9 @@ You are Grok working on **Gotham_SIH (SIH26189)** — a Palantir-lite investigat
 ## Bindings (do not drift)
 
 - Graph is the brain. LLM is a mouth. If the model is down, the map still answers.
-- Typed edges only: `CALLED`, `PAID`, `OWNS`, `USES`, `SEEN_AT`, `MEMBER_OF`, `MENTIONED_IN`, `SAME_AS`.
+- Typed edges are frozen at these 8. Do not invent new link types: `CALLED`, `PAID`, `OWNS`, `USES`, `SEEN_AT`, `MEMBER_OF`, `MENTIONED_IN`, `SAME_AS`.
+- Put extra meaning in edge attributes only (see `CONTEXT.md`). Never add a 9th type.
+- `ASSOCIATED` is forbidden unless `scripts/demo_check.py` fails without it — and you ask the user first.
 - Every edge has provenance: `{source_type, source_id, snippet}`.
 - Do not use Neo4j, LangChain, Microsoft GraphRAG, blockchain, or a vector DB.
 - Do not scrape real FIRs or name living people.

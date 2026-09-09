@@ -5,7 +5,9 @@ Operation Grey Ledger. NCRB/MHA criminal network analysis.
 
 LAW
 - Graph is the brain. LLM is a mouth. If the model is down, the map still answers.
-- Typed edges only: CALLED, PAID, OWNS, USES, SEEN_AT, MEMBER_OF, MENTIONED_IN, SAME_AS.
+- Typed edges are frozen at these 8. Do not invent new link types: CALLED, PAID, OWNS, USES, SEEN_AT, MEMBER_OF, MENTIONED_IN, SAME_AS.
+- Put extra meaning in edge attributes only. Never add a 9th type.
+- ASSOCIATED is forbidden unless demo_check.py fails without it, and you ask first.
 - Every edge has provenance: {source_type, source_id, snippet}.
 - Do not use Neo4j, LangChain, Microsoft GraphRAG, blockchain, vector DB.
 - Do not scrape real FIRs or name living people.

@@ -1,0 +1,12 @@
+pack: surv
+source: data/raw/surveillance.json
+format: json
+
+fields:
+  at: timestamp
+  camera_id: camera_id
+  location_id: location_id
+  person_id: person_id
+  vehicle_id: vehicle_id
+  plate: plate
+  confidence: confidence

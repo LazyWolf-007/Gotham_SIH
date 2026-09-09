@@ -1,0 +1,11 @@
+pack: cdr
+source: data/raw/cdr.csv
+format: csv
+
+fields:
+  at: timestamp
+  caller: caller
+  callee: callee
+  duration_s: duration_s
+  tower: cell_tower
+  imei: imei

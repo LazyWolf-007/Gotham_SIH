@@ -1,0 +1,28 @@
+# Pattern stubs. Engine interprets these; UI must not hardcode ifs.
+# Gold labels in data/raw/universe.json must be recoverable by engine/patterns.py.
+version: "1.0.0"
+
+patterns:
+  - id: hawala_cycle
+    title: Hawala cycle
+    description: Directed PAID cycle (money loop).
+    match: {}
+    gold_key: hawala_cycle
+
+  - id: mule_burst
+    title: Mule burst
+    description: Burst of PAID hops through mule accounts in a short window.
+    match: {}
+    gold_key: mule_burst
+
+  - id: accountant_cutpoint
+    title: Accountant cutpoint
+    description: Person whose removal is the counterfactual arrest target.
+    match: {}
+    gold_key: accountant_cutpoint
+
+  - id: front_cluster
+    title: Front cluster
+    description: Organization cluster of front entities (MEMBER_OF).
+    match: {}
+    gold_key: front_cluster

@@ -1,0 +1,11 @@
+pack: txn
+source: data/raw/txn.csv
+format: csv
+
+fields:
+  at: timestamp
+  src: src_account
+  dst: dst_account
+  amount_inr: amount_inr
+  channel: channel
+  note: note

@@ -1,0 +1,13 @@
+pack: fir
+source: data/raw/firs.md
+format: markdown
+
+fields:
+  id: id
+  station: station
+  offence: offence
+  filed_at: date
+  complainant: complainant
+  location: location
+  named: named
+  narrative: narrative

@@ -36,7 +36,7 @@ def build(kernel: dict) -> dict:
     cut = kernel.get("cut") or {}
     residual = cut.get("residual_path_ph02_ph03") or cut.get("residual_path") or []
     arrest = {
-        "removed": gold.get("accountant_id") or "person:naveen_bhatia",
+        "removed": gold.get("accountant_id") or "",
         "residual_path": list(residual),
         "residual_phone_ids": list(RESIDUAL_PHONE_IDS),
     }

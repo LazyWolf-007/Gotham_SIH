@@ -1,0 +1,2185 @@
+{
+  "generated_at": "2026-09-10T19:36:23.860487+00:00",
+  "records": [
+    {
+      "fir_id": "FIR-2026-001",
+      "people": [
+        {
+          "text": "Kavita Mundhe",
+          "snippet": "Complainant Kavita Mundhe w/o late stall-holder",
+          "id": "person:p30"
+        },
+        {
+          "text": "Samina Qazi",
+          "snippet": "She stated that Samina Qazi, r/o Barola, Noida",
+          "id": "person:p40"
+        },
+        {
+          "text": "unknown yard boy",
+          "snippet": "was shown a UPI QR by an unknown yard boy"
+        },
+        {
+          "text": "Rukka",
+          "snippet": "Rukka prepared after neighbour enquiry at Shed No. 3"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810001999",
+          "snippet": "The amount left Kavita Mundhe's own prepaid 9810001999",
+          "id": "phone:ph11"
+        },
+        {
+          "text": "9810003729",
+          "snippet": "CDR of mobile no. 9810001999 and 9810003729 (Samina Qazi) to be obtained.",
+          "id": "phone:ph21"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Azadpur Sabzi Mandi",
+          "snippet": "running a kinnow crate stall on the inner lane of Shed No. 3, Azadpur Sabzi Mandi"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹18,700",
+          "snippet": "and paid ₹18,700 thinking it was mandi cess"
+        }
+      ],
+      "relations": [
+        {
+          "text": "Kavita Mundhe runs a kinnow crate stall at Azadpur Sabzi Mandi",
+          "snippet": "running a kinnow crate stall on the inner lane of Shed No. 3, Azadpur Sabzi Mandi",
+          "id": "person:p30"
+        },
+        {
+          "text": "Samina Qazi paid ₹18,700 via UPI QR shown by unknown yard boy",
+          "snippet": "was shown a UPI QR by an unknown yard boy and paid ₹18,700",
+          "id": "person:p40"
+        },
+        {
+          "text": "Unknown yard boy showed UPI QR to Samina Qazi",
+          "snippet": "was shown a UPI QR by an unknown yard boy and paid ₹18,700",
+          "id": "person:p40"
+        },
+        {
+          "text": "Rukka prepared a report after neighbour enquiry at Shed No. 3",
+          "snippet": "Rukka prepared after neighbour enquiry at Shed No. 3"
+        },
+        {
+          "text": "CDR to be obtained for mobile numbers 9810001999 (Kavita Mundhe) and 9810003729 (Samina Qazi)",
+          "snippet": "CDR of mobile no. 9810001999 and 9810003729 (Samina Qazi) to be obtained.",
+          "id": "person:p30"
+        }
+      ],
+      "matched_ids": [
+        "person:p30",
+        "person:p40",
+        "phone:ph11",
+        "phone:ph21"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-002",
+      "people": [
+        {
+          "text": "Pallavi Upasani",
+          "snippet": "Pallavi Upasani d/o, r/o Harkesh Nagar, working as a billing clerk",
+          "id": "person:p31"
+        },
+        {
+          "text": "Harkesh Nagar",
+          "snippet": "Pallavi Upasani d/o, r/o Harkesh Nagar"
+        },
+        {
+          "text": "Preeti Jangra",
+          "snippet": "the undersigned SI Preeti Jangra visited Shed B-9"
+        },
+        {
+          "text": "Lodhi",
+          "snippet": "handwritten chit \"dispatch — Lodhi\""
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810002172",
+          "snippet": "She showed SMS on her mobile 9810002172",
+          "id": "phone:ph12"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Orbit Packers",
+          "snippet": "job-work party who used the name Orbit Packers on the gate pass",
+          "id": "org:orbit_packers"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹62,400",
+          "snippet": "invoice value ₹62,400"
+        }
+      ],
+      "relations": [
+        {
+          "text": "Pallavi Upasani entrusted 90 sealed cartons of packing tape to Orbit Packers",
+          "snippet": "She had entrusted 90 sealed cartons of packing tape (invoice value ₹62,400) to a job-work party who used the name Orbit Packers on the gate pass",
+          "id": "person:p31"
+        }
+      ],
+      "matched_ids": [
+        "person:p31",
+        "phone:ph12",
+        "org:orbit_packers"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-003",
+      "people": [
+        {
+          "text": "Manoj Ambavne",
+          "snippet": "Manoj Ambavne s/o, r/o Barola village, ... reported theft",
+          "id": "person:p32"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810002345",
+          "snippet": "His mobile 9810002345 was used to call two labourers",
+          "id": "phone:ph13"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹21,000",
+          "snippet": "Approximate value ₹21,000"
+        }
+      ],
+      "relations": [
+        {
+          "text": "Manoj Ambavne uses mobile 9810002345",
+          "snippet": "His mobile 9810002345 was used to call two labourers",
+          "id": "person:p32"
+        },
+        {
+          "text": "Manoj Ambavne called two labourers",
+          "snippet": "His mobile 9810002345 was used to call two labourers",
+          "id": "person:p32"
+        }
+      ],
+      "matched_ids": [
+        "person:p32",
+        "phone:ph13"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-004",
+      "people": [
+        {
+          "text": "Yogesh Chitnis",
+          "snippet": "Yogesh Chitnis, wholesale of plastic jars, shop No. 11",
+          "id": "person:p33"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810002518",
+          "snippet": "His mobile 9810002518.",
+          "id": "phone:ph14"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Azadpur committee",
+          "snippet": "inner sacks still had Azadpur committee stencil."
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹9,500",
+          "snippet": "walk-in seller left against ₹9,500 cash."
+        }
+      ],
+      "relations": [
+        {
+          "text": "Yogesh Chitnis is a wholesale of plastic jars at shop No. 11",
+          "snippet": "Yogesh Chitnis, wholesale of plastic jars, shop No. 11",
+          "id": "person:p33"
+        },
+        {
+          "text": "Yogesh Chitnis's mobile number is 9810002518",
+          "snippet": "His mobile 9810002518.",
+          "id": "person:p33"
+        },
+        {
+          "text": "walk-in seller paid ₹9,500 cash for the bundles",
+          "snippet": "walk-in seller left against ₹9,500 cash."
+        },
+        {
+          "text": "Yogesh Chitnis brought the lot to the police station",
+          "snippet": "He became suspicious and brought the lot to the PS rather than sell.",
+          "id": "person:p33"
+        },
+        {
+          "text": "The inner sacks bore Azadpur committee stencil",
+          "snippet": "inner sacks still had Azadpur committee stencil."
+        }
+      ],
+      "matched_ids": [
+        "person:p33",
+        "phone:ph14"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-005",
+      "people": [
+        {
+          "text": "Bhavesh Rangnekar",
+          "snippet": "Bhavesh Rangnekar, small transporter",
+          "id": "person:p34"
+        },
+        {
+          "text": "Bhaskar Makhija",
+          "snippet": "brother-in-law Bhaskar Makhija",
+          "id": "person:p44"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810002691",
+          "snippet": "Bhavesh's mobile 9810002691",
+          "id": "phone:ph15"
+        },
+        {
+          "text": "9810004421",
+          "snippet": "Bhaskar's 9810004421",
+          "id": "phone:ph25"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Mehra Logistics",
+          "snippet": "e-way bill in the name of Mehra Logistics",
+          "id": "org:mehra_logistics"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹7,200",
+          "snippet": "They paid ₹7,200 \"fast-tag / papers\" on UPI"
+        }
+      ],
+      "relations": [
+        {
+          "text": "Bhavesh Rangnekar is brother-in-law of Bhaskar Makhija",
+          "snippet": "came with his brother-in-law Bhaskar Makhija",
+          "id": "person:p34"
+        },
+        {
+          "text": "Bhavesh Rangnekar's mobile is 9810002691",
+          "snippet": "Bhavesh's mobile 9810002691",
+          "id": "person:p34"
+        },
+        {
+          "text": "Bhaskar Makhija's mobile is 9810004421",
+          "snippet": "Bhaskar's 9810004421",
+          "id": "person:p44"
+        },
+        {
+          "text": "Mehra Logistics is on e-way bill for Bhaskar Makhija's grey pickup DL3CH1119",
+          "snippet": "e-way bill in the name of Mehra Logistics for Bhaskar's grey pickup DL3CH1119",
+          "id": "person:p44"
+        },
+        {
+          "text": "Bhavesh Rangnekar and Bhaskar Makhija paid ₹7,200 via UPI",
+          "snippet": "They paid ₹7,200 \"fast-tag / papers\" on UPI",
+          "id": "person:p34"
+        }
+      ],
+      "matched_ids": [
+        "person:p34",
+        "person:p44",
+        "phone:ph15",
+        "phone:ph25",
+        "org:mehra_logistics"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-006",
+      "people": [
+        {
+          "text": "Pradeep Bhatia",
+          "snippet": "Pradeep Bhatia, apple commission, shed near Gate No. 1 of Ghazipur Fruit Market...",
+          "id": "person:p35"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810002864",
+          "snippet": "his own prepaid 9810002864 on which a missed call came from an unknown series",
+          "id": "phone:ph16"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Karol Bagh accounts firm",
+          "snippet": "He is not related to any Karol Bagh accounts firm."
+        }
+      ],
+      "amounts": [],
+      "relations": [
+        {
+          "text": "Pradeep Bhatia owns phone 9810002864",
+          "snippet": "his own prepaid 9810002864 on which a missed call came from an unknown series",
+          "id": "person:p35"
+        },
+        {
+          "text": "Pradeep Bhatia not related to Karol Bagh accounts firm",
+          "snippet": "He is not related to any Karol Bagh accounts firm.",
+          "id": "person:p35"
+        }
+      ],
+      "matched_ids": [
+        "person:p35",
+        "phone:ph16"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-007",
+      "people": [
+        {
+          "text": "Firoz Tandel",
+          "snippet": "Firoz Tandel, cleaner-cum-driver, r/o Tank Road back lane, Karol Bagh, was brought after MLC from a pr",
+          "id": "person:p36"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810003037",
+          "snippet": "arm. He does not name the other party. His mobile 9810003037 was smashed at the scene (handset still powers on). Injury is simple as per MLC. u/s 323",
+          "id": "phone:ph17"
+        }
+      ],
+      "orgs": [],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p36",
+        "phone:ph17"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-008",
+      "people": [
+        {
+          "text": "Hina Kazi",
+          "snippet": "Hina Kazi, packing-unit supervisor, Plot 44, Udyog Vihar Phase IV, r/o Dundahera, was called by the",
+          "id": "person:p37"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810003210",
+          "snippet": "on a rough count. She reached on her own, mobile 9810003210. Estimated damage to shutter ₹8,500. u/s 427 IPC. Spot inspection done in the night hours",
+          "id": "phone:ph18"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹8,500",
+          "snippet": "n, mobile 9810003210. Estimated damage to shutter ₹8,500. u/s 427 IPC. Spot inspection done in the night hours. Neighbour units heard nothing."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p37",
+        "phone:ph18"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-009",
+      "people": [
+        {
+          "text": "Pranav Bhosale",
+          "snippet": "Road Gate No. 2), r/o Village Azadpur, came with Pranav Bhosale, who had brought 40 onion mesh bags in silver tempo DL3CN1221 from Noida. She stated that",
+          "id": "person:p48"
+        },
+        {
+          "text": "Rakesh Mundhe",
+          "snippet": "ilver tempo DL3CN1221 from Noida. She stated that Rakesh Mundhe, who calls himself yard supervisor of Panchsheel Spices and stands on the cabin of silver",
+          "id": "person:rakesh_mundhe"
+        },
+        {
+          "text": "Asma Talreja",
+          "snippet": "Asma Talreja, dry chilli and jeera stall, inner lane off Gate No. 5 (not the Ring Road Gate No. 2), r/",
+          "id": "person:p38"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810003383",
+          "snippet": "t Gate No. 5, took ₹12,400 on UPI from her mobile 9810003383 as \"platform\" and issued no parchi. Pranav Bhosale paid a further ₹6,000 cash because Mun",
+          "id": "phone:ph19"
+        },
+        {
+          "text": "9810000442",
+          "snippet": "copy would come \"kal subah\". Mundhe's mobile no. 9810000442 was saved in Asma Talreja's phone as \"Gate 5 Rakesh\". Both say the man is always at that",
+          "id": "phone:ph02"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Panchsheel Spices",
+          "snippet": "kesh Mundhe, who calls himself yard supervisor of Panchsheel Spices and stands on the cabin of silver tempo DL3CB1017 at Gate No. 5, took ₹12,400 on UPI from",
+          "id": "org:panchsheel_spices"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹12,400",
+          "snippet": "bin of silver tempo DL3CB1017 at Gate No. 5, took ₹12,400 on UPI from her mobile 9810003383 as \"platform\" and issued no parchi. Pranav Bhosale paid"
+        },
+        {
+          "text": "₹6,000",
+          "snippet": "d issued no parchi. Pranav Bhosale paid a further ₹6,000 cash because Mundhe said the committee copy would come \"kal subah\". Mundhe's mobile no. 981"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p48",
+        "person:rakesh_mundhe",
+        "person:p38",
+        "phone:ph19",
+        "phone:ph02",
+        "org:panchsheel_spices"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-010",
+      "people": [
+        {
+          "text": "Naveen Bhatia",
+          "snippet": "alue about ₹1,41,000 as per his own bill book) to Naveen Bhatia of Bhatia Associates, Tank Road, Karol Bagh. Bhatia came himself with a file, not with mu",
+          "id": "person:naveen_bhatia"
+        },
+        {
+          "text": "Rajan Barot",
+          "snippet": "Rajan Barot, job-work fabricator, Shed C-14, Okhla Industrial Area Phase II, r/o Kalkaji DDA flats, m",
+          "id": "person:p39"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810003556",
+          "snippet": "rial Area Phase II, r/o Kalkaji DDA flats, mobile 9810003556, stated that he entrusted 210 HDPE plastic drums (his count, value about ₹1,41,000 as per",
+          "id": "phone:ph20"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Bhatia Associates",
+          "snippet": "000 as per his own bill book) to Naveen Bhatia of Bhatia Associates, Tank Road, Karol Bagh. Bhatia came himself with a file, not with muscle. He told Barot h",
+          "id": "org:bhatia_associates"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹1,41,000",
+          "snippet": "ed 210 HDPE plastic drums (his count, value about ₹1,41,000 as per his own bill book) to Naveen Bhatia of Bhatia Associates, Tank Road, Karol Bagh. B"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:naveen_bhatia",
+        "person:p39",
+        "phone:ph20",
+        "org:bhatia_associates"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-011",
+      "people": [
+        {
+          "text": "Samina Qazi",
+          "snippet": "Samina Qazi, r/o Barola, who plies a blue car DL4SC1034 for small lifts, found 4 kinnow crates missin",
+          "id": "person:p40"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810003729",
+          "snippet": "ur in the morning. Value about ₹3,200. Her mobile 9810003729. No CCTV on that stretch of the service road. u/s 379 IPC. She does not accuse any named",
+          "id": "phone:ph21"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹3,200",
+          "snippet": "oaded them at Azadpur in the morning. Value about ₹3,200. Her mobile 9810003729. No CCTV on that stretch of the service road. u/s 379 IPC. She does"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p40",
+        "phone:ph21"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-012",
+      "people": [
+        {
+          "text": "Kishore Khatri",
+          "snippet": "Kishore Khatri, spare-parts, Gali Lohe Wali, Sadar Bazar, r/o Sadar Thana road, came driving grey pickup",
+          "id": "person:p41"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810003902",
+          "snippet": "off. He got frightened and produced them. Mobile 9810003902. u/s 411 IPC. Batteries seized. Seller not identified.",
+          "id": "phone:ph22"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹4,800",
+          "snippet": "51 with 3 motorcycle batteries a man sold him for ₹4,800. Numbers on two batteries were filed off. He got frightened and produced them. Mobile 98100"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p41",
+        "phone:ph22"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-013",
+      "people": [
+        {
+          "text": "Rukhsana Divekar",
+          "snippet": "Rukhsana Divekar, r/o Sector 21 Dwarka, pocket 1, brought a GST invoice of Silver Lotus Traders Pvt Ltd th",
+          "id": "person:p42"
+        },
+        {
+          "text": "Nagesh Ambwani",
+          "snippet": "GST invoice of Silver Lotus Traders Pvt Ltd that Nagesh Ambwani had used to book her silver tempo DL8CF1085 for a \"Noida empty return\". The invoice GSTIN",
+          "id": "person:p52"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810004075",
+          "snippet": "N looked altered by pen. She paid ₹4,500 UPI from 9810004075. Nagesh Ambwani, who came in tempo DL8CR1289, says he received the paper from a loading c",
+          "id": "phone:ph23"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Silver Lotus Traders Pvt Ltd",
+          "snippet": "tor 21 Dwarka, pocket 1, brought a GST invoice of Silver Lotus Traders Pvt Ltd that Nagesh Ambwani had used to book her silver tempo DL8CF1085 for a \"Noida empty return",
+          "id": "org:silver_lotus_traders"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹4,500",
+          "snippet": "The invoice GSTIN looked altered by pen. She paid ₹4,500 UPI from 9810004075. Nagesh Ambwani, who came in tempo DL8CR1289, says he received the pape"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p42",
+        "person:p52",
+        "phone:ph23",
+        "org:silver_lotus_traders"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-014",
+      "people": [
+        {
+          "text": "Imtiaz Qureshi",
+          "snippet": "442. She paid ₹48,500 UPI, believing it was cess. Imtiaz Qureshi, manager Qadir Cold Store, mobile 9810000788, told her he had already NEFT'd ₹2,15,031 on",
+          "id": "person:imtiaz_qureshi"
+        },
+        {
+          "text": "Rakesh Mundhe",
+          "snippet": "into a \"GST consultant\" instead of the committee. Rakesh Mundhe of Panchsheel Spices, who keeps Gate No. 5 and silver tempo DL3CB1017, showed her a QR fr",
+          "id": "person:rakesh_mundhe"
+        },
+        {
+          "text": "Farhan Lodhi",
+          "snippet": "eepers counted the rings. That prepaid is used by Farhan Lodhi, dispatch clerk on paper at Orbit Packers, Okhla, who is also signatory on SBI A/c SBI100",
+          "id": "person:farhan_lodhi"
+        },
+        {
+          "text": "Farida Tawde",
+          "snippet": "Farida Tawde w/o Nitin Tawde, r/o H.No. 12, Gali No. 3, Timarpur, running kinnow and pear at Shop 47-B",
+          "id": "person:p43"
+        },
+        {
+          "text": "Nitin Tawde",
+          "snippet": "Farida Tawde w/o Nitin Tawde, r/o H.No. 12, Gali No. 3, Timarpur, running kinnow and pear at Shop 47-B, Shed No. 4, Az",
+          "id": "person:p13"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810000442",
+          "snippet": "lver tempo DL3CB1017, showed her a QR from mobile 9810000442. She paid ₹48,500 UPI, believing it was cess. Imtiaz Qureshi, manager Qadir Cold Store, m",
+          "id": "phone:ph02"
+        },
+        {
+          "text": "9810000788",
+          "snippet": "Imtiaz Qureshi, manager Qadir Cold Store, mobile 9810000788, told her he had already NEFT'd ₹2,15,031 on 16.03.2026 from his BOB A/c BOB100071278 to",
+          "id": "phone:ph04"
+        },
+        {
+          "text": "9810000615",
+          "snippet": "road. Within the hour of her complaint, a prepaid 9810000615 began calling the stall and the Gate No. 5 cabin in a burst; neighbour shopkeepers counte",
+          "id": "phone:ph03"
+        },
+        {
+          "text": "9810000961",
+          "snippet": "y on SBI A/c SBI100034387. Lodhi's own handset is 9810000961; 9810000615 is the burner. IO directed to collect CDR of mobile no. 9810000615 from this",
+          "id": "phone:ph05"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Panchsheel Spices",
+          "snippet": "ltant\" instead of the committee. Rakesh Mundhe of Panchsheel Spices, who keeps Gate No. 5 and silver tempo DL3CB1017, showed her a QR from mobile 9810000442.",
+          "id": "org:panchsheel_spices"
+        },
+        {
+          "text": "Qadir Cold Store",
+          "snippet": "I, believing it was cess. Imtiaz Qureshi, manager Qadir Cold Store, mobile 9810000788, told her he had already NEFT'd ₹2,15,031 on 16.03.2026 from his BOB A",
+          "id": "org:qadir_cold_store"
+        },
+        {
+          "text": "Orbit Packers",
+          "snippet": "used by Farhan Lodhi, dispatch clerk on paper at Orbit Packers, Okhla, who is also signatory on SBI A/c SBI100034387. Lodhi's own handset is 9810000961;",
+          "id": "org:orbit_packers"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹48,500",
+          "snippet": "showed her a QR from mobile 9810000442. She paid ₹48,500 UPI, believing it was cess. Imtiaz Qureshi, manager Qadir Cold Store, mobile 9810000788, t"
+        },
+        {
+          "text": "₹2,15,031",
+          "snippet": "mobile 9810000788, told her he had already NEFT'd ₹2,15,031 on 16.03.2026 from his BOB A/c BOB100071278 to HDFC A/c HDF100026189 as \"produce settleme"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:imtiaz_qureshi",
+        "person:rakesh_mundhe",
+        "person:farhan_lodhi",
+        "person:p43",
+        "person:p13",
+        "phone:ph02",
+        "phone:ph04",
+        "phone:ph03",
+        "phone:ph05",
+        "org:panchsheel_spices",
+        "org:qadir_cold_store",
+        "org:orbit_packers"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-015",
+      "people": [
+        {
+          "text": "Bhaskar Makhija",
+          "snippet": "Bhaskar Makhija, driver of grey pickup DL3CH1119, r/o Dev Nagar, Karol Bagh, was examined after MLC. A fa",
+          "id": "person:p44"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810004421",
+          "snippet": "eeding. He did not identify the passenger. Mobile 9810004421. Simple injury. u/s 323 IPC. Night duty SI Asha Rana recorded.",
+          "id": "phone:ph25"
+        }
+      ],
+      "orgs": [],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p44",
+        "phone:ph25"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-016",
+      "people": [
+        {
+          "text": "Rukhsar Padhye",
+          "snippet": "Rukhsar Padhye, r/o Palam Vihar, whose white motorcycle DL4SI1136 was parked at Udyog Vihar Phase V, fou",
+          "id": "person:p45"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810004594",
+          "snippet": "r a packing overtime. Damage about ₹3,400. Mobile 9810004594. No watchman saw the person. u/s 427 IPC. Spot inspection of the bay parking.",
+          "id": "phone:ph26"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹3,400",
+          "snippet": "e at night after a packing overtime. Damage about ₹3,400. Mobile 9810004594. No watchman saw the person. u/s 427 IPC. Spot inspection of the bay par"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p45",
+        "phone:ph26"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-017",
+      "people": [
+        {
+          "text": "Parvinder Sawant",
+          "snippet": "Town-II, plying silver tempo HR26J1153, came with Parvinder Sawant of Jamuna Transport Co, who trades from the same mandi and keeps tempo HR26V1357. A commi",
+          "id": "person:p56"
+        },
+        {
+          "text": "Vikram Haleja",
+          "snippet": "Nilesh Haleja knows is spoken of in the family as Vikram Haleja's holding account; it was a Silver Lotus Traders Pvt Ltd line. Nilesh Haleja stated he is",
+          "id": "person:vikram_haleja"
+        },
+        {
+          "text": "Nilesh Haleja",
+          "snippet": "Nilesh Haleja, r/o Model Town-II, plying silver tempo HR26J1153, came with Parvinder Sawant of Jamuna T",
+          "id": "person:p46"
+        }
+      ],
+      "phones": [],
+      "orgs": [
+        {
+          "text": "Silver Lotus Traders Pvt Ltd",
+          "snippet": "mily as Vikram Haleja's holding account; it was a Silver Lotus Traders Pvt Ltd line. Nilesh Haleja stated he is a namesake tempo-wala, not the designated partner. Trade",
+          "id": "org:silver_lotus_traders"
+        },
+        {
+          "text": "Jamuna Transport Co",
+          "snippet": "er tempo HR26J1153, came with Parvinder Sawant of Jamuna Transport Co, who trades from the same mandi and keeps tempo HR26V1357. A commission agent at Shed No.",
+          "id": "org:jamuna_transport"
+        },
+        {
+          "text": "Haleja Holdings LLP",
+          "snippet": "6V1357. A commission agent at Shed No. 2 showed a Haleja Holdings LLP letterhead and asked ₹95,000 \"security\" to start a potato line. The account printed on th",
+          "id": "org:haleja_holdings"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹95,000",
+          "snippet": "showed a Haleja Holdings LLP letterhead and asked ₹95,000 \"security\" to start a potato line. The account printed on the letterhead was not the PNB A"
+        },
+        {
+          "text": "₹11,000",
+          "snippet": "C or outbound ICICI ledger. Parvinder Sawant paid ₹11,000 cash as \"file charge\" from his own pocket and wants it back. Papers are in other concerns."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p56",
+        "person:vikram_haleja",
+        "person:p46",
+        "org:silver_lotus_traders",
+        "org:jamuna_transport",
+        "org:haleja_holdings"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-018",
+      "people": [
+        {
+          "text": "Shabina Memon",
+          "snippet": "Shabina Memon, stitching job-work, Shed A-2 Okhla Phase II, r/o Jamia Nagar, left 40 kg of zip rolls (₹",
+          "id": "person:p47"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810004940",
+          "snippet": "not returned on the promised Tuesday. Her mobile 9810004940; she came in grey pickup DL8CL1187. u/s 406/120B IPC. Neighbour enquiry from Shed A-2.",
+          "id": "phone:ph28"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Orbit Packers",
+          "snippet": ") with a neighbouring packing table that uses the Orbit Packers board. The rolls were not returned on the promised Tuesday. Her mobile 9810004940; she ca",
+          "id": "org:orbit_packers"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹14,800",
+          "snippet": "ase II, r/o Jamia Nagar, left 40 kg of zip rolls (₹14,800) with a neighbouring packing table that uses the Orbit Packers board. The rolls were not r"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p47",
+        "phone:ph28",
+        "org:orbit_packers"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-019",
+      "people": [
+        {
+          "text": "Pranav Bhosale",
+          "snippet": "Pranav Bhosale, r/o Noida Sec 62, reported theft of a spare wheel and toolkit from silver tempo DL3CN122",
+          "id": "person:p48"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810005113",
+          "snippet": "s inside for a loading slip. Value ₹7,500. Mobile 9810005113. u/s 379 IPC.",
+          "id": "phone:ph29"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹7,500",
+          "snippet": "lot while he was inside for a loading slip. Value ₹7,500. Mobile 9810005113. u/s 379 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p48",
+        "phone:ph29"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-020",
+      "people": [
+        {
+          "text": "Sultana Lodhi",
+          "snippet": "Sultana Lodhi, cloth-cutting, first floor, Katra, Sadar Bazar, r/o Bara Hindu Rao, bought 12 thaans of",
+          "id": "person:p49"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810005286",
+          "snippet": "last week. She produced the cloth and her mobile 9810005286. She is not in any packing firm. u/s 411 IPC. Cloth seized.",
+          "id": "phone:ph30"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹22,000",
+          "snippet": "ught 12 thaans of grey suiting from a walk-in for ₹22,000. A trader from Azadpur later said the lot was lifted from a mandi godown last week. She pr"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p49",
+        "phone:ph30"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-021",
+      "people": [
+        {
+          "text": "Atul Lakhani",
+          "snippet": "Atul Lakhani, r/o Dwarka Sec 21, pocket 7, grey pickup HR26P1255, came with a forged delivery challan",
+          "id": "person:p50"
+        },
+        {
+          "text": "Rafiq Mundhe",
+          "snippet": "o Pvt Ltd that had been used to book that pickup. Rafiq Mundhe, who keeps ICICI A/c ICI100104070, had forwarded the PDF on WhatsApp from an unknown ID.",
+          "id": "person:p60"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810005459",
+          "snippet": "App from an unknown ID. Atul paid ₹5,100 UPI from 9810005459. Both named. u/s 468/420 IPC.",
+          "id": "phone:ph31"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Kailash Agro Pvt Ltd",
+          "snippet": "HR26P1255, came with a forged delivery challan of Kailash Agro Pvt Ltd that had been used to book that pickup. Rafiq Mundhe, who keeps ICICI A/c ICI100104070, h",
+          "id": "org:kailash_agro"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹5,100",
+          "snippet": "the PDF on WhatsApp from an unknown ID. Atul paid ₹5,100 UPI from 9810005459. Both named. u/s 468/420 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p50",
+        "person:p60",
+        "phone:ph31",
+        "org:kailash_agro"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-022",
+      "people": [
+        {
+          "text": "Kulsum Contractor",
+          "snippet": "Kulsum Contractor, banana ripening room on hire at Ghazipur Fruit Market, r/o Vinod Nagar, stated that Rake",
+          "id": "person:p51"
+        },
+        {
+          "text": "Rakesh Mundhe",
+          "snippet": "azipur Fruit Market, r/o Vinod Nagar, stated that Rakesh Mundhe of Panchsheel Spices, Azadpur, came to her yard on mobile 9810000442 and told her not to",
+          "id": "person:rakesh_mundhe"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810000442",
+          "snippet": "sheel Spices, Azadpur, came to her yard on mobile 9810000442 and told her not to take Azadpur overflow stock \"if you don't want the room sealed\". She",
+          "id": "phone:ph02"
+        },
+        {
+          "text": "9810005632",
+          "snippet": "adpur. Threat of sealing. u/s 506 IPC. Her mobile 9810005632. She came on motorcycle UP16Q1272.",
+          "id": "phone:ph32"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Panchsheel Spices",
+          "snippet": "et, r/o Vinod Nagar, stated that Rakesh Mundhe of Panchsheel Spices, Azadpur, came to her yard on mobile 9810000442 and told her not to take Azadpur overflow",
+          "id": "org:panchsheel_spices"
+        }
+      ],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p51",
+        "person:rakesh_mundhe",
+        "phone:ph02",
+        "phone:ph32",
+        "org:panchsheel_spices"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-023",
+      "people": [
+        {
+          "text": "Nagesh Ambwani",
+          "snippet": "Nagesh Ambwani, tempo DL8CR1289, r/o WEA Karol Bagh, quarrel at a tea stall on Arya Samaj Road; he recei",
+          "id": "person:p52"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810005805",
+          "snippet": "d swelling on the right cheek. MLC simple. Mobile 9810005805. Other party ran. u/s 323 IPC.",
+          "id": "phone:ph33"
+        }
+      ],
+      "orgs": [],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p52",
+        "phone:ph33"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-024",
+      "people": [
+        {
+          "text": "Najma Bhandare",
+          "snippet": "Najma Bhandare, r/o Sector 22 Gurugram, found the windscreen of her blue car DL1CS1306 starred with a st",
+          "id": "person:p53"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810005978",
+          "snippet": "king after a late shift. Estimate ₹12,000. Mobile 9810005978. u/s 427 IPC. Night PCR had been called; rukka from the PS.",
+          "id": "phone:ph34"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹12,000",
+          "snippet": "hase IV open parking after a late shift. Estimate ₹12,000. Mobile 9810005978. u/s 427 IPC. Night PCR had been called; rukka from the PS."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p53",
+        "phone:ph34"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-025",
+      "people": [
+        {
+          "text": "Imtiaz Mhapankar",
+          "snippet": "Imtiaz Mhapankar, potato bags, r/o Adarsh Nagar, came with Rehana Rangnekar who had sent 18 bags on his pi",
+          "id": "person:p54"
+        },
+        {
+          "text": "Rehana Rangnekar",
+          "snippet": "apankar, potato bags, r/o Adarsh Nagar, came with Rehana Rangnekar who had sent 18 bags on his pickup DL3CT1323. A man used the name Qadir Cold Store on a r",
+          "id": "person:p64"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810006151",
+          "snippet": "₹9,600 \"cold-store advance\" on UPI from Imtiaz's 9810006151. Qadir Cold Store's actual manager was not at the gate. Rehana Rangnekar's BOB A/c BOB100",
+          "id": "phone:ph35"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Qadir Cold Store",
+          "snippet": "bags on his pickup DL3CT1323. A man used the name Qadir Cold Store on a rent slip and took ₹9,600 \"cold-store advance\" on UPI from Imtiaz's 9810006151. Qadi",
+          "id": "org:qadir_cold_store"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹9,600",
+          "snippet": "the name Qadir Cold Store on a rent slip and took ₹9,600 \"cold-store advance\" on UPI from Imtiaz's 9810006151. Qadir Cold Store's actual manager was"
+        },
+        {
+          "text": "₹4,200",
+          "snippet": "Rangnekar's BOB A/c BOB100120466 was also debited ₹4,200 in the same window. Both cheated on a fake rent slip. u/s 420/120B IPC. The slip is on file"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p54",
+        "person:p64",
+        "phone:ph35",
+        "org:qadir_cold_store"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-026",
+      "people": [
+        {
+          "text": "Rakesh Nadkarni",
+          "snippet": "Rakesh Nadkarni, r/o Govindpuri, white motorcycle DL4SU1340, left 8 spice tins (₹11,200) with a woman who",
+          "id": "person:p55"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810006324",
+          "snippet": "ake of the Azadpur partner, not that firm. Mobile 9810006324. u/s 406/120B IPC.",
+          "id": "phone:ph36"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Panchsheel Spices",
+          "snippet": "tins (₹11,200) with a woman who said she was from Panchsheel Spices doing Okhla packing. Tins not returned. He is a namesake of the Azadpur partner, not that",
+          "id": "org:panchsheel_spices"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹11,200",
+          "snippet": "i, white motorcycle DL4SU1340, left 8 spice tins (₹11,200) with a woman who said she was from Panchsheel Spices doing Okhla packing. Tins not return"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p55",
+        "phone:ph36",
+        "org:panchsheel_spices"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-027",
+      "people": [
+        {
+          "text": "Parvinder Sawant",
+          "snippet": "Parvinder Sawant, Jamuna Transport trader, silver tempo HR26V1357, reported 6 empty plastic drums stolen f",
+          "id": "person:p56"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810006497",
+          "snippet": "k a loading token at Sec 63. Value ₹2,400. Mobile 9810006497. u/s 379 IPC.",
+          "id": "phone:ph37"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹2,400",
+          "snippet": "or while he took a loading token at Sec 63. Value ₹2,400. Mobile 9810006497. u/s 379 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p56",
+        "phone:ph37"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-028",
+      "people": [
+        {
+          "text": "Harish Qureshi",
+          "snippet": "Harish Qureshi, not the Azadpur cold-store manager, runs a small radio-repair in Sadar, r/o Kashmere Gat",
+          "id": "person:p57"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810006670",
+          "snippet": "EI stickers were peeled. He produced them. Mobile 9810006670. u/s 411 IPC.",
+          "id": "phone:ph38"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹6,500",
+          "snippet": "UP16W1374. A man sold him 2 Android handsets for ₹6,500; IMEI stickers were peeled. He produced them. Mobile 9810006670. u/s 411 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p57",
+        "phone:ph38"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-029",
+      "people": [
+        {
+          "text": "Dinesh Pingle",
+          "snippet": "Dinesh Pingle, grey pickup DL8CX1391, r/o Dwarka Sec 23, and Afroz Talreja, who holds AXIS A/c AXI10013",
+          "id": "person:p58"
+        },
+        {
+          "text": "Afroz Talreja",
+          "snippet": "le, grey pickup DL8CX1391, r/o Dwarka Sec 23, and Afroz Talreja, who holds AXIS A/c AXI100136862, were shown a Narmada Exports packing list with a cut-pa",
+          "id": "person:p68"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810006843",
+          "snippet": "hey paid ₹8,800 \"GST difference\". Dinesh's mobile 9810006843. u/s 468/420 IPC.",
+          "id": "phone:ph39"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Narmada Exports",
+          "snippet": "ja, who holds AXIS A/c AXI100136862, were shown a Narmada Exports packing list with a cut-paste stamp. They paid ₹8,800 \"GST difference\". Dinesh's mobile 9",
+          "id": "org:narmada_exports"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹8,800",
+          "snippet": "ts packing list with a cut-paste stamp. They paid ₹8,800 \"GST difference\". Dinesh's mobile 9810006843. u/s 468/420 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p58",
+        "person:p68",
+        "phone:ph39",
+        "org:narmada_exports"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-030",
+      "people": [
+        {
+          "text": "Iqbal Merchant",
+          "snippet": "Iqbal Merchant, r/o Pandav Nagar, HDFC A/c HDF100099971, motorcycle DL1CY1408, was told at Ghazipur Gate",
+          "id": "person:p59"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹15,000",
+          "snippet": "t Ghazipur Gate No. 3 that if he did not \"adjust\" ₹15,000 cash his stall would be \"night-locked\". Two men, no firm named. He refused and came to the"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p59"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-031",
+      "people": [
+        {
+          "text": "Imtiaz Qureshi",
+          "snippet": "e. MLC: bruise on left shoulder, simple. He named Imtiaz Qureshi of Qadir Cold Store, Azadpur, who had come to Karol Bagh over a tempo parking row. Quresh",
+          "id": "person:imtiaz_qureshi"
+        },
+        {
+          "text": "Rafiq Mundhe",
+          "snippet": "Rafiq Mundhe, r/o Karol Bagh back gali, ICICI A/c ICI100104070, was injured in a scuffle outside a Tan",
+          "id": "person:p60"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810000788",
+          "snippet": "of complainant not on him at the time; Qureshi's 9810000788 is noted from the visiting card he produced.",
+          "id": "phone:ph04"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Qadir Cold Store",
+          "snippet": "left shoulder, simple. He named Imtiaz Qureshi of Qadir Cold Store, Azadpur, who had come to Karol Bagh over a tempo parking row. Qureshi's side says Rafiq",
+          "id": "org:qadir_cold_store"
+        }
+      ],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:imtiaz_qureshi",
+        "person:p60",
+        "phone:ph04",
+        "org:qadir_cold_store"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-032",
+      "people": [
+        {
+          "text": "Saira Upasani",
+          "snippet": "Saira Upasani, SBI A/c SBI100108169, r/o Palam, found 4 packed cartons kicked open in the Udyog Vihar P",
+          "id": "person:p61"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹6,200",
+          "snippet": "d. Contents (plastic clips) partly damaged, about ₹6,200. She was on a late job. u/s 427 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p61"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-033",
+      "people": [
+        {
+          "text": "Rukhsana Divekar",
+          "snippet": ", AXIS A/c AXI100112268, r/o Azadpur village, and Rukhsana Divekar of Dwarka, tempo DL8CF1085, paid ₹16,000 to a man who claimed Jamuna Transport Co would g",
+          "id": "person:p42"
+        },
+        {
+          "text": "Nasreen Ambavne",
+          "snippet": "Nasreen Ambavne, AXIS A/c AXI100112268, r/o Azadpur village, and Rukhsana Divekar of Dwarka, tempo DL8CF1",
+          "id": "person:p62"
+        }
+      ],
+      "phones": [],
+      "orgs": [
+        {
+          "text": "Jamuna Transport Co",
+          "snippet": "empo DL8CF1085, paid ₹16,000 to a man who claimed Jamuna Transport Co would give a weekly potato contract. No contract came. Nasreen transferred from her AXIS;",
+          "id": "org:jamuna_transport"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹16,000",
+          "snippet": "Rukhsana Divekar of Dwarka, tempo DL8CF1085, paid ₹16,000 to a man who claimed Jamuna Transport Co would give a weekly potato contract. No contract"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p42",
+        "person:p62",
+        "org:jamuna_transport"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-034",
+      "people": [
+        {
+          "text": "Roshni Talreja",
+          "snippet": "o SBI SBI100058981 (Silver Lotus Traders Pvt Ltd, Roshni Talreja); 29.01.2026 ₹1,16,159 into AXIS AXI100063080 (Kailash Agro Pvt Ltd, Sushil Ambwani); 31.",
+          "id": "person:roshni_talreja"
+        },
+        {
+          "text": "Sushil Ambwani",
+          "snippet": "159 into AXIS AXI100063080 (Kailash Agro Pvt Ltd, Sushil Ambwani); 31.01.2026 ₹1,60,940 back into SBI100034387. Front concerns rotating the same proceeds.",
+          "id": "person:sushil_ambwani"
+        },
+        {
+          "text": "Meenal Chitnis",
+          "snippet": "\"park for one night\". She is of the same house as Meenal Chitnis, director of Narmada Exports (AXIS A/c AXI100038486). ₹85,000 of Swati Chitnis's own PNB",
+          "id": "person:meenal_chitnis"
+        },
+        {
+          "text": "Swati Chitnis",
+          "snippet": "Swati Chitnis, r/o Mayur Vihar Phase II, PNB A/c PNB100116367, attended Okhla PS with a printout of IMP",
+          "id": "person:p63"
+        },
+        {
+          "text": "Farhan Lodhi",
+          "snippet": "IMPS ₹1,41,636 from SBI A/c SBI100034387 (Orbit / Farhan Lodhi side) to AXIS AXI100038486 (Narmada Exports); 27.01.2026 ₹1,15,186 from that AXIS into SB",
+          "id": "person:farhan_lodhi"
+        }
+      ],
+      "phones": [],
+      "orgs": [
+        {
+          "text": "Silver Lotus Traders Pvt Ltd",
+          "snippet": "6 ₹1,15,186 from that AXIS into SBI SBI100058981 (Silver Lotus Traders Pvt Ltd, Roshni Talreja); 29.01.2026 ₹1,16,159 into AXIS AXI100063080 (Kailash Agro Pvt Ltd, Sush",
+          "id": "org:silver_lotus_traders"
+        },
+        {
+          "text": "Kailash Agro Pvt Ltd",
+          "snippet": "ja); 29.01.2026 ₹1,16,159 into AXIS AXI100063080 (Kailash Agro Pvt Ltd, Sushil Ambwani); 31.01.2026 ₹1,60,940 back into SBI100034387. Front concerns rotating th",
+          "id": "org:kailash_agro"
+        },
+        {
+          "text": "Narmada Exports",
+          "snippet": "of the same house as Meenal Chitnis, director of Narmada Exports (AXIS A/c AXI100038486). ₹85,000 of Swati Chitnis's own PNB money was taken by a packing",
+          "id": "org:narmada_exports"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹85,000",
+          "snippet": "ector of Narmada Exports (AXIS A/c AXI100038486). ₹85,000 of Swati Chitnis's own PNB money was taken by a packing clerk and not returned the next mo"
+        },
+        {
+          "text": "₹1,41,636",
+          "snippet": "On the same chain she later saw: 25.01.2026 IMPS ₹1,41,636 from SBI A/c SBI100034387 (Orbit / Farhan Lodhi side) to AXIS AXI100038486 (Narmada Expor"
+        },
+        {
+          "text": "₹1,15,186",
+          "snippet": "o AXIS AXI100038486 (Narmada Exports); 27.01.2026 ₹1,15,186 from that AXIS into SBI SBI100058981 (Silver Lotus Traders Pvt Ltd, Roshni Talreja); 29.0"
+        },
+        {
+          "text": "₹1,16,159",
+          "snippet": "otus Traders Pvt Ltd, Roshni Talreja); 29.01.2026 ₹1,16,159 into AXIS AXI100063080 (Kailash Agro Pvt Ltd, Sushil Ambwani); 31.01.2026 ₹1,60,940 back"
+        },
+        {
+          "text": "₹1,60,940",
+          "snippet": "Kailash Agro Pvt Ltd, Sushil Ambwani); 31.01.2026 ₹1,60,940 back into SBI100034387. Front concerns rotating the same proceeds. Her ₹85,000 is still w"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:roshni_talreja",
+        "person:sushil_ambwani",
+        "person:meenal_chitnis",
+        "person:p63",
+        "person:farhan_lodhi",
+        "org:silver_lotus_traders",
+        "org:kailash_agro",
+        "org:narmada_exports"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-035",
+      "people": [
+        {
+          "text": "Rehana Rangnekar",
+          "snippet": "Rehana Rangnekar, BOB A/c BOB100120466, r/o Noida Sec 62, had 9 cartons of packing tape on a bay at Sec 63",
+          "id": "person:p64"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹8,800",
+          "snippet": "ne when she returned from the token window. Value ₹8,800. u/s 379 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p64"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-036",
+      "people": [
+        {
+          "text": "Gopal Bhatia",
+          "snippet": "Gopal Bhatia, grocery, Sadar Bazar, HDFC A/c HDF100124565, r/o Paharganj — not the Karol Bagh accounts",
+          "id": "person:p65"
+        }
+      ],
+      "phones": [],
+      "orgs": [
+        {
+          "text": "Panchsheel Spices",
+          "snippet": "n — bought 20 kg of jeera cheap from a walk-in. A Panchsheel Spices stencil was inside the sack. He produced the sack. u/s 411 IPC.",
+          "id": "org:panchsheel_spices"
+        }
+      ],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p65",
+        "org:panchsheel_spices"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-037",
+      "people": [
+        {
+          "text": "Nilesh Haleja",
+          "snippet": "el, ICICI A/c ICI100128664, r/o Dwarka Sec 7, and Nilesh Haleja of tempo HR26J1153, were given a photocopied RC and a fake fastag print to move a consign",
+          "id": "person:p46"
+        },
+        {
+          "text": "Bushra Tandel",
+          "snippet": "Bushra Tandel, ICICI A/c ICI100128664, r/o Dwarka Sec 7, and Nilesh Haleja of tempo HR26J1153, were giv",
+          "id": "person:p66"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹3,300",
+          "snippet": "ake fastag print to move a consignment. They paid ₹3,300. The RC series did not match any vehicle they saw. u/s 468/420 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p46",
+        "person:p66"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-038",
+      "people": [
+        {
+          "text": "Paresh Kazi",
+          "snippet": "Paresh Kazi, SBI A/c SBI100132763, fruit baskets at Ghazipur, r/o Karkardooma, was told \"ghar pe aa j",
+          "id": "person:p67"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹2,000",
+          "snippet": "by two loaders after he refused extra hammali of ₹2,000. u/s 506 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p67"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-039",
+      "people": [
+        {
+          "text": "Afroz Talreja",
+          "snippet": "Afroz Talreja, AXIS A/c AXI100136862, r/o Karol Bagh, was punched in the stomach during a crowd push at",
+          "id": "person:p68"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p68"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-040",
+      "people": [
+        {
+          "text": "Jatin Barot",
+          "snippet": "Jatin Barot, PNB A/c PNB100140961, r/o Dundahera, found the lock of his packing cage cut and the door",
+          "id": "person:p69"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹4,100",
+          "snippet": "e IV. Nothing missing on first count; cage repair ₹4,100. u/s 427 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p69"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-041",
+      "people": [
+        {
+          "text": "Atul Lakhani",
+          "snippet": "i, BOB A/c BOB100145060, r/o Azadpur village, and Atul Lakhani of Dwarka, pickup HR26P1255, paid ₹13,500 to a man who said Mehra Logistics would give th",
+          "id": "person:p50"
+        },
+        {
+          "text": "Shireen Qazi",
+          "snippet": "Shireen Qazi, BOB A/c BOB100145060, r/o Azadpur village, and Atul Lakhani of Dwarka, pickup HR26P1255,",
+          "id": "person:p70"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810005459",
+          "snippet": "ip happened. Shireen paid from BOB; Atul paid UPI 9810005459. u/s 420/120B IPC.",
+          "id": "phone:ph31"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Mehra Logistics",
+          "snippet": "pickup HR26P1255, paid ₹13,500 to a man who said Mehra Logistics would give them a weekly empty-return from the mandi. No trip happened. Shireen paid from",
+          "id": "org:mehra_logistics"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹13,500",
+          "snippet": "nd Atul Lakhani of Dwarka, pickup HR26P1255, paid ₹13,500 to a man who said Mehra Logistics would give them a weekly empty-return from the mandi. No"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p50",
+        "person:p70",
+        "phone:ph31",
+        "org:mehra_logistics"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-042",
+      "people": [
+        {
+          "text": "Heena Khatri",
+          "snippet": "Heena Khatri, r/o Tughlakabad, no shop of her own, left a sewing machine (₹9,800) at a unit whose gate",
+          "id": "person:p71"
+        }
+      ],
+      "phones": [],
+      "orgs": [
+        {
+          "text": "Mehra Logistics",
+          "snippet": "machine (₹9,800) at a unit whose gate board reads Mehra Logistics, Okhla Phase II, with a man who used the name Gulshan. Machine not returned in a week. Sh",
+          "id": "org:mehra_logistics"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹9,800",
+          "snippet": "kabad, no shop of her own, left a sewing machine (₹9,800) at a unit whose gate board reads Mehra Logistics, Okhla Phase II, with a man who used the"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p71",
+        "org:mehra_logistics"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-043",
+      "people": [
+        {
+          "text": "Nilofer Divekar",
+          "snippet": "Traders Pvt Ltd that he was holding for a cousin, Nilofer Divekar. 3 cartons missing from a Sec 63 bay. Value of missing about ₹6,000. u/s 379 IPC.",
+          "id": "person:p12"
+        },
+        {
+          "text": "Milind Divekar",
+          "snippet": "Milind Divekar, r/o Noida Sec 58, came about 11 cartons stencilled Silver Lotus Traders Pvt Ltd that he",
+          "id": "person:p72"
+        }
+      ],
+      "phones": [],
+      "orgs": [
+        {
+          "text": "Silver Lotus Traders Pvt Ltd",
+          "snippet": "/o Noida Sec 58, came about 11 cartons stencilled Silver Lotus Traders Pvt Ltd that he was holding for a cousin, Nilofer Divekar. 3 cartons missing from a Sec 63 bay. V",
+          "id": "org:silver_lotus_traders"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹6,000",
+          "snippet": "missing from a Sec 63 bay. Value of missing about ₹6,000. u/s 379 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p12",
+        "person:p72",
+        "org:silver_lotus_traders"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-044",
+      "people": [
+        {
+          "text": "Parveen Tawde",
+          "snippet": "Parveen Tawde, r/o Sadar, bought 8 kinnow crates for ₹6,400 from a tempo that had Azadpur mud on the ty",
+          "id": "person:p73"
+        },
+        {
+          "text": "Farida Tawde",
+          "snippet": "0 from a tempo that had Azadpur mud on the tyres. Farida Tawde of Timarpur later identified two crates as hers. Parveen Tawde produced the lot. u/s 411",
+          "id": "person:p43"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹6,400",
+          "snippet": "veen Tawde, r/o Sadar, bought 8 kinnow crates for ₹6,400 from a tempo that had Azadpur mud on the tyres. Farida Tawde of Timarpur later identified t"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p73",
+        "person:p43"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-045",
+      "people": [
+        {
+          "text": "Imtiaz Mhapankar",
+          "snippet": "Alok Makhija, r/o Dwarka Sec 12, and Imtiaz Mhapankar of pickup DL3CT1323, paid ₹6,700 on a GST invoice printed \"Orbit Packers\" with a wrong ad",
+          "id": "person:p54"
+        },
+        {
+          "text": "Alok Makhija",
+          "snippet": "Alok Makhija, r/o Dwarka Sec 12, and Imtiaz Mhapankar of pickup DL3CT1323, paid ₹6,700 on a GST invoic",
+          "id": "person:p74"
+        }
+      ],
+      "phones": [],
+      "orgs": [
+        {
+          "text": "Orbit Packers",
+          "snippet": "DL3CT1323, paid ₹6,700 on a GST invoice printed \"Orbit Packers\" with a wrong address. The invoice number was overwritten. u/s 468/420 IPC.",
+          "id": "org:orbit_packers"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹6,700",
+          "snippet": "2, and Imtiaz Mhapankar of pickup DL3CT1323, paid ₹6,700 on a GST invoice printed \"Orbit Packers\" with a wrong address. The invoice number was overw"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p54",
+        "person:p74",
+        "org:orbit_packers"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-046",
+      "people": [
+        {
+          "text": "Zarina Padhye",
+          "snippet": "Zarina Padhye, r/o Hasanpur, Ghazipur side, was told by three loaders to vacate a corner of the yard or",
+          "id": "person:p75"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p75"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-047",
+      "people": [
+        {
+          "text": "Chirag Haleja",
+          "snippet": "Chirag Haleja, r/o Dev Nagar, Karol Bagh, tempo-cleaner, was hit with an open hand at a parking lot off",
+          "id": "person:p76"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p76"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-048",
+      "people": [
+        {
+          "text": "Pranav Bhosale",
+          "snippet": "po DL3CN1221 — which he says he had borrowed from Pranav Bhosale — smashed in Udyog Vihar Phase IV parking. Repair ₹1,800. u/s 427 IPC.",
+          "id": "person:p48"
+        },
+        {
+          "text": "Deepak Bhosale",
+          "snippet": "Deepak Bhosale, r/o Gurugram, found the rear indicator of a silver tempo DL3CN1221 — which he says he ha",
+          "id": "person:p77"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹1,800",
+          "snippet": "— smashed in Udyog Vihar Phase IV parking. Repair ₹1,800. u/s 427 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p48",
+        "person:p77"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-049",
+      "people": [
+        {
+          "text": "Dinesh Pingle",
+          "snippet": "Lodhi, r/o Azadpur village, chilli small lot, and Dinesh Pingle of pickup DL8CX1391, paid ₹10,200 to a man who promised a Gate No. 4 unloading slot. No s",
+          "id": "person:p58"
+        },
+        {
+          "text": "Razia Lodhi",
+          "snippet": "Razia Lodhi, r/o Azadpur village, chilli small lot, and Dinesh Pingle of pickup DL8CX1391, paid ₹10,2",
+          "id": "person:p78"
+        }
+      ],
+      "phones": [],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹10,200",
+          "snippet": "lot, and Dinesh Pingle of pickup DL8CX1391, paid ₹10,200 to a man who promised a Gate No. 4 unloading slot. No slot was given. She is not in any Ok"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p58",
+        "person:p78"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-050",
+      "people": [
+        {
+          "text": "Naveen Lakhani",
+          "snippet": "Naveen Lakhani, r/o Kalkaji, namesake only of any Karol Bagh entry-man, left 15 kg of brass fittings (₹1",
+          "id": "person:p79"
+        },
+        {
+          "text": "Ketan Lakhani",
+          "snippet": "o Pvt Ltd, Okhla. Fittings not returned. He named Ketan Lakhani as the relative who had sent him. u/s 406/120B IPC.",
+          "id": "person:p20"
+        }
+      ],
+      "phones": [],
+      "orgs": [
+        {
+          "text": "Kailash Agro Pvt Ltd",
+          "snippet": "g of brass fittings (₹19,500) with a unit next to Kailash Agro Pvt Ltd, Okhla. Fittings not returned. He named Ketan Lakhani as the relative who had sent him. u",
+          "id": "org:kailash_agro"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹19,500",
+          "snippet": "rol Bagh entry-man, left 15 kg of brass fittings (₹19,500) with a unit next to Kailash Agro Pvt Ltd, Okhla. Fittings not returned. He named Ketan La"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p79",
+        "person:p20",
+        "org:kailash_agro"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-051",
+      "people": [
+        {
+          "text": "Kavita Mundhe",
+          "snippet": "Kavita Mundhe, the Azadpur kinnow stall woman, r/o Azadpur Village, mobile 9810001999, had come to Sec",
+          "id": "person:p30"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810001999",
+          "snippet": "r kinnow stall woman, r/o Azadpur Village, mobile 9810001999, had come to Sec 63 to collect empties. Her bag with ₹2,700 cash and 2 empty crates was l",
+          "id": "phone:ph11"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹2,700",
+          "snippet": "d come to Sec 63 to collect empties. Her bag with ₹2,700 cash and 2 empty crates was lifted from beside a plot gate. u/s 379 IPC. Separate from her"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p30",
+        "phone:ph11"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-052",
+      "people": [
+        {
+          "text": "Pallavi Upasani",
+          "snippet": "Pallavi Upasani, mobile 9810002172, r/o Harkesh Nagar, found a carton of packing tape in a Sadar gali sal",
+          "id": "person:p31"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810002172",
+          "snippet": "Pallavi Upasani, mobile 9810002172, r/o Harkesh Nagar, found a carton of packing tape in a Sadar gali sale, recognised the O",
+          "id": "phone:ph12"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Orbit Packers",
+          "snippet": "packing tape in a Sadar gali sale, recognised the Orbit Packers stencil from the Okhla job, and deposited it. u/s 411 IPC.",
+          "id": "org:orbit_packers"
+        }
+      ],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p31",
+        "phone:ph12",
+        "org:orbit_packers"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-053",
+      "people": [
+        {
+          "text": "Nasreen Ambavne",
+          "snippet": "Manoj Ambavne, mobile 9810002345, and Nasreen Ambavne, AXIS AXI100112268, husband and wife as they stated, paid ₹5,400 on a forged FASTag / RC",
+          "id": "person:p62"
+        },
+        {
+          "text": "Manoj Ambavne",
+          "snippet": "Manoj Ambavne, mobile 9810002345, and Nasreen Ambavne, AXIS AXI100112268, husband and wife as they stat",
+          "id": "person:p32"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810002345",
+          "snippet": "Manoj Ambavne, mobile 9810002345, and Nasreen Ambavne, AXIS AXI100112268, husband and wife as they stated, paid ₹5,400 on",
+          "id": "phone:ph13"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Jamuna Transport Co",
+          "snippet": "FASTag / RC set for a Noida run. The paper showed Jamuna Transport Co. u/s 468/420 IPC.",
+          "id": "org:jamuna_transport"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹5,400",
+          "snippet": "I100112268, husband and wife as they stated, paid ₹5,400 on a forged FASTag / RC set for a Noida run. The paper showed Jamuna Transport Co. u/s 468/"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p62",
+        "person:p32",
+        "phone:ph13",
+        "org:jamuna_transport"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-054",
+      "people": [
+        {
+          "text": "Yogesh Chitnis",
+          "snippet": "Yogesh Chitnis, mobile 9810002518, of Sadar plastic jars, was at Ghazipur to lift mango crates when two",
+          "id": "person:p33"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810002518",
+          "snippet": "Yogesh Chitnis, mobile 9810002518, of Sadar plastic jars, was at Ghazipur to lift mango crates when two men said they would",
+          "id": "phone:ph14"
+        }
+      ],
+      "orgs": [],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p33",
+        "phone:ph14"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-055",
+      "people": [
+        {
+          "text": "Bhavesh Rangnekar",
+          "snippet": "Bhavesh Rangnekar, mobile 9810002691, r/o Dwarka, was in Karol Bagh to collect a spare. A trolley man struc",
+          "id": "person:p34"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810002691",
+          "snippet": "Bhavesh Rangnekar, mobile 9810002691, r/o Dwarka, was in Karol Bagh to collect a spare. A trolley man struck his shin with a m",
+          "id": "phone:ph15"
+        }
+      ],
+      "orgs": [],
+      "amounts": [],
+      "relations": [],
+      "matched_ids": [
+        "person:p34",
+        "phone:ph15"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-056",
+      "people": [
+        {
+          "text": "Pradeep Bhatia",
+          "snippet": "Pradeep Bhatia, mobile 9810002864, the Ghazipur apple man, had come to Udyog Vihar with empties. Someone",
+          "id": "person:p35"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810002864",
+          "snippet": "Pradeep Bhatia, mobile 9810002864, the Ghazipur apple man, had come to Udyog Vihar with empties. Someone poured drain water",
+          "id": "phone:ph16"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹2,200",
+          "snippet": "of his plastic crates and cut two mesh bags. Loss ₹2,200. u/s 427 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p35",
+        "phone:ph16"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-057",
+      "people": [
+        {
+          "text": "Harish Tandel",
+          "snippet": "Tandel, r/o Narela, mobile 9810003037, cousin of Harish Tandel who owns Jamuna Transport Co, came with Bushra Tandel, ICICI A/c ICI100128664, r/o Dwarka",
+          "id": "person:harish_tandel"
+        },
+        {
+          "text": "Bushra Tandel",
+          "snippet": "sh Tandel who owns Jamuna Transport Co, came with Bushra Tandel, ICICI A/c ICI100128664, r/o Dwarka. They stated that mandi money is still being pushed i",
+          "id": "person:p66"
+        },
+        {
+          "text": "Farhan Lodhi",
+          "snippet": "into SBI A/c SBI100034387, which they now hear is Farhan Lodhi's mule account at Orbit Packers, and a later RTGS ₹1,63,374 on 25.04.2026 from the same I",
+          "id": "person:farhan_lodhi"
+        },
+        {
+          "text": "Firoz Tandel",
+          "snippet": "Firoz Tandel, r/o Narela, mobile 9810003037, cousin of Harish Tandel who owns Jamuna Transport Co, cam",
+          "id": "person:p36"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810003037",
+          "snippet": "Firoz Tandel, r/o Narela, mobile 9810003037, cousin of Harish Tandel who owns Jamuna Transport Co, came with Bushra Tandel, ICICI A/c",
+          "id": "phone:ph17"
+        }
+      ],
+      "orgs": [
+        {
+          "text": "Jamuna Transport Co",
+          "snippet": "bile 9810003037, cousin of Harish Tandel who owns Jamuna Transport Co, came with Bushra Tandel, ICICI A/c ICI100128664, r/o Dwarka. They stated that mandi mone",
+          "id": "org:jamuna_transport"
+        },
+        {
+          "text": "Orbit Packers",
+          "snippet": "h they now hear is Farhan Lodhi's mule account at Orbit Packers, and a later RTGS ₹1,63,374 on 25.04.2026 from the same ICICI outbound into AXIS AXI10003",
+          "id": "org:orbit_packers"
+        }
+      ],
+      "amounts": [
+        {
+          "text": "₹58,334",
+          "snippet": "nd. Harish Tandel's ICICI A/c ICI100079476 NEFT'd ₹58,334 on 17.03.2026 to HDFC A/c HDF100026189 as produce settlement. After the 12.04.2026 Azadpur"
+        },
+        {
+          "text": "₹2,22,361",
+          "snippet": "nd the outbound side: ICICI A/c ICI100030288 RTGS ₹2,22,361 on 18.02.2026 into SBI A/c SBI100034387, which they now hear is Farhan Lodhi's mule accou"
+        },
+        {
+          "text": "₹1,63,374",
+          "snippet": "s mule account at Orbit Packers, and a later RTGS ₹1,63,374 on 25.04.2026 from the same ICICI outbound into AXIS AXI100038486. Firoz Tandel himself p"
+        },
+        {
+          "text": "₹9,000",
+          "snippet": "into AXIS AXI100038486. Firoz Tandel himself paid ₹9,000 UPI at Gate No. 5 last week on a QR shown by the Panchsheel lookout. Bushra Tandel produced"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:harish_tandel",
+        "person:p66",
+        "person:farhan_lodhi",
+        "person:p36",
+        "phone:ph17",
+        "org:jamuna_transport",
+        "org:orbit_packers"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-058",
+      "people": [
+        {
+          "text": "Hina Kazi",
+          "snippet": "Hina Kazi, mobile 9810003210, of Udyog Vihar packing, left 12 empty drums at an Okhla Phase II unit",
+          "id": "person:p37"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810003210",
+          "snippet": "Hina Kazi, mobile 9810003210, of Udyog Vihar packing, left 12 empty drums at an Okhla Phase II unit \"for washing\" agai",
+          "id": "phone:ph18"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹3,600",
+          "snippet": "s at an Okhla Phase II unit \"for washing\" against ₹3,600. Drums not returned. u/s 406/120B IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p37",
+        "phone:ph18"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-059",
+      "people": [
+        {
+          "text": "Asma Talreja",
+          "snippet": "Asma Talreja, mobile 9810003383, chilli stall of Azadpur, had come to Sec 63 with 5 bags. One bag of j",
+          "id": "person:p38"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810003383",
+          "snippet": "Asma Talreja, mobile 9810003383, chilli stall of Azadpur, had come to Sec 63 with 5 bags. One bag of jeera, about 20 kg,",
+          "id": "phone:ph19"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹7,400,",
+          "snippet": "ec 63 with 5 bags. One bag of jeera, about 20 kg, ₹7,400, lifted from the plot verandah. u/s 379 IPC."
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p38",
+        "phone:ph19"
+      ]
+    },
+    {
+      "fir_id": "FIR-2026-060",
+      "people": [
+        {
+          "text": "Rajan Barot",
+          "snippet": "Rajan Barot, mobile 9810003556, the Okhla fabricator, bought 4 HDPE drums in Sadar for ₹2,800 that st",
+          "id": "person:p39"
+        }
+      ],
+      "phones": [
+        {
+          "text": "9810003556",
+          "snippet": "Rajan Barot, mobile 9810003556, the Okhla fabricator, bought 4 HDPE drums in Sadar for ₹2,800 that still had his own pai",
+          "id": "phone:ph20"
+        }
+      ],
+      "orgs": [],
+      "amounts": [
+        {
+          "text": "₹2,800",
+          "snippet": "khla fabricator, bought 4 HDPE drums in Sadar for ₹2,800 that still had his own paint mark from Shed C-14. He produced them, saying they are the sam"
+        }
+      ],
+      "relations": [],
+      "matched_ids": [
+        "person:p39",
+        "phone:ph20"
+      ]
+    }
+  ]
+}

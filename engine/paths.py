@@ -7,6 +7,7 @@ PACKS = ROOT / "packs"
 SCHEMA = ROOT / "schema"
 KERNEL = PROCESSED / "graph.json"
 INSIGHTS = PROCESSED / "insights.json"
+EXTRACTED = PROCESSED / "extracted.json"
 UNIVERSE = RAW / "universe.json"
 DSL = SCHEMA / "pattern.dsl.yaml"
 

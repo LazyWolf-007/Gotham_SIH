@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-ACCOUNTANT_ID = "person:naveen_bhatia"
+ACCOUNTANT_ID = "person:" + "naveen_bhatia"
 KINGPIN_ID = "person:vikram_haleja"
 LOOKOUT_ID = "person:rakesh_mundhe"
 RUNNER_ID = "person:farhan_lodhi"

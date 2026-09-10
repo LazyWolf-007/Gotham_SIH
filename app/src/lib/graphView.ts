@@ -40,12 +40,12 @@ export const DEFAULT_EDGE_TYPES = new Set([
 
 export const TYPE_COLORS: Record<string, string> = {
   Person: "#D4B483",
-  Phone: "#6FA8C9",
+  Phone: "#6EA8C9",
   Account: "#C9A227",
   Organization: "#8E6BBF",
   Location: "#5B8C6A",
   Vehicle: "#C47A5A",
-  FIR: "#8A8F98",
+  FIR: "#B85C38",
   Camera: "#5C6B7A",
 };
 
@@ -53,15 +53,15 @@ export const EDGE_COLORS: Record<string, string> = {
   PAID: "#C9A227",
   OWNS: "#7A8494",
   MEMBER_OF: "#8E6BBF",
-  USES: "#6FA8C9",
+  USES: "#6EA8C9",
   SEEN_AT: "#5B8C6A",
-  CALLED: "#4A5A6C",
+  CALLED: "#6B8499",
   MENTIONED_IN: "#8A8F98",
   SAME_AS: "#9AA4B2",
 };
 
-const SIZE_MIN = 12;
-const SIZE_MAX = 42;
+const SIZE_MIN = 16;
+const SIZE_MAX = 28;
 
 export function sumCounts(counts: Record<string, number> | undefined): number | null {
   if (!counts) return null;
@@ -161,6 +161,37 @@ export function filterGraph(
   }
 }
 
+export function splitLinked(
+  nodes: GraphNode[],
+  edges: GraphEdge[],
+): { linked: GraphNode[]; unlinked: GraphNode[]; edges: GraphEdge[] } {
+  const ids = new Set(nodes.map((n) => n.id));
+  const deg = new Map<string, number>();
+  for (const n of nodes) deg.set(n.id, 0);
+  const kept: GraphEdge[] = [];
+  for (const e of edges) {
+    if (!ids.has(e.source) || !ids.has(e.target) || e.source === e.target) continue;
+    kept.push(e);
+    deg.set(e.source, (deg.get(e.source) ?? 0) + 1);
+    deg.set(e.target, (deg.get(e.target) ?? 0) + 1);
+  }
+  const linked = nodes.filter((n) => (deg.get(n.id) ?? 0) >= 1);
+  const unlinked = nodes.filter((n) => (deg.get(n.id) ?? 0) === 0);
+  const linkedIds = new Set(linked.map((n) => n.id));
+  return {
+    linked,
+    unlinked,
+    edges: kept.filter((e) => linkedIds.has(e.source) && linkedIds.has(e.target)),
+  };
+}
+
+export function topBetweennessIds(nodes: GraphNode[], limit = 12): Set<string> {
+  const ranked = [...nodes].sort(
+    (a, b) => (b.metrics?.betweenness ?? 0) - (a.metrics?.betweenness ?? 0),
+  );
+  return new Set(ranked.slice(0, limit).map((n) => n.id));
+}
+
 export function betweennessRange(nodes: GraphNode[]): { min: number; max: number } {
   let min = Number.POSITIVE_INFINITY;
   let max = Number.NEGATIVE_INFINITY;
@@ -183,13 +214,15 @@ export function nodeSize(
   maxBt: number,
 ): number {
   const bt = metrics?.betweenness;
+  let t: number;
   if (typeof bt === "number" && maxBt > minBt) {
-    const t = (bt - minBt) / (maxBt - minBt);
-    return SIZE_MIN + t * (SIZE_MAX - SIZE_MIN);
+    t = (bt - minBt) / (maxBt - minBt);
+  } else {
+    const deg = metrics?.degree ?? 0;
+    t = Math.min(1, deg / 40);
   }
-  const deg = metrics?.degree ?? 0;
-  const t = Math.min(1, deg / 40);
-  return SIZE_MIN + t * (SIZE_MAX - SIZE_MIN);
+  const px = SIZE_MIN + t * (SIZE_MAX - SIZE_MIN);
+  return Math.max(SIZE_MIN, Math.min(SIZE_MAX, px));
 }
 
 export type CyElement = {
@@ -199,9 +232,10 @@ export type CyElement = {
 export function toElements(
   nodes: GraphNode[],
   edges: GraphEdge[],
-  options?: { highlightCycle?: boolean },
+  options?: { highlightCycle?: boolean; labeledIds?: Set<string> },
 ): CyElement[] {
   const { min, max } = betweennessRange(nodes);
+  const labeledIds = options?.labeledIds;
   const nodeEls: CyElement[] = nodes.map((n) => ({
     data: {
       id: n.id,
@@ -212,6 +246,7 @@ export function toElements(
       community: n.metrics?.community ?? null,
       degree: n.metrics?.degree ?? 0,
       betweenness: n.metrics?.betweenness ?? 0,
+      showLabel: labeledIds ? labeledIds.has(n.id) : false,
       cycleHighlight:
         options?.highlightCycle === true && PAID_CYCLE_SET.has(n.id),
     },
@@ -233,18 +268,49 @@ export function toElements(
   return [...nodeEls, ...edgeEls];
 }
 
+function nodeSearchFields(n: GraphNode): string[] {
+  const attrs = n.attributes || {};
+  return [
+    n.id,
+    n.label,
+    String(attrs.name ?? ""),
+    String(attrs.msisdn ?? ""),
+    String(attrs.number ?? ""),
+    String(attrs.code ?? ""),
+  ];
+}
+
 export function findNodeByQuery(
   graph: GraphPayload,
   query: string,
 ): GraphNode | null {
   const q = query.trim().toLowerCase();
   if (!q) return null;
-  return (
-    graph.nodes.find(
-      (n) =>
-        n.label.toLowerCase().includes(q) || n.id.toLowerCase().includes(q),
-    ) ?? null
-  );
+  const qDigits = q.replace(/\D/g, "");
+  let best: { score: number; node: GraphNode } | null = null;
+  for (const n of graph.nodes) {
+    const fields = nodeSearchFields(n);
+    const text = fields.join(" ").toLowerCase();
+    let score = 0;
+    if (n.id.toLowerCase() === q || n.label.toLowerCase() === q) score = 1000;
+    else if (n.id.toLowerCase().includes(q) || n.label.toLowerCase().includes(q)) {
+      score = 500 + q.length;
+    } else if (text.includes(q)) {
+      score = 450 + q.length;
+    }
+    if (qDigits.length >= 3) {
+      for (const field of fields) {
+        const d = field.replace(/\D/g, "");
+        if (!d) continue;
+        if (d === qDigits) score = Math.max(score, 900);
+        else if (d.startsWith(qDigits)) score = Math.max(score, 800 + qDigits.length);
+        else if (d.endsWith(qDigits)) score = Math.max(score, 750 + qDigits.length);
+        else if (d.includes(qDigits)) score = Math.max(score, 400 + qDigits.length);
+      }
+    }
+    if (score > 0 && (!best || score > best.score)) best = { score, node: n };
+  }
+  return best?.node ?? null;
 }
 
 export function provenanceFor(

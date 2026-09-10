@@ -9,12 +9,15 @@ import cytoscape, { type Core, type EventObject } from "cytoscape";
 import {
   NAVEEN_ID,
   PAID_CYCLE_IDS,
+  TYPE_COLORS,
   filterGraph,
+  splitLinked,
   toElements,
+  topBetweennessIds,
   type FocusKind,
   type ViewMode,
 } from "../lib/graphView";
-import type { GraphPayload } from "../lib/types";
+import type { GraphNode, GraphPayload } from "../lib/types";
 import { canvasStylesheet } from "./stylesheet";
 
 export type CanvasHandle = {
@@ -34,12 +37,16 @@ type Props = {
   onJumpComplete: () => void;
 };
 
-type TooltipState = {
-  label: string;
-  type: string;
-  x: number;
-  y: number;
-};
+const LABEL_ZOOM = 0.6;
+
+function applyLabelVisibility(cy: Core) {
+  const selectedOnly = Boolean(cy.scratch("_selectedLabelsOnly"));
+  cy.nodes().removeClass("labeled");
+  if (!selectedOnly && cy.zoom() >= LABEL_ZOOM) {
+    cy.nodes().filter((n) => Boolean(n.data("showLabel"))).addClass("labeled");
+  }
+  cy.$("node:selected, node.focused").addClass("labeled");
+}
 
 function focusNode(cy: Core, nodeId: string, onSelect: (id: string | null) => void) {
   const node = cy.getElementById(nodeId);
@@ -61,6 +68,7 @@ function highlightNeighborhood(cy: Core, nodeId: string) {
   keep.edges().addClass("neighbor");
   keep.nodes().difference(node).addClass("neighbor");
   node.addClass("focused").select();
+  applyLabelVisibility(cy);
 }
 
 function showEgo(cy: Core, nodeId: string) {
@@ -72,6 +80,7 @@ function showEgo(cy: Core, nodeId: string) {
   keep.edges().addClass("neighbor");
   keep.nodes().difference(node).addClass("neighbor");
   node.addClass("focused").select();
+  applyLabelVisibility(cy);
   cy.fit(keep, 72);
 }
 
@@ -96,6 +105,7 @@ function focusPaidCycle(
 
   cy.elements().difference(cycle).addClass("faded");
   cycle.addClass("focused");
+  applyLabelVisibility(cy);
   cy.fit(cycle, 36);
   cy.center(cycle);
   onSelect(null);
@@ -119,19 +129,20 @@ function applyFocus(
     case "naveen": {
       const node = cy.getElementById(NAVEEN_ID);
       if (node.empty()) return;
-      cy.fit(cy.elements(), 48);
-      cy.center(node);
       highlightNeighborhood(cy, NAVEEN_ID);
+      cy.fit(node.closedNeighborhood(), 72);
       onSelect(NAVEEN_ID);
       return;
     }
     case "fit-all":
       cy.fit(cy.elements(), 48);
       cy.elements().unselect();
+      applyLabelVisibility(cy);
       onSelect(null);
       return;
     case "none":
     default:
+      applyLabelVisibility(cy);
       cy.fit(cy.elements(), 48);
   }
 }
@@ -156,7 +167,8 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
   const onJumpCompleteRef = useRef(onJumpComplete);
   const focusKindRef = useRef(focusKind);
   const jumpToNodeIdRef = useRef(jumpToNodeId);
-  const [tooltip, setTooltip] = useState<TooltipState | null>(null);
+  const [unlinkedOpen, setUnlinkedOpen] = useState(false);
+  const [unlinkedQuery, setUnlinkedQuery] = useState("");
   onSelectRef.current = onSelect;
   onJumpCompleteRef.current = onJumpComplete;
   focusKindRef.current = focusKind;
@@ -181,9 +193,12 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
   useEffect(() => {
     if (!graph || !containerRef.current) return;
 
-    const { nodes, edges } = filterGraph(graph, viewMode);
-    const elements = toElements(nodes, edges, {
+    const filtered = filterGraph(graph, viewMode);
+    const { linked, edges } = splitLinked(filtered.nodes, filtered.edges);
+    const selectedLabelsOnly = viewMode !== "all";
+    const elements = toElements(linked, edges, {
       highlightCycle: viewMode === "money",
+      labeledIds: selectedLabelsOnly ? new Set() : topBetweennessIds(linked, 12),
     });
     if (elements.length === 0) return;
 
@@ -205,7 +220,7 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
         fit: fitAllAfterLayout,
         padding: 48,
         nodeRepulsion: () => 9000,
-        nodeOverlap: 8,
+        nodeOverlap: 20,
         idealEdgeLength: () => 72,
         gravity: 0.35,
         numIter: 800,
@@ -215,40 +230,37 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
       },
     });
     cyRef.current = cy;
+    cy.scratch("_selectedLabelsOnly", selectedLabelsOnly);
 
     const onTapNode = (evt: EventObject) => {
-      setTooltip(null);
       const id = evt.target.id();
       highlightNeighborhood(cy, id);
       onSelectRef.current(id);
     };
     const onDblTapNode = (evt: EventObject) => {
-      setTooltip(null);
       const id = evt.target.id();
       showEgo(cy, id);
       onSelectRef.current(id);
     };
     const onMouseOverNode = (evt: EventObject) => {
-      const node = evt.target;
-      const rendered = node.renderedPosition();
-      setTooltip({
-        label: String(node.data("label") ?? ""),
-        type: String(node.data("type") ?? ""),
-        x: rendered.x,
-        y: rendered.y,
-      });
+      cy.nodes().removeClass("hovered");
+      if (selectedLabelsOnly) return;
+      if (cy.zoom() >= LABEL_ZOOM) evt.target.addClass("hovered");
     };
-    const onMouseOutNode = () => setTooltip(null);
-    const onPanZoom = () => setTooltip(null);
+    const onMouseOutNode = (evt: EventObject) => {
+      evt.target.removeClass("hovered");
+    };
+    const onZoom = () => applyLabelVisibility(cy);
 
     cy.on("tap", "node", onTapNode);
     cy.on("dbltap", "node", onDblTapNode);
     cy.on("mouseover", "node", onMouseOverNode);
     cy.on("mouseout", "node", onMouseOutNode);
-    cy.on("pan zoom", onPanZoom);
+    cy.on("zoom", onZoom);
 
     const onLayoutStop = () => {
       if (cancelled || cy.destroyed()) return;
+      applyLabelVisibility(cy);
       const jumpId = jumpToNodeIdRef.current;
       if (jumpId && focusNode(cy, jumpId, onSelectRef.current)) {
         onJumpCompleteRef.current();
@@ -292,7 +304,10 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
       if (cy.destroyed()) return;
       if (focusNode(cy, jumpToNodeId, onSelectRef.current)) {
         onJumpCompleteRef.current();
+        return;
       }
+      onSelectRef.current(jumpToNodeId);
+      onJumpCompleteRef.current();
     };
 
     cy.one("layoutstop", jump);
@@ -300,6 +315,26 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
   }, [jumpToNodeId, graph, viewMode]);
 
   const filtered = graph ? filterGraph(graph, viewMode) : null;
+  const partitioned = filtered
+    ? splitLinked(filtered.nodes, filtered.edges)
+    : null;
+  const unlinked = partitioned?.unlinked ?? [];
+  const q = unlinkedQuery.trim().toLowerCase();
+  const unlinkedShown = q
+    ? unlinked.filter(
+        (n) =>
+          n.label.toLowerCase().includes(q) || n.id.toLowerCase().includes(q),
+      )
+    : unlinked;
+
+  const pickUnlinked = (node: GraphNode) => {
+    const cy = cyRef.current;
+    if (cy && !cy.destroyed()) {
+      cy.elements().unselect().removeClass("focused neighbor faded hovered");
+      applyLabelVisibility(cy);
+    }
+    onSelect(node.id);
+  };
 
   return (
     <section className="canvas-pane" aria-label="Investigation canvas">
@@ -311,40 +346,73 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
         </div>
       )}
       {error && <div className="canvas-status error">{error}</div>}
-      {tooltip && (
-        <div
-          className="node-tooltip"
-          style={{ left: tooltip.x + 12, top: tooltip.y + 12 }}
-        >
-          <strong>{tooltip.label}</strong>
-          <span>{tooltip.type}</span>
-        </div>
-      )}
-      {graph && filtered && filtered.nodes.length === 0 && (
+      {graph && partitioned && partitioned.linked.length === 0 && (
         <div className="canvas-status error">This view has no nodes.</div>
+      )}
+      {unlinked.length > 0 && (
+        <div className="unlinked-dock">
+          <button
+            type="button"
+            className="unlinked-badge"
+            onClick={() => setUnlinkedOpen((open) => !open)}
+            aria-expanded={unlinkedOpen}
+          >
+            <span>{unlinked.length} unlinked</span>
+            <span className="unlinked-count">{unlinkedOpen ? "hide" : "list"}</span>
+          </button>
+          {unlinkedOpen && (
+            <div className="unlinked-panel">
+              <input
+                type="search"
+                className="unlinked-search"
+                placeholder="Search unlinked…"
+                value={unlinkedQuery}
+                onChange={(e) => setUnlinkedQuery(e.target.value)}
+              />
+              <ul className="unlinked-list">
+                {unlinkedShown.map((n) => (
+                  <li key={n.id}>
+                    <button type="button" onClick={() => pickUnlinked(n)}>
+                      <span
+                        className="swatch"
+                        style={{
+                          background: TYPE_COLORS[n.type] ?? "#8A8F98",
+                        }}
+                      />
+                      <span className="unlinked-name">{n.label}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
       )}
       <ul className="legend" aria-label="Object types">
         {viewMode === "calls" ? (
           <li>
-            <span className="swatch" style={{ background: "#6FA8C9" }} />
+            <span className="swatch" style={{ background: TYPE_COLORS.Phone }} />
             Phone
           </li>
         ) : (
           <>
             <li>
-              <span className="swatch" style={{ background: "#D4B483" }} />
+              <span className="swatch" style={{ background: TYPE_COLORS.Person }} />
               Person
             </li>
             <li>
-              <span className="swatch" style={{ background: "#8E6BBF" }} />
+              <span
+                className="swatch"
+                style={{ background: TYPE_COLORS.Organization }}
+              />
               Organization
             </li>
             <li>
-              <span className="swatch" style={{ background: "#C9A227" }} />
+              <span className="swatch" style={{ background: TYPE_COLORS.Account }} />
               Account
             </li>
             <li>
-              <span className="swatch" style={{ background: "#5B8C6A" }} />
+              <span className="swatch" style={{ background: TYPE_COLORS.Location }} />
               Location
             </li>
           </>

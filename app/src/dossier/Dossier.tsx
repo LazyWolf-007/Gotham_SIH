@@ -29,7 +29,7 @@ export function Dossier({ node, neighbors, provenance, onSelectNeighbor }: Props
     <aside className="dossier" aria-label="Dossier">
       <div className="dossier-kicker">Dossier</div>
       <h2 className="dossier-name">{node.label}</h2>
-      <div className="type-pill">
+      <div className="type-pill" style={{ color, borderColor: color }}>
         <span className="swatch" style={{ background: color }} />
         {node.type}
       </div>

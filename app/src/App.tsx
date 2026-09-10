@@ -5,7 +5,6 @@ import { fetchGraph } from "./lib/api";
 import {
   type FocusKind,
   type ViewMode,
-  filterGraph,
   findNodeByQuery,
   neighborsOf,
   provenanceFor,
@@ -91,16 +90,9 @@ export default function App() {
     if (!graph) return;
     const match = findNodeByQuery(graph, searchQuery);
     if (!match) return;
-
-    const inFilter = filterGraph(graph, viewMode).nodes.some(
-      (n) => n.id === match.id,
-    );
-    if (!inFilter) {
-      setViewMode("all");
-      setFocusKind("none");
-    }
+    setSelectedId(match.id);
     setJumpToNodeId(match.id);
-  }, [graph, searchQuery, viewMode]);
+  }, [graph, searchQuery]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -153,7 +145,7 @@ export default function App() {
             ref={searchRef}
             type="search"
             className="search-input"
-            placeholder="Search label or id…"
+            placeholder="Name, phone, account…"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => {

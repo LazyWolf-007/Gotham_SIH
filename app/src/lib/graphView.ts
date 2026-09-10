@@ -1,4 +1,10 @@
-import type { GraphEdge, GraphNode, GraphPayload, NeighborHit } from "./types";
+import type {
+  GraphEdge,
+  GraphNode,
+  GraphPayload,
+  NeighborHit,
+  ProvenanceHit,
+} from "./types";
 
 export type ViewMode = "all" | "money" | "calls";
 
@@ -225,6 +231,43 @@ export function toElements(
     };
   });
   return [...nodeEls, ...edgeEls];
+}
+
+export function findNodeByQuery(
+  graph: GraphPayload,
+  query: string,
+): GraphNode | null {
+  const q = query.trim().toLowerCase();
+  if (!q) return null;
+  return (
+    graph.nodes.find(
+      (n) =>
+        n.label.toLowerCase().includes(q) || n.id.toLowerCase().includes(q),
+    ) ?? null
+  );
+}
+
+export function provenanceFor(
+  graph: GraphPayload,
+  nodeId: string,
+  limit = 3,
+): ProvenanceHit[] {
+  const hits: ProvenanceHit[] = [];
+  for (const e of graph.edges) {
+    if (e.source !== nodeId && e.target !== nodeId) continue;
+    const snippet = e.attributes?.snippet;
+    if (typeof snippet !== "string" || !snippet.trim()) continue;
+    const source_type = e.attributes?.source_type;
+    const source_id = e.attributes?.source_id;
+    hits.push({
+      edgeType: e.type,
+      source_type: typeof source_type === "string" ? source_type : undefined,
+      source_id: typeof source_id === "string" ? source_id : undefined,
+      snippet: snippet.trim(),
+    });
+    if (hits.length >= limit) break;
+  }
+  return hits;
 }
 
 export function neighborsOf(graph: GraphPayload, id: string): NeighborHit[] {

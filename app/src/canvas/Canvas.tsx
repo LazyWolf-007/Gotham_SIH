@@ -3,6 +3,7 @@ import {
   useEffect,
   useImperativeHandle,
   useRef,
+  useState,
 } from "react";
 import cytoscape, { type Core, type EventObject } from "cytoscape";
 import {
@@ -18,16 +19,38 @@ import { canvasStylesheet } from "./stylesheet";
 
 export type CanvasHandle = {
   selectNode: (id: string) => void;
+  focusNode: (id: string) => boolean;
 };
 
 type Props = {
   graph: GraphPayload | null;
+  loading: boolean;
   error: string | null;
   viewMode: ViewMode;
   focusKind: FocusKind;
   focusSeq: number;
+  jumpToNodeId: string | null;
   onSelect: (id: string | null) => void;
+  onJumpComplete: () => void;
 };
+
+type TooltipState = {
+  label: string;
+  type: string;
+  x: number;
+  y: number;
+};
+
+function focusNode(cy: Core, nodeId: string, onSelect: (id: string | null) => void) {
+  const node = cy.getElementById(nodeId);
+  if (node.empty()) return false;
+  cy.elements().removeClass("ego-off faded neighbor focused");
+  highlightNeighborhood(cy, nodeId);
+  cy.fit(node.closedNeighborhood(), 72);
+  cy.center(node);
+  onSelect(nodeId);
+  return true;
+}
 
 function highlightNeighborhood(cy: Core, nodeId: string) {
   const node = cy.getElementById(nodeId);
@@ -114,15 +137,30 @@ function applyFocus(
 }
 
 export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
-  { graph, error, viewMode, focusKind, focusSeq, onSelect },
+  {
+    graph,
+    loading,
+    error,
+    viewMode,
+    focusKind,
+    focusSeq,
+    jumpToNodeId,
+    onSelect,
+    onJumpComplete,
+  },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const cyRef = useRef<Core | null>(null);
   const onSelectRef = useRef(onSelect);
+  const onJumpCompleteRef = useRef(onJumpComplete);
   const focusKindRef = useRef(focusKind);
+  const jumpToNodeIdRef = useRef(jumpToNodeId);
+  const [tooltip, setTooltip] = useState<TooltipState | null>(null);
   onSelectRef.current = onSelect;
+  onJumpCompleteRef.current = onJumpComplete;
   focusKindRef.current = focusKind;
+  jumpToNodeIdRef.current = jumpToNodeId;
 
   useImperativeHandle(ref, () => ({
     selectNode: (id: string) => {
@@ -132,6 +170,11 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
       if (node.empty()) return;
       highlightNeighborhood(cy, id);
       onSelectRef.current(id);
+    },
+    focusNode: (id: string) => {
+      const cy = cyRef.current;
+      if (!cy) return false;
+      return focusNode(cy, id, onSelectRef.current);
     },
   }));
 
@@ -174,21 +217,43 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
     cyRef.current = cy;
 
     const onTapNode = (evt: EventObject) => {
+      setTooltip(null);
       const id = evt.target.id();
       highlightNeighborhood(cy, id);
       onSelectRef.current(id);
     };
     const onDblTapNode = (evt: EventObject) => {
+      setTooltip(null);
       const id = evt.target.id();
       showEgo(cy, id);
       onSelectRef.current(id);
     };
+    const onMouseOverNode = (evt: EventObject) => {
+      const node = evt.target;
+      const rendered = node.renderedPosition();
+      setTooltip({
+        label: String(node.data("label") ?? ""),
+        type: String(node.data("type") ?? ""),
+        x: rendered.x,
+        y: rendered.y,
+      });
+    };
+    const onMouseOutNode = () => setTooltip(null);
+    const onPanZoom = () => setTooltip(null);
 
     cy.on("tap", "node", onTapNode);
     cy.on("dbltap", "node", onDblTapNode);
+    cy.on("mouseover", "node", onMouseOverNode);
+    cy.on("mouseout", "node", onMouseOutNode);
+    cy.on("pan zoom", onPanZoom);
 
     const onLayoutStop = () => {
       if (cancelled || cy.destroyed()) return;
+      const jumpId = jumpToNodeIdRef.current;
+      if (jumpId && focusNode(cy, jumpId, onSelectRef.current)) {
+        onJumpCompleteRef.current();
+        return;
+      }
       applyFocus(cy, focusKindRef.current, graph, onSelectRef.current);
     };
     cy.one("layoutstop", onLayoutStop);
@@ -218,13 +283,43 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
     run();
   }, [focusSeq, focusKind, graph]);
 
+  useEffect(() => {
+    if (!jumpToNodeId || !graph) return;
+    const cy = cyRef.current;
+    if (!cy) return;
+
+    const jump = () => {
+      if (cy.destroyed()) return;
+      if (focusNode(cy, jumpToNodeId, onSelectRef.current)) {
+        onJumpCompleteRef.current();
+      }
+    };
+
+    cy.one("layoutstop", jump);
+    window.setTimeout(jump, 0);
+  }, [jumpToNodeId, graph, viewMode]);
+
   const filtered = graph ? filterGraph(graph, viewMode) : null;
 
   return (
     <section className="canvas-pane" aria-label="Investigation canvas">
       <div ref={containerRef} className="cy-root" />
-      {!graph && !error && <div className="canvas-status">Loading kernel…</div>}
+      {loading && !error && (
+        <div className="canvas-status">
+          <span className="spinner" aria-hidden="true" />
+          Loading kernel…
+        </div>
+      )}
       {error && <div className="canvas-status error">{error}</div>}
+      {tooltip && (
+        <div
+          className="node-tooltip"
+          style={{ left: tooltip.x + 12, top: tooltip.y + 12 }}
+        >
+          <strong>{tooltip.label}</strong>
+          <span>{tooltip.type}</span>
+        </div>
+      )}
       {graph && filtered && filtered.nodes.length === 0 && (
         <div className="canvas-status error">This view has no nodes.</div>
       )}

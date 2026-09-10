@@ -1,9 +1,10 @@
 import { TYPE_COLORS } from "../lib/graphView";
-import type { GraphNode, NeighborHit } from "../lib/types";
+import type { GraphNode, NeighborHit, ProvenanceHit } from "../lib/types";
 
 type Props = {
   node: GraphNode | null;
   neighbors: NeighborHit[];
+  provenance: ProvenanceHit[];
   onSelectNeighbor: (id: string) => void;
 };
 
@@ -12,7 +13,7 @@ function fmtBetweenness(value: number | undefined): string {
   return value.toFixed(3);
 }
 
-export function Dossier({ node, neighbors, onSelectNeighbor }: Props) {
+export function Dossier({ node, neighbors, provenance, onSelectNeighbor }: Props) {
   if (!node) {
     return (
       <aside className="dossier" aria-label="Dossier">
@@ -55,6 +56,27 @@ export function Dossier({ node, neighbors, onSelectNeighbor }: Props) {
           <dd>{fmtBetweenness(node.metrics?.betweenness)}</dd>
         </div>
       </dl>
+
+      {provenance.length > 0 && (
+        <>
+          <h3 className="dossier-sub">
+            Provenance
+            <span>{provenance.length}</span>
+          </h3>
+          <ul className="provenance-list">
+            {provenance.map((hit, i) => (
+              <li key={`${hit.edgeType}-${hit.snippet}-${i}`}>
+                <p className="provenance-snippet">{hit.snippet}</p>
+                <p className="provenance-meta">
+                  {hit.edgeType}
+                  {hit.source_type ? ` · ${hit.source_type}` : ""}
+                  {hit.source_id ? ` · ${hit.source_id}` : ""}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
 
       <h3 className="dossier-sub">
         Neighbors

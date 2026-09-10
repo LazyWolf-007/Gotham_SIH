@@ -116,6 +116,43 @@ button {
   background: rgba(212, 180, 131, 0.12);
 }
 
+.search-box {
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  width: 180px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #0a101c;
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.search-input::placeholder {
+  color: var(--muted);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .counts {
   margin-left: auto;
   color: var(--muted);
@@ -155,11 +192,54 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   pointer-events: none;
   color: var(--muted);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-size: 12px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--line);
+  border-top-color: var(--amber);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.node-tooltip {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background: rgba(11, 18, 32, 0.94);
+  border: 1px solid var(--line);
+  font-size: 11px;
+  line-height: 1.35;
+  display: grid;
+  gap: 2px;
+  max-width: 220px;
+}
+
+.node-tooltip strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.node-tooltip span {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
 }
 
 .canvas-status.error {
@@ -317,4 +397,34 @@ button {
 .neighbor-meta {
   font-size: 11px;
   color: var(--muted);
+}
+
+.provenance-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.provenance-list li {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #0a101c;
+}
+
+.provenance-snippet {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.provenance-meta {
+  margin: 4px 0 0;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-transform: uppercase;
 }

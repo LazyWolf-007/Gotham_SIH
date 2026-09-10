@@ -1,33 +1,46 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, type CanvasHandle } from "./canvas/Canvas";
 import { Dossier } from "./dossier/Dossier";
 import { fetchGraph } from "./lib/api";
 import {
   type FocusKind,
   type ViewMode,
+  filterGraph,
+  findNodeByQuery,
   neighborsOf,
+  provenanceFor,
   sumCounts,
 } from "./lib/graphView";
 import type { GraphPayload } from "./lib/types";
 
 export default function App() {
   const [graph, setGraph] = useState<GraphPayload | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>("all");
   const [focusKind, setFocusKind] = useState<FocusKind>("naveen");
   const [focusSeq, setFocusSeq] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [jumpToNodeId, setJumpToNodeId] = useState<string | null>(null);
   const canvasRef = useRef<CanvasHandle>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     let cancelled = false;
+    setLoading(true);
+    setError(null);
     fetchGraph()
       .then((payload) => {
-        if (!cancelled) setGraph(payload);
+        if (!cancelled) {
+          setGraph(payload);
+          setLoading(false);
+        }
       })
       .catch((err: unknown) => {
         if (!cancelled) {
           setError(err instanceof Error ? err.message : "Failed to load graph");
+          setLoading(false);
         }
       });
     return () => {
@@ -67,11 +80,46 @@ export default function App() {
     setFocusSeq((s) => s + 1);
   };
 
-  const resetView = () => {
+  const resetView = useCallback(() => {
+    setJumpToNodeId(null);
     setViewMode("all");
     setFocusKind("fit-all");
     setFocusSeq((s) => s + 1);
-  };
+  }, []);
+
+  const runSearch = useCallback(() => {
+    if (!graph) return;
+    const match = findNodeByQuery(graph, searchQuery);
+    if (!match) return;
+
+    const inFilter = filterGraph(graph, viewMode).nodes.some(
+      (n) => n.id === match.id,
+    );
+    if (!inFilter) {
+      setViewMode("all");
+      setFocusKind("none");
+    }
+    setJumpToNodeId(match.id);
+  }, [graph, searchQuery, viewMode]);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      const tag = document.activeElement?.tagName;
+      const inInput = tag === "INPUT" || tag === "TEXTAREA";
+
+      if (e.key === "Escape") {
+        resetView();
+        return;
+      }
+      if (e.key === "/" && !inInput) {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [resetView]);
 
   const selected = useMemo(
     () => graph?.nodes.find((n) => n.id === selectedId) ?? null,
@@ -80,6 +128,11 @@ export default function App() {
 
   const neighbors = useMemo(
     () => (graph && selected ? neighborsOf(graph, selected.id) : []),
+    [graph, selected],
+  );
+
+  const provenance = useMemo(
+    () => (graph && selected ? provenanceFor(graph, selected.id) : []),
     [graph, selected],
   );
 
@@ -94,6 +147,20 @@ export default function App() {
           <span className="brand-sep">·</span>
           <span className="brand-case">Operation Grey Ledger</span>
         </div>
+        <label className="search-box">
+          <span className="sr-only">Search objects</span>
+          <input
+            ref={searchRef}
+            type="search"
+            className="search-input"
+            placeholder="Search label or id…"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") runSearch();
+            }}
+          />
+        </label>
         <nav className="toolbar" aria-label="Investigation filters">
           <span className="toolbar-label">View</span>
           <button
@@ -129,33 +196,37 @@ export default function App() {
           </button>
         </nav>
         <div className="counts">
-          {objectCount !== null && linkCount !== null ? (
+          {loading ? (
+            <span className="muted">loading counts…</span>
+          ) : objectCount !== null && linkCount !== null ? (
             <>
               <span>{objectCount.toLocaleString()} objects</span>
               <span className="dot">·</span>
               <span>{linkCount.toLocaleString()} links</span>
             </>
-          ) : (
-            <span className="muted">loading counts…</span>
-          )}
+          ) : null}
         </div>
       </header>
       <div className="workspace">
         <Canvas
           ref={canvasRef}
           graph={graph}
+          loading={loading}
           error={error}
           viewMode={viewMode}
           focusKind={focusKind}
           focusSeq={focusSeq}
+          jumpToNodeId={jumpToNodeId}
           onSelect={setSelectedId}
+          onJumpComplete={() => setJumpToNodeId(null)}
         />
         <Dossier
           node={selected}
           neighbors={neighbors}
+          provenance={provenance}
           onSelectNeighbor={(id) => {
             setSelectedId(id);
-            canvasRef.current?.selectNode(id);
+            canvasRef.current?.focusNode(id);
           }}
         />
       </div>

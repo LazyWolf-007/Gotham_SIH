@@ -42,3 +42,10 @@ export type NeighborHit = {
   node: GraphNode;
   edgeType: string;
 };
+
+export type ProvenanceHit = {
+  edgeType: string;
+  source_type?: string;
+  source_id?: string;
+  snippet: string;
+};

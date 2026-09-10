@@ -7,13 +7,15 @@ import os
 import sys
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from engine.analytics import build as build_analytics
+from engine.cut import arrest
+from engine.graph import from_payload
 from engine.paths import INSIGHTS, KERNEL
 from engine.rag import ask
 
@@ -75,7 +77,8 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self) -> None:
-        path = urlparse(self.path).path.rstrip("/") or "/"
+        parsed = urlparse(self.path)
+        path = parsed.path.rstrip("/") or "/"
         if path == "/health":
             self._send(200, {"ok": True})
             return
@@ -87,6 +90,26 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path == "/analytics":
             self._send(200, build_analytics())
+            return
+        if path == "/cut":
+            node_id = (parse_qs(parsed.query).get("id") or [""])[0].strip()
+            if not node_id:
+                self._send(400, {"error": "missing id"})
+                return
+            if not KERNEL.exists() or KERNEL.stat().st_size < 8:
+                self._send(404, {"error": "missing graph.json"})
+                return
+            G = from_payload(json.loads(KERNEL.read_text(encoding="utf-8")))
+            impact = arrest(G, node_id)
+            self._send(
+                200,
+                {
+                    "node_id": node_id,
+                    "residual_path": list(impact.get("residual_path") or []),
+                    "pairs_before": impact.get("pairs_before"),
+                    "pairs_after": impact.get("pairs_after"),
+                },
+            )
             return
         self._send(404, {"error": "not found"})
 

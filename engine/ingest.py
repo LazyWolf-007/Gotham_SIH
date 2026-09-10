@@ -9,7 +9,8 @@ from pathlib import Path
 
 import yaml
 
-from engine.paths import LINK_TYPES, PACKS, RAW, UNIVERSE
+from engine.gold import frozen_gold, with_derived
+from engine.paths import KERNEL, LINK_TYPES, PACKS, RAW, UNIVERSE
 
 
 def _prov(source_type: str, source_id: str, snippet: str) -> dict:
@@ -68,8 +69,59 @@ def _parse_firs(path: Path) -> list[dict]:
     return out
 
 
+def _read_universe() -> dict:
+    if not UNIVERSE.exists() or UNIVERSE.stat().st_size < 8:
+        return {}
+    try:
+        data = json.loads(UNIVERSE.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def _hydrate_from_kernel() -> tuple[dict[str, dict], list[dict], dict]:
+    """Rebuild nodes/edges from the frozen kernel snapshot. Does not touch data/raw."""
+    if not KERNEL.exists() or KERNEL.stat().st_size < 8:
+        raise FileNotFoundError(
+            "data/raw/universe.json has no gold and data/processed/graph.json is missing"
+        )
+    payload = json.loads(KERNEL.read_text(encoding="utf-8"))
+    nodes: dict[str, dict] = {}
+    for n in payload.get("nodes") or []:
+        nid = n["id"]
+        nodes[nid] = {
+            "id": nid,
+            "type": n.get("type"),
+            "attributes": dict(n.get("attributes") or {}),
+        }
+    edges: list[dict] = []
+    for e in payload.get("edges") or []:
+        attrs = dict(e.get("attributes") or {})
+        if e.get("type") == "USES" and attrs.get("source_type") == "infer":
+            continue
+        edges.append(
+            {
+                "type": e["type"],
+                "source": e["source"],
+                "target": e["target"],
+                "attributes": attrs,
+            }
+        )
+    gold = with_derived(frozen_gold(), edges)
+    universe = {
+        "case": "Operation Grey Ledger",
+        "problem": "SIH26189",
+        "gold": gold,
+        "objects": {},
+        "links": [],
+    }
+    return nodes, edges, universe
+
+
 def load() -> tuple[dict[str, dict], list[dict], dict]:
-    universe = json.loads(UNIVERSE.read_text(encoding="utf-8"))
+    universe = _read_universe()
+    if not (universe.get("gold") or {}).get("accountant_id"):
+        return _hydrate_from_kernel()
     nodes: dict[str, dict] = {}
     edges: list[dict] = []
 
@@ -235,4 +287,6 @@ def load() -> tuple[dict[str, dict], list[dict], dict]:
                     )
                 )
 
+    universe = dict(universe)
+    universe["gold"] = with_derived(universe.get("gold") or frozen_gold(), edges)
     return nodes, edges, universe

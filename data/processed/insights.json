@@ -1,0 +1,331 @@
+{
+  "gold": {
+    "accountant_id": "person:naveen_bhatia",
+    "kingpin_id": "person:vikram_haleja",
+    "mandi_location_id": "loc:azadpur_mandi",
+    "mule_account_ids": [
+      "acc:a02",
+      "acc:a03",
+      "acc:a04",
+      "acc:a05",
+      "acc:a06",
+      "acc:a07"
+    ],
+    "residual_phone_ids": [
+      "phone:ph02",
+      "phone:ph03"
+    ]
+  },
+  "patterns": [
+    {
+      "id": "hawala_cycle",
+      "title": "Hawala cycle",
+      "why": "Directed PAID cycle among front/mule accounts.",
+      "node_ids": [
+        "acc:a02",
+        "acc:a03",
+        "acc:a08",
+        "acc:a09"
+      ],
+      "edge_keys": [
+        "e3447:PAID:acc:a02:acc:a03",
+        "e3478:PAID:acc:a03:acc:a08",
+        "e3550:PAID:acc:a08:acc:a09",
+        "e3569:PAID:acc:a09:acc:a02"
+      ]
+    },
+    {
+      "id": "mule_burst",
+      "title": "Mule burst",
+      "why": "CDR spike on the mule phone after FIR-2026-014.",
+      "node_ids": [
+        "phone:ph03",
+        "person:naveen_bhatia",
+        "FIR-2026-014"
+      ],
+      "edge_keys": [
+        "e229:CALLED:phone:ph00:phone:ph03",
+        "e230:CALLED:phone:ph00:phone:ph03",
+        "e231:CALLED:phone:ph00:phone:ph03",
+        "e232:CALLED:phone:ph00:phone:ph03",
+        "e530:CALLED:phone:ph03:phone:ph02",
+        "e531:CALLED:phone:ph03:phone:ph02",
+        "e532:CALLED:phone:ph03:phone:ph02",
+        "e533:CALLED:phone:ph03:phone:ph02",
+        "e535:CALLED:phone:ph03:phone:ph01",
+        "e536:CALLED:phone:ph03:phone:ph01",
+        "e537:CALLED:phone:ph03:phone:ph01",
+        "e538:CALLED:phone:ph03:phone:ph01",
+        "e539:CALLED:phone:ph03:phone:ph05",
+        "e540:CALLED:phone:ph03:phone:ph05",
+        "e541:CALLED:phone:ph03:phone:ph05",
+        "e542:CALLED:phone:ph03:phone:ph05",
+        "e543:CALLED:phone:ph03:phone:ph06",
+        "e544:CALLED:phone:ph03:phone:ph06",
+        "e545:CALLED:phone:ph03:phone:ph06",
+        "e546:CALLED:phone:ph03:phone:ph06",
+        "e548:CALLED:phone:ph03:phone:ph08",
+        "e549:CALLED:phone:ph03:phone:ph08",
+        "e550:CALLED:phone:ph03:phone:ph08",
+        "e551:CALLED:phone:ph03:phone:ph08",
+        "e553:CALLED:phone:ph03:phone:ph09",
+        "e554:CALLED:phone:ph03:phone:ph09",
+        "e555:CALLED:phone:ph03:phone:ph09",
+        "e556:CALLED:phone:ph03:phone:ph09",
+        "e557:CALLED:phone:ph03:phone:ph11",
+        "e558:CALLED:phone:ph03:phone:ph11",
+        "e559:CALLED:phone:ph03:phone:ph11",
+        "e560:CALLED:phone:ph03:phone:ph11",
+        "e561:CALLED:phone:ph03:phone:ph12",
+        "e562:CALLED:phone:ph03:phone:ph12",
+        "e563:CALLED:phone:ph03:phone:ph12",
+        "e564:CALLED:phone:ph03:phone:ph12",
+        "e565:CALLED:phone:ph03:phone:ph14",
+        "e566:CALLED:phone:ph03:phone:ph14",
+        "e567:CALLED:phone:ph03:phone:ph14",
+        "e568:CALLED:phone:ph03:phone:ph14",
+        "e569:CALLED:phone:ph03:phone:ph15",
+        "e570:CALLED:phone:ph03:phone:ph15",
+        "e571:CALLED:phone:ph03:phone:ph15",
+        "e572:CALLED:phone:ph03:phone:ph15",
+        "e574:CALLED:phone:ph03:phone:ph17",
+        "e575:CALLED:phone:ph03:phone:ph17",
+        "e576:CALLED:phone:ph03:phone:ph17",
+        "e577:CALLED:phone:ph03:phone:ph17",
+        "e579:CALLED:phone:ph03:phone:ph18",
+        "e580:CALLED:phone:ph03:phone:ph18",
+        "e581:CALLED:phone:ph03:phone:ph18",
+        "e582:CALLED:phone:ph03:phone:ph18",
+        "e585:CALLED:phone:ph03:phone:ph20",
+        "e586:CALLED:phone:ph03:phone:ph20",
+        "e587:CALLED:phone:ph03:phone:ph20",
+        "e588:CALLED:phone:ph03:phone:ph20",
+        "e590:CALLED:phone:ph03:phone:ph21",
+        "e591:CALLED:phone:ph03:phone:ph21",
+        "e592:CALLED:phone:ph03:phone:ph21",
+        "e593:CALLED:phone:ph03:phone:ph21",
+        "e594:CALLED:phone:ph03:phone:ph23",
+        "e595:CALLED:phone:ph03:phone:ph23",
+        "e596:CALLED:phone:ph03:phone:ph23",
+        "e597:CALLED:phone:ph03:phone:ph23",
+        "e598:CALLED:phone:ph03:phone:ph24",
+        "e599:CALLED:phone:ph03:phone:ph24",
+        "e600:CALLED:phone:ph03:phone:ph24",
+        "e603:CALLED:phone:ph03:phone:ph26",
+        "e604:CALLED:phone:ph03:phone:ph26",
+        "e605:CALLED:phone:ph03:phone:ph26",
+        "e607:CALLED:phone:ph03:phone:ph27",
+        "e608:CALLED:phone:ph03:phone:ph27",
+        "e609:CALLED:phone:ph03:phone:ph27",
+        "e611:CALLED:phone:ph03:phone:ph29",
+        "e612:CALLED:phone:ph03:phone:ph29",
+        "e613:CALLED:phone:ph03:phone:ph29",
+        "e614:CALLED:phone:ph03:phone:ph30",
+        "e615:CALLED:phone:ph03:phone:ph30",
+        "e616:CALLED:phone:ph03:phone:ph30",
+        "e617:CALLED:phone:ph03:phone:ph32",
+        "e618:CALLED:phone:ph03:phone:ph32",
+        "e619:CALLED:phone:ph03:phone:ph32",
+        "e620:CALLED:phone:ph03:phone:ph33",
+        "e621:CALLED:phone:ph03:phone:ph33",
+        "e622:CALLED:phone:ph03:phone:ph33",
+        "e624:CALLED:phone:ph03:phone:ph35",
+        "e625:CALLED:phone:ph03:phone:ph35",
+        "e626:CALLED:phone:ph03:phone:ph35",
+        "e628:CALLED:phone:ph03:phone:ph36",
+        "e629:CALLED:phone:ph03:phone:ph36",
+        "e630:CALLED:phone:ph03:phone:ph36",
+        "e631:CALLED:phone:ph03:phone:ph38",
+        "e632:CALLED:phone:ph03:phone:ph38",
+        "e633:CALLED:phone:ph03:phone:ph38",
+        "e634:CALLED:phone:ph03:phone:ph39",
+        "e635:CALLED:phone:ph03:phone:ph39",
+        "e636:CALLED:phone:ph03:phone:ph39",
+        "e647:CALLED:phone:ph03:phone:ph16",
+        "e650:CALLED:phone:ph04:phone:ph03",
+        "e651:CALLED:phone:ph04:phone:ph03",
+        "e652:CALLED:phone:ph04:phone:ph03",
+        "e653:CALLED:phone:ph04:phone:ph03",
+        "e1178:CALLED:phone:ph07:phone:ph03",
+        "e1179:CALLED:phone:ph07:phone:ph03",
+        "e1180:CALLED:phone:ph07:phone:ph03",
+        "e1181:CALLED:phone:ph07:phone:ph03",
+        "e1728:CALLED:phone:ph10:phone:ph03",
+        "e1729:CALLED:phone:ph10:phone:ph03",
+        "e1730:CALLED:phone:ph10:phone:ph03",
+        "e1731:CALLED:phone:ph10:phone:ph03",
+        "e2141:CALLED:phone:ph13:phone:ph03",
+        "e2142:CALLED:phone:ph13:phone:ph03",
+        "e2143:CALLED:phone:ph13:phone:ph03",
+        "e2144:CALLED:phone:ph13:phone:ph03",
+        "e2220:CALLED:phone:ph16:phone:ph03",
+        "e2221:CALLED:phone:ph16:phone:ph03",
+        "e2222:CALLED:phone:ph16:phone:ph03",
+        "e2223:CALLED:phone:ph16:phone:ph03",
+        "e2307:CALLED:phone:ph19:phone:ph03",
+        "e2308:CALLED:phone:ph19:phone:ph03",
+        "e2309:CALLED:phone:ph19:phone:ph03",
+        "e2310:CALLED:phone:ph19:phone:ph03",
+        "e2791:CALLED:phone:ph22:phone:ph03",
+        "e2792:CALLED:phone:ph22:phone:ph03",
+        "e2793:CALLED:phone:ph22:phone:ph03",
+        "e2794:CALLED:phone:ph22:phone:ph03",
+        "e2854:CALLED:phone:ph25:phone:ph03",
+        "e2855:CALLED:phone:ph25:phone:ph03",
+        "e2856:CALLED:phone:ph25:phone:ph03",
+        "e2932:CALLED:phone:ph28:phone:ph03",
+        "e2933:CALLED:phone:ph28:phone:ph03",
+        "e2934:CALLED:phone:ph28:phone:ph03",
+        "e2994:CALLED:phone:ph31:phone:ph03",
+        "e2995:CALLED:phone:ph31:phone:ph03",
+        "e2996:CALLED:phone:ph31:phone:ph03",
+        "e3071:CALLED:phone:ph34:phone:ph03",
+        "e3072:CALLED:phone:ph34:phone:ph03",
+        "e3073:CALLED:phone:ph34:phone:ph03",
+        "e3149:CALLED:phone:ph37:phone:ph03",
+        "e3150:CALLED:phone:ph37:phone:ph03",
+        "e3151:CALLED:phone:ph37:phone:ph03"
+      ]
+    },
+    {
+      "id": "accountant_cutpoint",
+      "title": "Accountant cutpoint",
+      "why": "Person whose removal is the counterfactual arrest target.",
+      "node_ids": [
+        "person:naveen_bhatia"
+      ],
+      "edge_keys": [
+        "e0:OWNS:person:naveen_bhatia:phone:ph00",
+        "e1:OWNS:person:naveen_bhatia:acc:a00",
+        "e2:OWNS:person:naveen_bhatia:acc:a01",
+        "e3:MEMBER_OF:person:naveen_bhatia:org:bhatia_associates",
+        "e4:SEEN_AT:person:naveen_bhatia:cam:karol_lane",
+        "e5:SEEN_AT:person:naveen_bhatia:loc:karol_bagh"
+      ]
+    },
+    {
+      "id": "front_cluster",
+      "title": "Front cluster",
+      "why": "Organization cluster of front entities (MEMBER_OF).",
+      "node_ids": [
+        "org:kailash_agro",
+        "org:mehra_logistics",
+        "org:narmada_exports",
+        "org:orbit_packers",
+        "org:silver_lotus_traders",
+        "person:farhan_lodhi",
+        "person:gulshan_khatri",
+        "person:meenal_chitnis",
+        "person:p12",
+        "person:p13",
+        "person:parvinder_makhija",
+        "person:roshni_talreja",
+        "person:sushil_ambwani"
+      ],
+      "edge_keys": [
+        "e37:MEMBER_OF:person:farhan_lodhi:org:orbit_packers",
+        "e47:MEMBER_OF:person:roshni_talreja:org:silver_lotus_traders",
+        "e54:MEMBER_OF:person:sushil_ambwani:org:kailash_agro",
+        "e60:MEMBER_OF:person:meenal_chitnis:org:narmada_exports",
+        "e64:MEMBER_OF:person:parvinder_makhija:org:orbit_packers",
+        "e70:MEMBER_OF:person:gulshan_khatri:org:mehra_logistics",
+        "e78:MEMBER_OF:person:p12:org:silver_lotus_traders",
+        "e80:MEMBER_OF:person:p13:org:kailash_agro"
+      ]
+    }
+  ],
+  "arrest": {
+    "removed": "person:naveen_bhatia",
+    "residual_path": [
+      "person:rakesh_mundhe",
+      "phone:ph02",
+      "phone:ph03",
+      "person:farhan_lodhi",
+      "acc:a02"
+    ],
+    "residual_phone_ids": [
+      "phone:ph02",
+      "phone:ph03"
+    ]
+  },
+  "timeline": [
+    {
+      "time": "2026-01-12T21:00:00+05:30",
+      "title": "PAID acc:a15 \u2192 acc:a00 (163274 NEFT)",
+      "node_ids": [
+        "acc:a15",
+        "acc:a00"
+      ],
+      "source_id": "txn:81"
+    },
+    {
+      "time": "2026-01-15T19:00:00+05:30",
+      "title": "PAID acc:a01 \u2192 acc:a02 (204981 RTGS)",
+      "node_ids": [
+        "acc:a01",
+        "acc:a02"
+      ],
+      "source_id": "txn:400"
+    },
+    {
+      "time": "2026-01-25T22:00:00+05:30",
+      "title": "PAID acc:a02 \u2192 acc:a03 (141636 IMPS)",
+      "node_ids": [
+        "acc:a02",
+        "acc:a03"
+      ],
+      "source_id": "txn:440"
+    },
+    {
+      "time": "2026-03-16T00:00:00+05:30",
+      "title": "PAID acc:a11 \u2192 acc:a00 (215031 NEFT)",
+      "node_ids": [
+        "acc:a11",
+        "acc:a00"
+      ],
+      "source_id": "txn:28"
+    },
+    {
+      "time": "2026-04-12T11:40:00+05:30",
+      "title": "FIR-2026-014 registered at Azadpur PS",
+      "node_ids": [
+        "FIR-2026-014",
+        "person:imtiaz_qureshi",
+        "person:rakesh_mundhe",
+        "person:farhan_lodhi",
+        "person:p43"
+      ],
+      "source_id": "FIR-2026-014"
+    },
+    {
+      "time": "2026-04-12T11:40:00+05:30",
+      "title": "ph03 burst: phone:ph00 called phone:ph03",
+      "node_ids": [
+        "phone:ph00",
+        "phone:ph03",
+        "phone:ph03"
+      ],
+      "source_id": "cdr:10"
+    },
+    {
+      "time": "2026-04-12T11:58:00+05:30",
+      "title": "ph03 burst: phone:ph03 called phone:ph02",
+      "node_ids": [
+        "phone:ph03",
+        "phone:ph02",
+        "phone:ph03"
+      ],
+      "source_id": "cdr:12"
+    },
+    {
+      "time": "2026-04-12T21:05:00+05:30",
+      "title": "ph03 burst: phone:ph03 called phone:ph32",
+      "node_ids": [
+        "phone:ph03",
+        "phone:ph32",
+        "phone:ph03"
+      ],
+      "source_id": "cdr:80"
+    }
+  ]
+}

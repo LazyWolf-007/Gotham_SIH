@@ -86,11 +86,24 @@ def _mule_burst(G, gold, spec) -> dict | None:
     min_calls = int((spec.get("match") or {}).get("min_calls", 40))
     if after_n < min_calls:
         return None
+    burst_edges = []
+    for u, v, data in G.edges(data=True):
+        if data.get("type") != "CALLED":
+            continue
+        if phone not in (u, v):
+            continue
+        at = _parse_dt((data.get("attributes") or {}).get("at", ""))
+        if at is None or after is None:
+            continue
+        if after <= at <= after + window:
+            eid = data.get("id")
+            if eid:
+                burst_edges.append(eid)
     return {
         "pattern": "mule_burst",
         "confidence": min(1.0, after_n / 80.0),
         "nodes": [phone, gold.get("accountant_id") or "", fir_id or ""],
-        "edges": [],
+        "edges": burst_edges,
         "evidence": {
             "phone": phone,
             "fir": fir_id,
@@ -112,11 +125,15 @@ def _accountant_cutpoint(G, gold, spec) -> dict | None:
         return None
     if m.get("degree", 999) > dmax:
         return None
+    incident = []
+    for u, v, data in G.edges(data=True):
+        if aid in (u, v) and data.get("id"):
+            incident.append(data["id"])
     return {
         "pattern": "accountant_cutpoint",
         "confidence": 1.0,
         "nodes": [aid],
-        "edges": [],
+        "edges": incident,
         "evidence": {
             "degree": m.get("degree"),
             "betweenness": m.get("betweenness"),
@@ -128,16 +145,20 @@ def _accountant_cutpoint(G, gold, spec) -> dict | None:
 def _front_cluster(G, gold, spec) -> dict | None:
     orgs = list(gold.get("front_org_ids") or [])
     members = []
+    member_edges = []
+    org_set = set(orgs)
     for u, v, data in G.edges(data=True):
-        if data.get("type") == "MEMBER_OF" and v in orgs:
+        if data.get("type") == "MEMBER_OF" and v in org_set:
             members.append(u)
+            if data.get("id"):
+                member_edges.append(data["id"])
     if not members:
         return None
     return {
         "pattern": "front_cluster",
         "confidence": 1.0,
         "nodes": sorted(set(orgs + members)),
-        "edges": [],
+        "edges": member_edges,
         "evidence": {"orgs": orgs, "member_count": len(set(members))},
     }
 

@@ -2,14 +2,17 @@
 
 from __future__ import annotations
 
-from engine import cut, graph, ingest, patterns, resolve
+from engine import cut, gold as goldmod, graph, ingest, patterns, resolve
 
 
 def build_kernel() -> dict:
     nodes, edges, universe = ingest.load()
     nodes, edges, same_as = resolve.resolve(nodes, edges)
     G = graph.build(nodes, edges)
-    gold = universe.get("gold") or {}
+    edge_recs = [{"type": d.get("type"), "source": u, "target": v} for u, v, d in G.edges(data=True)]
+    gold = goldmod.with_derived(universe.get("gold") or goldmod.frozen_gold(), edge_recs)
+    universe = dict(universe)
+    universe["gold"] = gold
     hits = patterns.match(G, universe)
     cut_result = cut.arrest(
         G,

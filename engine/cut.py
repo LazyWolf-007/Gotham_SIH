@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections import deque
+from itertools import permutations
 
 import networkx as nx
 
@@ -17,10 +17,14 @@ def arrest(
     goals: list[str],
 ) -> dict:
     U = undirected_of(G, types=RESIDUAL_TYPES)
-    before = _any_path(U, sources, goals, banned=set())
-    after = _any_path(U, sources, goals, banned={target})
-    residual_with_phones = _path_via(
-        U, sources, goals, must_contain=("phone:ph02", "phone:ph03"), banned={target}
+    before = _shortest_between_sets(U, sources, goals, banned=set())
+    after = _shortest_between_sets(U, sources, goals, banned={target})
+    residual_with_phones = _shortest_via(
+        U,
+        sources,
+        goals,
+        must_contain=("phone:ph02", "phone:ph03"),
+        banned={target},
     )
     comps_before = nx.number_connected_components(U)
     U2 = U.copy()
@@ -33,68 +37,70 @@ def arrest(
         "components_after": comps_after,
         "path_before": before,
         "path_after": after,
+        "residual_path": residual_with_phones,
         "residual_path_ph02_ph03": residual_with_phones,
     }
 
 
-def _any_path(U: nx.Graph, sources: list[str], goals: list[str], banned: set[str]):
-    goal_set = set(goals)
-    for s in sources:
-        p = _bfs(U, s, goal_set, banned)
-        if p:
-            return p
-    return None
+def _without(U: nx.Graph, banned: set[str]) -> nx.Graph:
+    if not banned:
+        return U
+    U2 = U.copy()
+    U2.remove_nodes_from([n for n in banned if n in U2])
+    return U2
 
 
-def _path_via(U: nx.Graph, sources, goals, must_contain, banned):
-    goal_set = set(goals)
-    need = set(must_contain)
+def _shortest_between_sets(U: nx.Graph, sources: list[str], goals: list[str], banned: set[str]):
+    U2 = _without(U, banned)
+    best = None
     for s in sources:
-        p = _bfs(U, s, goal_set, banned)
-        if not p:
+        if s not in U2:
             continue
-        # shortest may skip phones; search from a required waypoint
-        break
-    # Walk from ph02 to a goal without target, then prefix from a mandi source to ph02
-    if "phone:ph02" not in U or "phone:ph03" not in U:
-        return None
-    if "phone:ph02" in banned or "phone:ph03" in banned:
-        return None
-    to_goal = _bfs(U, "phone:ph03", goal_set, banned)
-    mid = _bfs(U, "phone:ph02", {"phone:ph03"}, banned)
-    head = None
-    for s in sources:
-        if s in banned:
-            continue
-        head = _bfs(U, s, {"phone:ph02"}, banned)
-        if head:
-            break
-    if not (head and mid and to_goal):
-        return None
-    path = head[:-1] + mid[:-1] + to_goal
-    if not need.issubset(path):
-        return None
+        for g in goals:
+            if g not in U2:
+                continue
+            try:
+                path = nx.shortest_path(U2, s, g)
+            except nx.NetworkXNoPath:
+                continue
+            if best is None or len(path) < len(best) or (len(path) == len(best) and path < best):
+                best = path
+    return best
+
+
+def _concat_shortest(U: nx.Graph, stops: tuple[str, ...]):
+    path = [stops[0]]
+    for a, b in zip(stops, stops[1:]):
+        if a not in U or b not in U:
+            return None
+        try:
+            seg = nx.shortest_path(U, a, b)
+        except nx.NetworkXNoPath:
+            return None
+        path.extend(seg[1:])
     return path
 
 
-def _bfs(U: nx.Graph, start: str, goals: set[str], banned: set[str]):
-    if start not in U or start in banned:
+def _shortest_via(U: nx.Graph, sources, goals, must_contain, banned):
+    need = tuple(must_contain)
+    if any(n in banned for n in need):
         return None
-    q = deque([start])
-    parent = {start: None}
-    while q:
-        cur = q.popleft()
-        if cur in goals and cur != start:
-            out = [cur]
-            while parent[out[-1]] is not None:
-                out.append(parent[out[-1]])
-            out.reverse()
-            return out
-        for nxt in U.neighbors(cur):
-            if nxt in banned or nxt in parent:
+    U2 = _without(U, banned)
+    if any(n not in U2 for n in need):
+        return None
+    best = None
+    for s in sources:
+        if s not in U2:
+            continue
+        for g in goals:
+            if g not in U2:
                 continue
-            parent[nxt] = cur
-            q.append(nxt)
-    if start in goals:
-        return [start]
-    return None
+            for order in permutations(need):
+                path = _concat_shortest(U2, (s, *order, g))
+                if not path:
+                    continue
+                if not set(need).issubset(path):
+                    continue
+                if best is None or len(path) < len(best) or (len(path) == len(best) and path < best):
+                    best = path
+    return best

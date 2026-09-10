@@ -461,13 +461,52 @@ def run(path=None) -> dict:
     return payload
 
 
+def attach_mentions(nodes: dict[str, dict], edges: list[dict]) -> tuple[dict[str, dict], list[dict]]:
+    """Fold extracted.json people onto the graph as MENTIONED_IN. Does not drop CALLED/PAID."""
+    if not EXTRACTED.exists() or EXTRACTED.stat().st_size < 8:
+        return nodes, edges
+    try:
+        payload = json.loads(EXTRACTED.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return nodes, edges
+    existing = {(e.get("type"), e.get("source"), e.get("target")) for e in edges}
+    for rec in payload.get("records") or []:
+        fid = rec.get("fir_id")
+        if not fid or fid not in nodes:
+            continue
+        if nodes[fid].get("type") != "FIR":
+            continue
+        for person in rec.get("people") or []:
+            pid = person.get("id")
+            if not pid or pid not in nodes:
+                continue
+            if nodes[pid].get("type") != "Person":
+                continue
+            key = ("MENTIONED_IN", pid, fid)
+            if key in existing:
+                continue
+            snippet = (person.get("snippet") or person.get("text") or "")[:240]
+            edges.append(
+                {
+                    "type": "MENTIONED_IN",
+                    "source": pid,
+                    "target": fid,
+                    "attributes": {
+                        "source_type": "extract",
+                        "source_id": str(fid),
+                        "snippet": snippet,
+                        "role": "extracted",
+                        "text": person.get("text") or "",
+                    },
+                }
+            )
+            existing.add(key)
+    return nodes, edges
+
+
 def main() -> None:
     payload = run()
     print(f"wrote {EXTRACTED} firs={len(payload.get('records') or [])}")
-    wanted = {"FIR-2026-014", "FIR-2026-010"}
-    for rec in payload.get("records") or []:
-        if rec.get("fir_id") in wanted:
-            print(rec.get("fir_id"), json.dumps(rec, ensure_ascii=False))
 
 
 if __name__ == "__main__":

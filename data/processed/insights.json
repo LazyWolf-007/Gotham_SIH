@@ -3,14 +3,7 @@
     "accountant_id": "person:naveen_bhatia",
     "kingpin_id": "person:vikram_haleja",
     "mandi_location_id": "loc:azadpur_mandi",
-    "mule_account_ids": [
-      "acc:a02",
-      "acc:a03",
-      "acc:a04",
-      "acc:a05",
-      "acc:a06",
-      "acc:a07"
-    ],
+    "mule_account_ids": [],
     "residual_phone_ids": [
       "phone:ph02",
       "phone:ph03"
@@ -28,10 +21,10 @@
         "acc:a09"
       ],
       "edge_keys": [
-        "e3447:PAID:acc:a02:acc:a03",
-        "e3478:PAID:acc:a03:acc:a08",
-        "e3550:PAID:acc:a08:acc:a09",
-        "e3569:PAID:acc:a09:acc:a02"
+        "e3450:PAID:acc:a02:acc:a03",
+        "e3484:PAID:acc:a03:acc:a08",
+        "e3552:PAID:acc:a08:acc:a09",
+        "e3577:PAID:acc:a09:acc:a02"
       ]
     },
     {
@@ -200,7 +193,8 @@
         "e2:OWNS:person:naveen_bhatia:acc:a01",
         "e3:MEMBER_OF:person:naveen_bhatia:org:bhatia_associates",
         "e4:SEEN_AT:person:naveen_bhatia:cam:karol_lane",
-        "e5:SEEN_AT:person:naveen_bhatia:loc:karol_bagh"
+        "e5:SEEN_AT:person:naveen_bhatia:loc:karol_bagh",
+        "e4034:MENTIONED_IN:person:naveen_bhatia:FIR-2026-010"
       ]
     },
     {
@@ -246,44 +240,46 @@
     "residual_phone_ids": [
       "phone:ph02",
       "phone:ph03"
-    ]
+    ],
+    "pairs_before": 72,
+    "pairs_after": 0
   },
   "timeline": [
     {
-      "time": "2026-01-12T21:00:00+05:30",
-      "title": "PAID acc:a15 \u2192 acc:a00 (163274 NEFT)",
+      "time": "2026-01-06T23:00:00+05:30",
+      "title": "PAID acc:a03 \u2192 acc:a05 (81578 NEFT)",
       "node_ids": [
-        "acc:a15",
-        "acc:a00"
+        "acc:a03",
+        "acc:a05"
       ],
-      "source_id": "txn:81"
+      "source_id": "txn:797"
     },
     {
-      "time": "2026-01-15T19:00:00+05:30",
-      "title": "PAID acc:a01 \u2192 acc:a02 (204981 RTGS)",
+      "time": "2026-01-07T03:00:00+05:30",
+      "title": "PAID acc:a08 \u2192 acc:a03 (78679 NEFT)",
       "node_ids": [
-        "acc:a01",
-        "acc:a02"
-      ],
-      "source_id": "txn:400"
-    },
-    {
-      "time": "2026-01-25T22:00:00+05:30",
-      "title": "PAID acc:a02 \u2192 acc:a03 (141636 IMPS)",
-      "node_ids": [
-        "acc:a02",
+        "acc:a08",
         "acc:a03"
       ],
-      "source_id": "txn:440"
+      "source_id": "txn:658"
     },
     {
-      "time": "2026-03-16T00:00:00+05:30",
-      "title": "PAID acc:a11 \u2192 acc:a00 (215031 NEFT)",
+      "time": "2026-01-07T17:00:00+05:30",
+      "title": "PAID acc:a07 \u2192 acc:a09 (12473 NEFT)",
       "node_ids": [
-        "acc:a11",
-        "acc:a00"
+        "acc:a07",
+        "acc:a09"
       ],
-      "source_id": "txn:28"
+      "source_id": "txn:710"
+    },
+    {
+      "time": "2026-01-12T02:00:00+05:30",
+      "title": "PAID acc:a01 \u2192 acc:a03 (253792 RTGS)",
+      "node_ids": [
+        "acc:a01",
+        "acc:a03"
+      ],
+      "source_id": "txn:263"
     },
     {
       "time": "2026-04-12T11:40:00+05:30",
@@ -293,13 +289,14 @@
         "person:imtiaz_qureshi",
         "person:rakesh_mundhe",
         "person:farhan_lodhi",
+        "person:p13",
         "person:p43"
       ],
       "source_id": "FIR-2026-014"
     },
     {
       "time": "2026-04-12T11:40:00+05:30",
-      "title": "ph03 burst: phone:ph00 called phone:ph03",
+      "title": "burst: phone:ph00 called phone:ph03",
       "node_ids": [
         "phone:ph00",
         "phone:ph03",
@@ -308,24 +305,24 @@
       "source_id": "cdr:10"
     },
     {
-      "time": "2026-04-12T11:58:00+05:30",
-      "title": "ph03 burst: phone:ph03 called phone:ph02",
-      "node_ids": [
-        "phone:ph03",
-        "phone:ph02",
-        "phone:ph03"
-      ],
-      "source_id": "cdr:12"
-    },
-    {
       "time": "2026-04-12T21:05:00+05:30",
-      "title": "ph03 burst: phone:ph03 called phone:ph32",
+      "title": "burst: phone:ph03 called phone:ph32",
       "node_ids": [
         "phone:ph03",
         "phone:ph32",
         "phone:ph03"
       ],
       "source_id": "cdr:80"
+    },
+    {
+      "time": "2026-04-13T06:15:00+05:30",
+      "title": "burst: phone:ph03 called phone:ph23",
+      "node_ids": [
+        "phone:ph03",
+        "phone:ph23",
+        "phone:ph03"
+      ],
+      "source_id": "cdr:149"
     }
   ]
 }

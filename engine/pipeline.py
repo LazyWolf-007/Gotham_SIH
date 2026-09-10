@@ -3,23 +3,35 @@
 from __future__ import annotations
 
 from engine import cut, gold as goldmod, graph, ingest, patterns, resolve
+from engine.extract import attach_mentions
+from engine.graph import hinge_person
 
 
 def build_kernel() -> dict:
     nodes, edges, universe = ingest.load()
+    nodes, edges = attach_mentions(nodes, edges)
     nodes, edges, same_as = resolve.resolve(nodes, edges)
     G = graph.build(nodes, edges)
     edge_recs = [{"type": d.get("type"), "source": u, "target": v} for u, v, d in G.edges(data=True)]
     gold = goldmod.with_derived(universe.get("gold") or goldmod.frozen_gold(), edge_recs)
+    hinge = hinge_person(G)
+    gold["accountant_id"] = hinge
     universe = dict(universe)
     universe["gold"] = gold
     hits = patterns.match(G, universe)
-    cut_result = cut.arrest(
-        G,
-        gold.get("accountant_id") or "",
-        list(gold.get("mandi_person_ids") or []),
-        list(gold.get("mule_account_ids") or []),
-    )
+    by_pat = {h["pattern"]: h for h in hits}
+    burst = by_pat.get("mule_burst") or {}
+    cycle = by_pat.get("hawala_cycle") or {}
+    ev = burst.get("evidence") or {}
+    if ev.get("phone"):
+        gold["mule_burst_phone_id"] = ev["phone"]
+    if ev.get("fir"):
+        gold["mule_burst_fir_id"] = ev["fir"]
+    if ev.get("after"):
+        gold["mule_burst_after"] = ev["after"]
+    if cycle.get("nodes"):
+        gold["hawala_cycle_account_ids"] = list(cycle["nodes"])
+    cut_result = cut.arrest(G, hinge)
     object_counts: dict[str, int] = {}
     for _, data in G.nodes(data=True):
         t = data.get("type") or "?"

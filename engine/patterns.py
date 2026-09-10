@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+from collections import defaultdict
 from datetime import datetime, timedelta
 
+import networkx as nx
 import yaml
 
+from engine.graph import hinge_person
 from engine.paths import DSL
 
 
@@ -33,94 +36,149 @@ def match(G, universe: dict) -> list[dict]:
 
 
 def _hawala_cycle(G, gold, spec) -> dict | None:
-    accs = list(gold.get("hawala_cycle_account_ids") or [])
+    orgs = set(gold.get("front_org_ids") or [])
+    members = {
+        u
+        for u, v, data in G.edges(data=True)
+        if data.get("type") == "MEMBER_OF" and (not orgs or v in orgs)
+    }
+    accs = {
+        v
+        for u, v, data in G.edges(data=True)
+        if data.get("type") == "OWNS" and u in members and G.nodes[v].get("type") == "Account"
+    }
     if len(accs) < 3:
         return None
-    # directed PAID cycle a02 → a03 → a08 → a09 → a02
-    ring = accs + [accs[0]]
-    used_edges = []
-    for a, b in zip(ring, ring[1:]):
-        found = None
-        if not G.has_node(a) or not G.has_node(b):
-            return None
-        for _, v, data in G.out_edges(a, data=True):
-            if v == b and data.get("type") == "PAID":
-                found = data.get("id")
-                break
-        if not found:
-            return None
-        used_edges.append(found)
+    amounts: dict[tuple[str, str], int] = {}
+    edge_id: dict[tuple[str, str], str] = {}
+    for u, v, data in G.edges(data=True):
+        if data.get("type") != "PAID" or u not in accs or v not in accs:
+            continue
+        amt = int((data.get("attributes") or {}).get("amount_inr") or 0)
+        key = (u, v)
+        if amt >= amounts.get(key, -1):
+            amounts[key] = amt
+            if data.get("id"):
+                edge_id[key] = data["id"]
+    P = nx.DiGraph()
+    for (u, v), amt in amounts.items():
+        P.add_edge(u, v, amount=amt)
+    min_hops = int((spec.get("match") or {}).get("min_hops", 3))
+    best = None
+    for cyc in nx.simple_cycles(P):
+        if not (min_hops <= len(cyc) <= min_hops + 2):
+            continue
+        ring = cyc + [cyc[0]]
+        bott = min(P[a][b]["amount"] for a, b in zip(ring, ring[1:]))
+        total = sum(P[a][b]["amount"] for a, b in zip(ring, ring[1:]))
+        score = (bott, total, -len(cyc), tuple(cyc))
+        if best is None or score > best:
+            best = score
+    if not best:
+        return None
+    cyc = list(best[-1])
+    ring = cyc + [cyc[0]]
+    used = [edge_id.get((a, b)) for a, b in zip(ring, ring[1:]) if edge_id.get((a, b))]
     return {
         "pattern": "hawala_cycle",
         "confidence": 1.0,
-        "nodes": accs,
-        "edges": used_edges,
+        "nodes": cyc,
+        "edges": used,
         "evidence": {"cycle": ring},
     }
 
 
+def _owners_of_phones(G) -> dict[str, set[str]]:
+    out: dict[str, set[str]] = defaultdict(set)
+    for u, v, data in G.edges(data=True):
+        if data.get("type") in ("OWNS", "USES") and G.nodes[v].get("type") == "Phone":
+            out[v].add(u)
+    return out
+
+
+def _fir_mentions(G) -> dict[str, set[str]]:
+    out: dict[str, set[str]] = defaultdict(set)
+    for u, v, data in G.edges(data=True):
+        if data.get("type") == "MENTIONED_IN":
+            out[v].add(u)
+    return out
+
+
 def _mule_burst(G, gold, spec) -> dict | None:
-    phone = gold.get("mule_burst_phone_id")
-    after_s = gold.get("mule_burst_after")
-    fir_id = gold.get("mule_burst_fir_id")
-    if not phone or not after_s or phone not in G:
-        return None
-    after = _parse_dt(after_s)
     window = timedelta(hours=int((spec.get("match") or {}).get("window_hours", 48)))
-    before_n = 0
-    after_n = 0
-    snippets = []
+    min_calls = int((spec.get("match") or {}).get("min_calls", 40))
+    owners = _owners_of_phones(G)
+    mentions = _fir_mentions(G)
+    calls = []
     for u, v, data in G.edges(data=True):
         if data.get("type") != "CALLED":
-            continue
-        if phone not in (u, v):
             continue
         at = _parse_dt((data.get("attributes") or {}).get("at", ""))
         if at is None:
             continue
-        if after <= at <= after + window:
-            after_n += 1
-            snippets.append((data.get("attributes") or {}).get("snippet", ""))
-        elif at < after:
-            before_n += 1
-    min_calls = int((spec.get("match") or {}).get("min_calls", 40))
-    if after_n < min_calls:
+        calls.append((at, u, v, data))
+    firs = []
+    for nid, data in G.nodes(data=True):
+        if data.get("type") != "FIR":
+            continue
+        t0 = _parse_dt((data.get("attributes") or {}).get("filed_at") or "")
+        if t0 is None:
+            continue
+        firs.append((nid, t0, (data.get("attributes") or {}).get("filed_at") or ""))
+    best = None
+    best_meta = None
+    for fid, t0, t0s in firs:
+        t1 = t0 + window
+        after_n: dict[str, int] = defaultdict(int)
+        before_n: dict[str, int] = defaultdict(int)
+        after_edges: dict[str, list[str]] = defaultdict(list)
+        for at, u, v, data in calls:
+            for phone in (u, v):
+                if G.nodes[phone].get("type") != "Phone":
+                    continue
+                if t0 <= at <= t1:
+                    after_n[phone] += 1
+                    eid = data.get("id")
+                    if eid:
+                        after_edges[phone].append(eid)
+                elif at < t0:
+                    before_n[phone] += 1
+        for phone, n_after in after_n.items():
+            if n_after < min_calls:
+                continue
+            if not (owners.get(phone) or set()) & (mentions.get(fid) or set()):
+                continue
+            n_before = before_n.get(phone, 0)
+            score = (n_after - n_before, n_after, phone, fid)
+            if best is None or score > best:
+                best = score
+                best_meta = (phone, fid, t0s, n_before, n_after, after_edges.get(phone) or [])
+    if not best_meta:
         return None
-    burst_edges = []
-    for u, v, data in G.edges(data=True):
-        if data.get("type") != "CALLED":
-            continue
-        if phone not in (u, v):
-            continue
-        at = _parse_dt((data.get("attributes") or {}).get("at", ""))
-        if at is None or after is None:
-            continue
-        if after <= at <= after + window:
-            eid = data.get("id")
-            if eid:
-                burst_edges.append(eid)
+    phone, fid, t0s, n_before, n_after, burst_edges = best_meta
+    accountant = gold.get("accountant_id") or hinge_person(G)
     return {
         "pattern": "mule_burst",
-        "confidence": min(1.0, after_n / 80.0),
-        "nodes": [phone, gold.get("accountant_id") or "", fir_id or ""],
+        "confidence": min(1.0, n_after / 80.0),
+        "nodes": [phone, accountant or "", fid],
         "edges": burst_edges,
         "evidence": {
             "phone": phone,
-            "fir": fir_id,
-            "calls_after": after_n,
-            "calls_before": before_n,
-            "after": after_s,
+            "fir": fid,
+            "calls_after": n_after,
+            "calls_before": n_before,
+            "after": t0s,
         },
     }
 
 
 def _accountant_cutpoint(G, gold, spec) -> dict | None:
-    aid = gold.get("accountant_id")
+    top = int((spec.get("match") or {}).get("betweenness_top", 3))
+    dmax = int((spec.get("match") or {}).get("degree_max", 15))
+    aid = gold.get("accountant_id") or hinge_person(G, rank_top=top, degree_max=dmax)
     if not aid or aid not in G:
         return None
     m = G.nodes[aid].get("metrics") or {}
-    top = int((spec.get("match") or {}).get("betweenness_top", 3))
-    dmax = int((spec.get("match") or {}).get("degree_max", 15))
     if m.get("betweenness_rank_persons", 999) > top:
         return None
     if m.get("degree", 999) > dmax:

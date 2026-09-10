@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta
 
-from engine.gold import RESIDUAL_PHONE_IDS
 from engine.patterns import load_dsl
 
 
@@ -15,7 +14,7 @@ def build(kernel: dict) -> dict:
         "kingpin_id": gold_in.get("kingpin_id"),
         "mandi_location_id": gold_in.get("mandi_location_id"),
         "mule_account_ids": list(gold_in.get("mule_account_ids") or []),
-        "residual_phone_ids": list(gold_in.get("residual_phone_ids") or list(RESIDUAL_PHONE_IDS)),
+        "residual_phone_ids": list(gold_in.get("residual_phone_ids") or []),
     }
     hits = {h["pattern"]: h for h in (kernel.get("patterns") or [])}
     dsl = load_dsl()
@@ -34,28 +33,35 @@ def build(kernel: dict) -> dict:
             }
         )
     cut = kernel.get("cut") or {}
-    residual = cut.get("residual_path_ph02_ph03") or cut.get("residual_path") or []
+    residual = list(cut.get("residual_path") or [])
+    residual_phones = [n for n in residual if str(n).startswith("phone:")]
+    gold["residual_phone_ids"] = residual_phones
     arrest = {
-        "removed": gold.get("accountant_id") or "",
-        "residual_path": list(residual),
-        "residual_phone_ids": list(RESIDUAL_PHONE_IDS),
+        "removed": gold.get("accountant_id") or cut.get("target") or "",
+        "residual_path": residual,
+        "residual_phone_ids": residual_phones,
+        "pairs_before": cut.get("pairs_before"),
+        "pairs_after": cut.get("pairs_after"),
     }
     return {
         "gold": gold,
         "patterns": patterns,
         "arrest": arrest,
-        "timeline": _timeline(kernel["graph"], gold_in),
+        "timeline": _timeline(kernel["graph"], hits, gold_in),
     }
 
 
-def _timeline(G, gold: dict) -> list[dict]:
-    fir_id = gold.get("mule_burst_fir_id") or "FIR-2026-014"
-    after_s = gold.get("mule_burst_after") or "2026-04-12T11:40:00+05:30"
+def _timeline(G, hits: dict, gold: dict) -> list[dict]:
+    events: list[dict] = []
+    burst = hits.get("mule_burst") or {}
+    ev = burst.get("evidence") or {}
+    fir_id = ev.get("fir") or gold.get("mule_burst_fir_id") or ""
+    phone = ev.get("phone") or gold.get("mule_burst_phone_id") or ""
+    after_s = ev.get("after") or gold.get("mule_burst_after") or ""
     after = _parse_dt(after_s)
     window = timedelta(hours=48)
-    events: list[dict] = []
 
-    if fir_id in G:
+    if fir_id and fir_id in G:
         attrs = G.nodes[fir_id].get("attributes") or {}
         named = [fir_id]
         for u, v, data in G.edges(data=True):
@@ -64,74 +70,62 @@ def _timeline(G, gold: dict) -> list[dict]:
         events.append(
             {
                 "time": attrs.get("filed_at") or after_s,
-                "title": f"{fir_id} registered at {attrs.get('station') or 'Azadpur PS'}",
+                "title": f"{fir_id} registered at {attrs.get('station') or ''}".strip(),
                 "node_ids": named,
                 "source_id": fir_id,
             }
         )
 
-    burst: list[tuple] = []
-    if after is not None:
+    burst_rows: list[tuple] = []
+    if after is not None and phone:
         end = after + window
         for u, v, data in G.edges(data=True):
             if data.get("type") != "CALLED":
                 continue
-            if "phone:ph03" not in (u, v):
+            if phone not in (u, v):
                 continue
             at = _parse_dt((data.get("attributes") or {}).get("at", ""))
             if at is None or at < after or at > end:
                 continue
-            burst.append((at, u, v, data))
-        burst.sort(key=lambda row: (row[0], row[1], row[2]))
-    if burst:
-        picks = [burst[0]]
-        via_ph02 = [row for row in burst if "phone:ph02" in (row[1], row[2])]
-        if via_ph02 and via_ph02[0] is not picks[0]:
-            picks.append(via_ph02[0])
-        mid = burst[len(burst) // 2]
+            burst_rows.append((at, u, v, data))
+        burst_rows.sort(key=lambda row: (row[0], row[1], row[2]))
+    if burst_rows:
+        picks = [burst_rows[0]]
+        mid = burst_rows[len(burst_rows) // 2]
         if mid not in picks:
             picks.append(mid)
+        if burst_rows[-1] not in picks:
+            picks.append(burst_rows[-1])
         for at, u, v, data in picks[:3]:
             attrs = data.get("attributes") or {}
-            other = v if u == "phone:ph03" else u
             events.append(
                 {
                     "time": attrs.get("at") or at.isoformat(),
-                    "title": f"ph03 burst: {u} called {v}",
-                    "node_ids": [u, v, "phone:ph03"],
+                    "title": f"burst: {u} called {v}",
+                    "node_ids": [u, v, phone],
                     "source_id": attrs.get("source_id") or data.get("id") or "",
                 }
             )
 
-    paid_focus = {"acc:a00", "acc:a01", "acc:a02"}
+    cycle_nodes = list((hits.get("hawala_cycle") or {}).get("nodes") or [])
+    paid_focus = set(cycle_nodes)
+    accountant = gold.get("accountant_id") or ""
+    if accountant and accountant in G:
+        for u, v, data in G.edges(data=True):
+            if data.get("type") == "OWNS" and u == accountant and G.nodes[v].get("type") == "Account":
+                paid_focus.add(v)
     paid: list[tuple] = []
     for u, v, data in G.edges(data=True):
         if data.get("type") != "PAID":
             continue
-        if u not in paid_focus and v not in paid_focus:
+        if paid_focus and u not in paid_focus and v not in paid_focus:
             continue
         at = _parse_dt((data.get("attributes") or {}).get("at", ""))
         paid.append((at, u, v, data))
     paid.sort(key=lambda row: (row[0] is None, row[0] or datetime.min, row[1], row[2]))
 
-    def _first(pred) -> tuple | None:
-        for row in paid:
-            if pred(row):
-                return row
-        return None
-
-    paid_picks = [
-        _first(lambda r: r[2] == "acc:a00" and (r[3].get("attributes") or {}).get("amount_inr") == 215031)
-        or _first(lambda r: r[2] == "acc:a00"),
-        _first(lambda r: r[1] == "acc:a01" and r[2] == "acc:a02"),
-        _first(lambda r: r[1] == "acc:a02" and r[2] == "acc:a03"),
-        _first(lambda r: r[1] == "acc:a00" or r[2] == "acc:a00"),
-    ]
     seen_paid: set[str] = set()
-    for row in paid_picks:
-        if not row:
-            continue
-        at, u, v, data = row
+    for at, u, v, data in paid:
         eid = data.get("id") or ""
         if eid in seen_paid:
             continue
@@ -150,11 +144,40 @@ def _timeline(G, gold: dict) -> list[dict]:
                 "source_id": attrs.get("source_id") or eid,
             }
         )
+        if len([e for e in events if e["title"].startswith("PAID")]) >= 4:
+            break
 
     events.sort(key=lambda e: e.get("time") or "")
-    # 6–10 events from FIR-014, ph03 burst, and PAID around a00/a01/a02
     if len(events) > 10:
         events = events[:10]
+    if len(events) < 6:
+        extra = []
+        for u, v, data in G.edges(data=True):
+            if data.get("type") not in ("CALLED", "PAID"):
+                continue
+            attrs = data.get("attributes") or {}
+            extra.append(
+                (
+                    attrs.get("at") or "",
+                    {
+                        "time": attrs.get("at") or "",
+                        "title": f"{data.get('type')} {u} → {v}",
+                        "node_ids": [u, v],
+                        "source_id": attrs.get("source_id") or data.get("id") or "",
+                    },
+                )
+            )
+        extra.sort(key=lambda row: row[0])
+        have = {e.get("source_id") for e in events}
+        for _at, evn in extra:
+            if evn["source_id"] in have:
+                continue
+            events.append(evn)
+            if len(events) >= 6:
+                break
+        events.sort(key=lambda e: e.get("time") or "")
+        if len(events) > 10:
+            events = events[:10]
     return events
 
 

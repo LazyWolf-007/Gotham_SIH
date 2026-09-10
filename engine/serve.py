@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from engine.analytics import build as build_analytics
 from engine.paths import INSIGHTS, KERNEL
 from engine.rag import ask
 
@@ -83,6 +84,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         if path == "/insights":
             self._send_file(INSIGHTS)
+            return
+        if path == "/analytics":
+            self._send(200, build_analytics())
             return
         self._send(404, {"error": "not found"})
 

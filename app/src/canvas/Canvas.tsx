@@ -5,23 +5,28 @@ import {
   useRef,
 } from "react";
 import cytoscape, { type Core, type EventObject } from "cytoscape";
-import type { GraphPayload } from "../lib/types";
 import {
   NAVEEN_ID,
-  filterDefault,
+  PAID_CYCLE_IDS,
+  filterGraph,
   toElements,
+  type FocusKind,
+  type ViewMode,
 } from "../lib/graphView";
+import type { GraphPayload } from "../lib/types";
 import { canvasStylesheet } from "./stylesheet";
 
 export type CanvasHandle = {
-  resetView: () => void;
   selectNode: (id: string) => void;
 };
 
 type Props = {
   graph: GraphPayload | null;
   error: string | null;
-  onSelect: (id: string) => void;
+  viewMode: ViewMode;
+  focusKind: FocusKind;
+  focusSeq: number;
+  onSelect: (id: string | null) => void;
 };
 
 function highlightNeighborhood(cy: Core, nodeId: string) {
@@ -47,32 +52,79 @@ function showEgo(cy: Core, nodeId: string) {
   cy.fit(keep, 72);
 }
 
-function focusNaveen(cy: Core) {
-  const node = cy.getElementById(NAVEEN_ID);
-  if (node.empty()) return false;
-  cy.fit(cy.elements().not(".ego-off"), 48);
-  cy.center(node);
-  highlightNeighborhood(cy, NAVEEN_ID);
+function focusPaidCycle(
+  cy: Core,
+  graph: GraphPayload,
+  onSelect: (id: string | null) => void,
+): boolean {
+  for (const id of PAID_CYCLE_IDS) {
+    if (!graph.nodes.some((n) => n.id === id)) return false;
+  }
+
+  cy.elements().removeClass("ego-off faded neighbor focused");
+
+  const cycle = cy.collection();
+  for (const id of PAID_CYCLE_IDS) {
+    const node = cy.getElementById(id);
+    if (node.empty()) return false;
+    cycle.merge(node);
+  }
+  if (cycle.length !== PAID_CYCLE_IDS.length) return false;
+
+  cy.elements().difference(cycle).addClass("faded");
+  cycle.addClass("focused");
+  cy.fit(cycle, 36);
+  cy.center(cycle);
+  onSelect(null);
   return true;
 }
 
+function applyFocus(
+  cy: Core,
+  kind: FocusKind,
+  graph: GraphPayload,
+  onSelect: (id: string | null) => void,
+) {
+  if (kind === "cycle") {
+    focusPaidCycle(cy, graph, onSelect);
+    return;
+  }
+
+  cy.elements().removeClass("ego-off faded neighbor focused");
+
+  switch (kind) {
+    case "naveen": {
+      const node = cy.getElementById(NAVEEN_ID);
+      if (node.empty()) return;
+      cy.fit(cy.elements(), 48);
+      cy.center(node);
+      highlightNeighborhood(cy, NAVEEN_ID);
+      onSelect(NAVEEN_ID);
+      return;
+    }
+    case "fit-all":
+      cy.fit(cy.elements(), 48);
+      cy.elements().unselect();
+      onSelect(null);
+      return;
+    case "none":
+    default:
+      cy.fit(cy.elements(), 48);
+  }
+}
+
 export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
-  { graph, error, onSelect },
+  { graph, error, viewMode, focusKind, focusSeq, onSelect },
   ref,
 ) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const cyRef = useRef<Core | null>(null);
   const onSelectRef = useRef(onSelect);
+  const focusKindRef = useRef(focusKind);
   onSelectRef.current = onSelect;
+  focusKindRef.current = focusKind;
 
   useImperativeHandle(ref, () => ({
-    resetView: () => {
-      const cy = cyRef.current;
-      if (!cy) return;
-      cy.elements().removeClass("ego-off faded neighbor focused");
-      const ok = focusNaveen(cy);
-      if (ok) onSelectRef.current(NAVEEN_ID);
-    },
     selectNode: (id: string) => {
       const cy = cyRef.current;
       if (!cy) return;
@@ -86,11 +138,14 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
   useEffect(() => {
     if (!graph || !containerRef.current) return;
 
-    const { nodes, edges } = filterDefault(graph);
-    const elements = toElements(nodes, edges);
+    const { nodes, edges } = filterGraph(graph, viewMode);
+    const elements = toElements(nodes, edges, {
+      highlightCycle: viewMode === "money",
+    });
     if (elements.length === 0) return;
 
     let cancelled = false;
+    const fitAllAfterLayout = focusKindRef.current !== "cycle";
     const cy = cytoscape({
       container: containerRef.current,
       elements,
@@ -104,7 +159,7 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
       layout: {
         name: "cose",
         animate: false,
-        fit: true,
+        fit: fitAllAfterLayout,
         padding: 48,
         nodeRepulsion: () => 9000,
         nodeOverlap: 8,
@@ -132,46 +187,73 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
     cy.on("tap", "node", onTapNode);
     cy.on("dbltap", "node", onDblTapNode);
 
-    const ready = () => {
+    const onLayoutStop = () => {
       if (cancelled || cy.destroyed()) return;
-      const ok = focusNaveen(cy);
-      if (ok) onSelectRef.current(NAVEEN_ID);
+      applyFocus(cy, focusKindRef.current, graph, onSelectRef.current);
     };
-    cy.one("layoutstop", ready);
-    requestAnimationFrame(ready);
+    cy.one("layoutstop", onLayoutStop);
 
     return () => {
       cancelled = true;
       cy.destroy();
       cyRef.current = null;
     };
-  }, [graph]);
+  }, [graph, viewMode]);
+
+  useEffect(() => {
+    const cy = cyRef.current;
+    if (!cy || focusSeq === 0 || !graph) return;
+
+    const run = () => {
+      if (cy.destroyed()) return;
+      applyFocus(cy, focusKind, graph, onSelectRef.current);
+    };
+
+    if (focusKind === "cycle") {
+      cy.one("layoutstop", run);
+      window.setTimeout(run, 0);
+      return;
+    }
+
+    run();
+  }, [focusSeq, focusKind, graph]);
+
+  const filtered = graph ? filterGraph(graph, viewMode) : null;
 
   return (
     <section className="canvas-pane" aria-label="Investigation canvas">
       <div ref={containerRef} className="cy-root" />
       {!graph && !error && <div className="canvas-status">Loading kernel…</div>}
       {error && <div className="canvas-status error">{error}</div>}
-      {graph && filterDefault(graph).nodes.length === 0 && (
-        <div className="canvas-status error">Default view has no nodes.</div>
+      {graph && filtered && filtered.nodes.length === 0 && (
+        <div className="canvas-status error">This view has no nodes.</div>
       )}
       <ul className="legend" aria-label="Object types">
-        <li>
-          <span className="swatch" style={{ background: "#D4B483" }} />
-          Person
-        </li>
-        <li>
-          <span className="swatch" style={{ background: "#8E6BBF" }} />
-          Organization
-        </li>
-        <li>
-          <span className="swatch" style={{ background: "#C9A227" }} />
-          Account
-        </li>
-        <li>
-          <span className="swatch" style={{ background: "#5B8C6A" }} />
-          Location
-        </li>
+        {viewMode === "calls" ? (
+          <li>
+            <span className="swatch" style={{ background: "#6FA8C9" }} />
+            Phone
+          </li>
+        ) : (
+          <>
+            <li>
+              <span className="swatch" style={{ background: "#D4B483" }} />
+              Person
+            </li>
+            <li>
+              <span className="swatch" style={{ background: "#8E6BBF" }} />
+              Organization
+            </li>
+            <li>
+              <span className="swatch" style={{ background: "#C9A227" }} />
+              Account
+            </li>
+            <li>
+              <span className="swatch" style={{ background: "#5B8C6A" }} />
+              Location
+            </li>
+          </>
+        )}
       </ul>
     </section>
   );

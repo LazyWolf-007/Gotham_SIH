@@ -14,7 +14,7 @@ export const canvasStylesheet: StylesheetJson = [
       "text-valign": "bottom",
       "text-halign": "center",
       "text-margin-y": 4,
-      "text-max-width": 86,
+      "text-max-width": "86px",
       "text-wrap": "ellipsis",
       "min-zoomed-font-size": 7,
       "text-outline-width": 2,
@@ -34,6 +34,21 @@ export const canvasStylesheet: StylesheetJson = [
       "haystack-radius": 0.6,
       opacity: 0.45,
       "overlay-opacity": 0,
+    },
+  },
+  {
+    selector: "edge[type = 'CALLED']",
+    style: {
+      width: "mapData(weight, 1, 40, 1, 4.5)",
+      opacity: 0.55,
+    },
+  },
+  {
+    selector: "node[cycleHighlight]",
+    style: {
+      "border-width": 4,
+      "border-color": "#F59E0B",
+      "border-opacity": 1,
     },
   },
   {

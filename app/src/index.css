@@ -36,14 +36,15 @@ button {
 }
 
 .topbar {
-  height: 48px;
+  min-height: 48px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 0 16px;
+  gap: 12px;
+  padding: 8px 16px;
   border-bottom: 1px solid var(--line);
   background: #0c1424;
+  flex-wrap: wrap;
 }
 
 .brand {
@@ -70,6 +71,51 @@ button {
   text-overflow: ellipsis;
 }
 
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.toolbar-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 2px;
+}
+
+.toolbar-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--line);
+  margin: 0 4px;
+}
+
+.tool-btn {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.tool-btn:hover {
+  border-color: var(--amber);
+  color: var(--amber-bright);
+}
+
+.tool-btn.active {
+  border-color: var(--amber);
+  color: var(--amber-bright);
+  background: rgba(212, 180, 131, 0.12);
+}
+
 .counts {
   margin-left: auto;
   color: var(--muted);
@@ -82,20 +128,6 @@ button {
 
 .counts .dot {
   opacity: 0.6;
-}
-
-.reset {
-  background: transparent;
-  border: 1px solid var(--line);
-  color: var(--amber-bright);
-  height: 28px;
-  padding: 0 12px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.reset:hover {
-  border-color: var(--amber);
 }
 
 .workspace {

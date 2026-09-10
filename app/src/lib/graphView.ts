@@ -1,6 +1,21 @@
 import type { GraphEdge, GraphNode, GraphPayload, NeighborHit } from "./types";
 
+export type ViewMode = "all" | "money" | "calls";
+
+export type FocusKind = "none" | "naveen" | "cycle" | "fit-all";
+
 export const NAVEEN_ID = "person:naveen_bhatia";
+
+export const PAID_CYCLE_IDS = [
+  "acc:a02",
+  "acc:a03",
+  "acc:a08",
+  "acc:a09",
+] as const;
+
+export const PAID_CYCLE_SET = new Set<string>(PAID_CYCLE_IDS);
+
+const CALL_EDGE_CAP = 400;
 
 export const DEFAULT_NODE_TYPES = new Set([
   "Person",
@@ -64,6 +79,82 @@ export function filterDefault(graph: GraphPayload): {
   return { nodes, edges };
 }
 
+export function filterMoney(graph: GraphPayload): {
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+} {
+  const paidEdges = graph.edges.filter((e) => e.type === "PAID");
+  const ids = new Set<string>();
+  for (const e of paidEdges) {
+    ids.add(e.source);
+    ids.add(e.target);
+  }
+  const nodes = graph.nodes.filter((n) => ids.has(n.id));
+  const nodeIds = new Set(nodes.map((n) => n.id));
+  const edges = paidEdges.filter(
+    (e) => nodeIds.has(e.source) && nodeIds.has(e.target),
+  );
+  return { nodes, edges };
+}
+
+export function filterCalls(graph: GraphPayload): {
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+} {
+  const phoneNodes = graph.nodes.filter((n) => n.type === "Phone");
+  const phoneIds = new Set(phoneNodes.map((n) => n.id));
+
+  const pairCounts = new Map<
+    string,
+    { source: string; target: string; count: number }
+  >();
+
+  for (const e of graph.edges) {
+    if (e.type !== "CALLED") continue;
+    if (!phoneIds.has(e.source) || !phoneIds.has(e.target)) continue;
+    const [a, b] =
+      e.source < e.target ? [e.source, e.target] : [e.target, e.source];
+    const key = `${a}|${b}`;
+    const cur = pairCounts.get(key);
+    if (cur) cur.count += 1;
+    else pairCounts.set(key, { source: a, target: b, count: 1 });
+  }
+
+  const ranked = [...pairCounts.values()].sort((x, y) => y.count - x.count);
+  const capped = ranked.slice(0, CALL_EDGE_CAP);
+
+  const activeIds = new Set<string>();
+  for (const p of capped) {
+    activeIds.add(p.source);
+    activeIds.add(p.target);
+  }
+
+  const nodes = phoneNodes.filter((n) => activeIds.has(n.id));
+  const edges: GraphEdge[] = capped.map((p) => ({
+    id: `agg:CALLED:${p.source}:${p.target}`,
+    type: "CALLED",
+    source: p.source,
+    target: p.target,
+    attributes: { count: p.count, aggregated: true },
+  }));
+
+  return { nodes, edges };
+}
+
+export function filterGraph(
+  graph: GraphPayload,
+  mode: ViewMode,
+): { nodes: GraphNode[]; edges: GraphEdge[] } {
+  switch (mode) {
+    case "money":
+      return filterMoney(graph);
+    case "calls":
+      return filterCalls(graph);
+    default:
+      return filterDefault(graph);
+  }
+}
+
 export function betweennessRange(nodes: GraphNode[]): { min: number; max: number } {
   let min = Number.POSITIVE_INFINITY;
   let max = Number.NEGATIVE_INFINITY;
@@ -99,7 +190,11 @@ export type CyElement = {
   data: Record<string, unknown>;
 };
 
-export function toElements(nodes: GraphNode[], edges: GraphEdge[]): CyElement[] {
+export function toElements(
+  nodes: GraphNode[],
+  edges: GraphEdge[],
+  options?: { highlightCycle?: boolean },
+): CyElement[] {
   const { min, max } = betweennessRange(nodes);
   const nodeEls: CyElement[] = nodes.map((n) => ({
     data: {
@@ -111,17 +206,24 @@ export function toElements(nodes: GraphNode[], edges: GraphEdge[]): CyElement[] 
       community: n.metrics?.community ?? null,
       degree: n.metrics?.degree ?? 0,
       betweenness: n.metrics?.betweenness ?? 0,
+      cycleHighlight:
+        options?.highlightCycle === true && PAID_CYCLE_SET.has(n.id),
     },
   }));
-  const edgeEls: CyElement[] = edges.map((e) => ({
-    data: {
-      id: e.id,
-      source: e.source,
-      target: e.target,
-      type: e.type,
-      color: EDGE_COLORS[e.type] ?? "#4A5A6C",
-    },
-  }));
+  const edgeEls: CyElement[] = edges.map((e) => {
+    const count =
+      typeof e.attributes?.count === "number" ? e.attributes.count : 1;
+    return {
+      data: {
+        id: e.id,
+        source: e.source,
+        target: e.target,
+        type: e.type,
+        color: EDGE_COLORS[e.type] ?? "#4A5A6C",
+        weight: count,
+      },
+    };
+  });
   return [...nodeEls, ...edgeEls];
 }
 

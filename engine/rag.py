@@ -17,7 +17,18 @@ MAX_HOPS = 2
 MAX_NODES = 40
 MAX_SNIPPETS = 5
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_MODEL = "llama-3.1-8b-instant"
+GROQ_MODELS_URL = "https://api.groq.com/openai/v1/models"
+GROQ_MODEL = "llama-3.3-70b-versatile"
+_GROQ_UA = "GothamSIH/1.0"
+_MODEL_CACHE: str | None = None
+_PREFERRED_MODELS = (
+    "llama-3.3-70b-versatile",
+    "llama-3.1-8b-instant",
+    "llama-3.1-70b-versatile",
+    "meta-llama/llama-4-scout-17b-16e-instruct",
+    "groq/compound-mini",
+    "openai/gpt-oss-20b",
+)
 
 # Question phrases → gold keys already on the kernel. Not a 9th link type.
 _GOLD_ALIASES = (
@@ -66,7 +77,14 @@ def ask(question: str, kernel: dict | None = None) -> dict:
     known_ids = _source_ids(G)
     citations = [s for s in snippets if s["source_id"] in known_ids]
     highlights = [n for n in hops if n in G]
-    answer = _one_model_call(question, G, highlights, citations, cut)
+    answer = _one_model_call(
+        question,
+        G,
+        highlights,
+        citations,
+        cut,
+        kernel.get("patterns") or [],
+    )
     if answer is None:
         answer = "model offline"
     return {
@@ -272,7 +290,76 @@ def _snippets(G, node_ids: list[str], max_snippets: int) -> list[dict]:
     return out
 
 
-def _one_model_call(question: str, G, node_ids: list[str], citations: list[dict], cut: dict) -> str | None:
+def _groq_headers(key: str, json_body: bool = False) -> dict:
+    headers = {
+        "Authorization": f"Bearer {key}",
+        "User-Agent": _GROQ_UA,
+    }
+    if json_body:
+        headers["Content-Type"] = "application/json"
+    return headers
+
+
+def _list_model_ids(key: str) -> set[str]:
+    req = urllib.request.Request(
+        GROQ_MODELS_URL,
+        headers=_groq_headers(key),
+        method="GET",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            raw = json.loads(resp.read().decode("utf-8"))
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, ValueError):
+        return set()
+    return {str(x.get("id")) for x in (raw.get("data") or []) if x.get("id")}
+
+
+def _resolve_model(key: str) -> str:
+    global _MODEL_CACHE
+    env = (os.environ.get("GROQ_MODEL") or "").strip()
+    if env:
+        return env
+    if _MODEL_CACHE:
+        return _MODEL_CACHE
+    ids = _list_model_ids(key)
+    if not ids:
+        _MODEL_CACHE = "groq/compound-mini"
+        return _MODEL_CACHE
+    for m in _PREFERRED_MODELS:
+        if m in ids:
+            _MODEL_CACHE = m
+            return m
+    for mid in sorted(ids):
+        if "llama" in mid and "whisper" not in mid and "guard" not in mid:
+            _MODEL_CACHE = mid
+            return mid
+    _MODEL_CACHE = "groq/compound-mini"
+    return _MODEL_CACHE
+
+
+def _message_text(raw: dict) -> str | None:
+    try:
+        msg = raw["choices"][0]["message"]
+    except (KeyError, IndexError, TypeError):
+        return None
+    text = (msg.get("content") or "").strip()
+    if text:
+        return text
+    for key in ("reasoning", "reasoning_content"):
+        alt = (msg.get(key) or "").strip()
+        if alt:
+            return alt
+    return None
+
+
+def _one_model_call(
+    question: str,
+    G,
+    node_ids: list[str],
+    citations: list[dict],
+    cut: dict,
+    hits: list[dict] | None = None,
+) -> str | None:
     key = (os.environ.get("GROQ_API_KEY") or "").strip()
     if not key:
         return None
@@ -299,6 +386,17 @@ def _one_model_call(question: str, G, node_ids: list[str], citations: list[dict]
     )
     if residual:
         payload += "\n\nResidual path after removing the arrest target:\n" + " → ".join(residual)
+    hopset = set(node_ids)
+    pattern_lines = []
+    for hit in hits or []:
+        nodes = [n for n in (hit.get("nodes") or []) if n in hopset]
+        if not nodes:
+            continue
+        pattern_lines.append(
+            f"- {hit.get('pattern')} nodes={nodes} evidence={json.dumps(hit.get('evidence') or {}, default=str)}"
+        )
+    if pattern_lines:
+        payload += "\n\nPatterns whose nodes sit in this subgraph:\n" + "\n".join(pattern_lines)
     system = (
         "You are the copilot for Operation Grey Ledger. Graph is the brain. "
         "Answer ONLY from the provided subgraph and snippets. "
@@ -306,7 +404,7 @@ def _one_model_call(question: str, G, node_ids: list[str], citations: list[dict]
         "If the subgraph is insufficient, say so. Keep the answer short."
     )
     body = {
-        "model": os.environ.get("GROQ_MODEL") or GROQ_MODEL,
+        "model": _resolve_model(key),
         "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": payload},
@@ -317,20 +415,13 @@ def _one_model_call(question: str, G, node_ids: list[str], citations: list[dict]
     req = urllib.request.Request(
         GROQ_URL,
         data=json.dumps(body).encode("utf-8"),
-        headers={
-            "Authorization": f"Bearer {key}",
-            "Content-Type": "application/json",
-        },
+        headers=_groq_headers(key, json_body=True),
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=20) as resp:
+        with urllib.request.urlopen(req, timeout=30) as resp:
             raw = json.loads(resp.read().decode("utf-8"))
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, ValueError):
         return None
-    try:
-        text = raw["choices"][0]["message"]["content"]
-    except (KeyError, IndexError, TypeError):
-        return None
-    text = (text or "").strip()
+    text = _message_text(raw)
     return text or None

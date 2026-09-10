@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 import os
 import re
+import sys
+import time
 import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -16,6 +18,7 @@ from engine.paths import EXTRACTED, KERNEL, PACKS, PROCESSED, RAW
 from engine.rag import GROQ_URL, _groq_headers, _message_text, _resolve_model
 
 KEYS = ("people", "phones", "orgs", "amounts", "relations")
+REL_TYPES = ("OWNS", "USES", "PAID", "MEMBER_OF")
 _ID_RE = re.compile(
     r"\b(?:person|phone|acc|org|loc|cam|veh|FIR)[:\-][A-Za-z0-9_]+\b",
     re.I,
@@ -25,7 +28,21 @@ _AMOUNT_RE = re.compile(
     r"(?:₹|rs\.?|inr)\s*([\d,]+(?:\.\d+)?)",
     re.I,
 )
+_ACC_TOKEN = re.compile(
+    r"\b(?:(?:BOB|HDFC|SBI|ICICI|PNB|AXIS|YES|UCO|IDFC|CANARA)\s+)?A/?c\s+([A-Z]{2,6}\d{6,})\b"
+    r"|(\b[A-Z]{2,6}\d{9,}\b)",
+    re.I,
+)
 _MIN_NAME = 6
+_REL_CUE = {
+    "OWNS": re.compile(r"\bowns?\b|\bowned\b|\bown (?:handset|prepaid|mobile|phone|number)\b", re.I),
+    "USES": re.compile(r"\buses\b|\bused\b|\busing\b", re.I),
+    "PAID": re.compile(r"\bpaid\b|\bpays\b|\bneft", re.I),
+    "MEMBER_OF": re.compile(
+        r"\bmember of\b|\bmanager\b|\bclerk\b|\bemployee\b|\bworks at\b|\b of \b|\bat\b",
+        re.I,
+    ),
+}
 
 
 def _norm(value: str) -> str:
@@ -67,6 +84,8 @@ def build_index(nodes: dict[str, dict]) -> dict:
     person_by_norm: dict[str, str] = {}
     org_by_norm: dict[str, str] = {}
     phone_by_digits: dict[str, str] = {}
+    acc_by_digits: dict[str, str] = {}
+    acc_by_norm: dict[str, str] = {}
     person_names: list[tuple[str, str]] = []
     org_names: list[tuple[str, str]] = []
     for nid, node in nodes.items():
@@ -90,12 +109,22 @@ def build_index(nodes: dict[str, dict]) -> dict:
                 phone_by_digits[d] = nid
                 if len(d) > 10:
                     phone_by_digits[d[-10:]] = nid
+        elif typ == "Account":
+            number = str(attrs.get("number") or node.get("label") or "")
+            d = _digits(number)
+            if d:
+                acc_by_digits[d] = nid
+            key = _norm(number)
+            if key:
+                acc_by_norm[key] = nid
     person_names.sort(key=lambda row: len(row[0]), reverse=True)
     org_names.sort(key=lambda row: len(row[0]), reverse=True)
     return {
         "person_by_norm": person_by_norm,
         "org_by_norm": org_by_norm,
         "phone_by_digits": phone_by_digits,
+        "acc_by_digits": acc_by_digits,
+        "acc_by_norm": acc_by_norm,
         "person_names": person_names,
         "org_names": org_names,
     }
@@ -140,11 +169,107 @@ def _empty() -> dict:
     return {k: [] for k in KEYS}
 
 
+def _rel_cued(rel: str, sentence: str) -> bool:
+    cue = _REL_CUE.get(rel)
+    return bool(cue and sentence and cue.search(sentence))
+
+
+def _accounts_in(text: str) -> list[str]:
+    out: list[str] = []
+    seen: set[str] = set()
+    for m in _ACC_TOKEN.finditer(text or ""):
+        raw = (m.group(1) or m.group(2) or "").upper()
+        if raw and raw not in seen:
+            seen.add(raw)
+            out.append(raw)
+    return out
+
+
+def _sentences(narrative: str) -> list[str]:
+    parts = re.split(r"(?<=[.!?;])\s+", (narrative or "").strip())
+    return [p.strip() for p in parts if p.strip()]
+
+
+def _person_for_lastname(last: str, index: dict, prefer: list[str] | None = None) -> str:
+    lastn = _norm(last)
+    if not lastn:
+        return ""
+    for name in prefer or []:
+        parts = _norm(name).split()
+        if parts and parts[-1] == lastn:
+            return name
+    hits = [
+        name
+        for name, _nid in index.get("person_names") or []
+        if _norm(name).split()[-1:] == [lastn]
+    ]
+    if len(hits) == 1:
+        return hits[0]
+    return ""
+
+
+def _parse_relation_text(text: str, snippet: str) -> dict | None:
+    m = re.search(
+        r"(.+?)\s+(OWNS|USES|PAID|MEMBER_OF|owns|uses|paid|member[_ ]of)\s+(.+)",
+        text or "",
+        re.I,
+    )
+    if not m:
+        return None
+    rel = re.sub(r"[\s]+", "_", m.group(2).strip().upper())
+    if rel not in REL_TYPES:
+        return None
+    src, dst = m.group(1).strip(), m.group(3).strip()
+    if not src or not dst:
+        return None
+    return {"src": src, "rel": rel, "dst": dst, "snippet": (snippet or "")[:240]}
+
+
+def _coerce_relation(item) -> dict | None:
+    if isinstance(item, str):
+        return _parse_relation_text(item, "")
+    if not isinstance(item, dict):
+        return None
+    src = str(item.get("src") or item.get("source") or item.get("from") or "").strip()
+    dst = str(item.get("dst") or item.get("target") or item.get("to") or "").strip()
+    rel = str(item.get("rel") or item.get("type") or item.get("relation") or "").strip().upper()
+    rel = re.sub(r"[\s]+", "_", rel)
+    snippet = str(item.get("snippet") or item.get("span") or "").strip()
+    if rel in REL_TYPES and src and dst:
+        return {"src": src, "rel": rel, "dst": dst, "snippet": snippet[:240]}
+    text = str(item.get("text") or "").strip()
+    if text:
+        return _parse_relation_text(text, snippet)
+    return None
+
+
+def _surface_in(text: str, hay: str) -> bool:
+    if not text or not hay:
+        return False
+    if text.lower() in hay.lower():
+        return True
+    d = _digits(text)
+    return bool(len(d) >= 6 and d in _digits(hay))
+
+
+def _relation_row(src: str, rel: str, dst: str, snippet: str) -> dict | None:
+    src, dst = (src or "").strip(), (dst or "").strip()
+    rel = (rel or "").strip().upper()
+    if rel not in REL_TYPES or not src or not dst:
+        return None
+    if _norm(src) == _norm(dst) or (_digits(src) and _digits(src) == _digits(dst)):
+        return None
+    hay = snippet or f"{src} {rel} {dst}"
+    if not _rel_cued(rel, hay):
+        return None
+    return {"src": src, "rel": rel, "dst": dst, "snippet": (snippet or "")[:240]}
+
+
 def _coerce(raw) -> dict:
     out = _empty()
     if not isinstance(raw, dict):
         return out
-    for key in KEYS:
+    for key in ("people", "phones", "orgs", "amounts"):
         items = raw.get(key)
         if isinstance(items, dict):
             items = [items]
@@ -161,6 +286,14 @@ def _coerce(raw) -> dict:
             if not text:
                 continue
             out[key].append({"text": text, "snippet": snippet[:240]})
+    items = raw.get("relations")
+    if isinstance(items, dict):
+        items = [items]
+    if isinstance(items, list):
+        for item in items:
+            row = _coerce_relation(item)
+            if row:
+                out["relations"].append(row)
     return out
 
 
@@ -185,11 +318,16 @@ def _parse_json_obj(text: str) -> dict | None:
 def _groq_mentions(narrative: str, key: str, model: str) -> dict | None:
     system = (
         "Extract entities from this FIR narrative. Return JSON only with keys "
-        "people, phones, orgs, amounts, relations. Each value is a list of "
-        "{text, snippet}. snippet is a short quote copied from the narrative. "
+        "people, phones, orgs, amounts, relations. "
+        "people, phones, orgs, amounts are lists of {text, snippet}. "
+        "snippet is a short quote copied from the narrative. "
         "people = person names; phones = mobile numbers; orgs = firm names; "
-        "amounts = money as written; relations = who uses/owns/paid/works-at whom. "
-        "Do not invent. Do not emit graph ids. Narrative is the only source."
+        "amounts = money as written. "
+        "relations MUST be a list of {src, rel, dst, snippet}. "
+        "rel is OWNS, USES, PAID, or MEMBER_OF only if that sentence says so. "
+        "Do not emit CALLED, SEEN_AT, MENTIONED_IN, SAME_AS, or any other rel. "
+        "src and dst are names or numbers as written, not graph ids. "
+        "Do not invent. Narrative is the only source."
     )
     body = {
         "model": model,
@@ -250,6 +388,109 @@ def _find_name_hits(narrative: str, names: list[tuple[str, str]]) -> list[dict]:
     return hits
 
 
+def _local_relations(narrative: str, index: dict) -> list[dict]:
+    rels: list[dict] = []
+    seen: set[tuple[str, str, str]] = set()
+    last_person = ""
+    last_phone = ""
+    last_prepaid = ""
+    seen_people: list[str] = []
+
+    def add(src: str, rel: str, dst: str, sentence: str) -> None:
+        row = _relation_row(src, rel, dst, sentence.replace("\n", " ").strip())
+        if not row:
+            return
+        sig = (_norm(row["src"]), row["rel"], _norm(row["dst"]) or _digits(row["dst"]))
+        if sig in seen:
+            return
+        seen.add(sig)
+        rels.append(row)
+
+    for sent in _sentences(narrative):
+        people = _find_name_hits(sent, index["person_names"])
+        orgs = _find_name_hits(sent, index["org_names"])
+        phones: list[str] = []
+        for m in _PHONE_RE.finditer(sent):
+            d = _digits(m.group(1))
+            if d and d not in phones:
+                phones.append(d)
+        accs = _accounts_in(sent)
+        low = sent.lower()
+        if people:
+            last_person = people[0]["text"]
+            for p in people:
+                if p["text"] not in seen_people:
+                    seen_people.append(p["text"])
+        if phones:
+            last_phone = phones[-1]
+        for m in re.finditer(r"prepaid\s+([6-9](?:[\s\-]?\d){9})", sent, re.I):
+            last_prepaid = _digits(m.group(1))
+        if "prepaid" in low and phones and not last_prepaid:
+            last_prepaid = phones[0]
+
+        for p in people:
+            for o in orgs:
+                pt, ot = p["text"], o["text"]
+                if re.search(
+                    rf"{re.escape(pt)}.{{0,80}}(?:\bof\b|\bmanager\b|\bclerk\b|\bat\b).{{0,80}}{re.escape(ot)}",
+                    sent,
+                    re.I,
+                ):
+                    add(pt, "MEMBER_OF", ot, sent)
+
+        used = re.search(
+            r"(?:that prepaid|the prepaid|prepaid|mobile|handset|phone)?.{0,24}\bis used by\s+([^,;]+)",
+            sent,
+            re.I,
+        )
+        if used:
+            who = used.group(1).strip()
+            who = re.split(r"\s+who\s+", who, maxsplit=1)[0].strip()
+            phone = last_prepaid or last_phone or (phones[0] if phones else "")
+            if who and phone:
+                add(who, "USES", phone, sent)
+        uses = re.search(
+            r"\buses\s+(?:mobile|prepaid|handset|phone)?\s*([6-9](?:[\s\-]?\d){9})",
+            sent,
+            re.I,
+        )
+        if uses:
+            who = people[0]["text"] if people else last_person
+            add(who, "USES", _digits(uses.group(1)), sent)
+
+        own = re.search(
+            r"\b([A-Z][A-Za-z]{2,})'s own (?:handset|prepaid|mobile|phone|number)\s+is\s+([6-9](?:[\s\-]?\d){9})",
+            sent,
+        )
+        if own:
+            who = _person_for_lastname(
+                own.group(1),
+                index,
+                [p["text"] for p in people] + seen_people,
+            )
+            if who:
+                add(who, "OWNS", _digits(own.group(2)), sent)
+        own2 = re.search(
+            r"\bown (?:prepaid|handset|mobile|phone)\s+([6-9](?:[\s\-]?\d){9})",
+            sent,
+            re.I,
+        )
+        if own2:
+            who = people[0]["text"] if people else last_person
+            add(who, "OWNS", _digits(own2.group(1)), sent)
+        owns = re.search(r"\bowns\s+(.+)", sent, re.I)
+        if owns and people:
+            clause = owns.group(1)
+            dsts = [_digits(m.group(1)) for m in _PHONE_RE.finditer(clause)] + _accounts_in(clause)
+            for dst in dsts:
+                add(people[0]["text"], "OWNS", dst, sent)
+
+        if re.search(r"\b(?:paid|neft)", low) and len(accs) >= 2:
+            add(accs[0], "PAID", accs[1], sent)
+
+    return rels
+
+
 def _local_mentions(narrative: str, index: dict) -> dict:
     out = _empty()
     out["people"] = [
@@ -276,6 +517,7 @@ def _local_mentions(narrative: str, index: dict) -> dict:
             continue
         seen_amt.add(key)
         out["amounts"].append({"text": raw, "snippet": _snippet_for(narrative, raw)})
+    out["relations"] = _local_relations(narrative, index)
     return out
 
 
@@ -324,20 +566,27 @@ def _match_item(kind: str, text: str, index: dict) -> str | None:
         return _best_name_id(text, index["org_by_norm"])
     if kind == "phones":
         return _match_phone(text, index["phone_by_digits"])
-    if kind == "relations":
-        return _best_name_id(text, index["person_by_norm"]) or _match_phone(
-            text, index["phone_by_digits"]
-        ) or _best_name_id(text, index["org_by_norm"])
     return None
+
+
+def _match_endpoint(text: str, index: dict) -> str | None:
+    return (
+        _best_name_id(text, index["person_by_norm"])
+        or _match_phone(text, index["phone_by_digits"])
+        or _best_name_id(text, index["org_by_norm"])
+        or index.get("acc_by_digits", {}).get(_digits(text) or "")
+        or _best_name_id(text, index.get("acc_by_norm") or {})
+    )
 
 
 def _merge(parts: list[dict]) -> dict:
     out = _empty()
     seen: set[tuple[str, str]] = set()
+    seen_rel: set[tuple[str, str, str]] = set()
     for part in parts:
         if not part:
             continue
-        for key in KEYS:
+        for key in ("people", "phones", "orgs", "amounts"):
             for item in part.get(key) or []:
                 text = (item.get("text") or "").strip()
                 if not text:
@@ -352,12 +601,26 @@ def _merge(parts: list[dict]) -> dict:
                         "snippet": (item.get("snippet") or "")[:240],
                     }
                 )
+        for item in part.get("relations") or []:
+            row = _relation_row(
+                str(item.get("src") or ""),
+                str(item.get("rel") or ""),
+                str(item.get("dst") or ""),
+                str(item.get("snippet") or ""),
+            )
+            if not row:
+                continue
+            sig = (_norm(row["src"]), row["rel"], _norm(row["dst"]) or _digits(row["dst"]))
+            if sig in seen_rel:
+                continue
+            seen_rel.add(sig)
+            out["relations"].append(row)
     return out
 
 
 def _bind(mentions: dict, narrative: str, index: dict) -> dict:
     bound = _empty()
-    for key in KEYS:
+    for key in ("people", "phones", "orgs", "amounts"):
         for item in mentions.get(key) or []:
             text = (item.get("text") or "").strip()
             if not text:
@@ -368,17 +631,51 @@ def _bind(mentions: dict, narrative: str, index: dict) -> dict:
             if nid:
                 row["id"] = nid
             bound[key].append(row)
+    for item in mentions.get("relations") or []:
+        snippet = (item.get("snippet") or "").strip()
+        if not snippet:
+            snippet = _snippet_for(narrative, str(item.get("src") or item.get("dst") or ""))
+        row = _relation_row(
+            str(item.get("src") or ""),
+            str(item.get("rel") or ""),
+            str(item.get("dst") or ""),
+            snippet,
+        )
+        if not row:
+            continue
+        if not _surface_in(row["src"], narrative) or not _surface_in(row["dst"], narrative):
+            continue
+        bound["relations"].append(row)
     return bound
 
 
-def _matched_ids(record: dict) -> list[str]:
+def _matched_ids(record: dict, index: dict | None = None) -> list[str]:
     ids: list[str] = []
     for key in KEYS:
         for item in record.get(key) or []:
             nid = item.get("id")
             if nid and nid not in ids:
                 ids.append(nid)
+            if key == "relations" and index:
+                for field in ("src", "dst"):
+                    hit = _match_endpoint(str(item.get(field) or ""), index)
+                    if hit and hit not in ids:
+                        ids.append(hit)
     return ids
+
+
+def _reject_empty_relations(record: dict) -> None:
+    people_n = len(record.get("people") or [])
+    rels = record.get("relations") or []
+    fid = record.get("fir_id") or "?"
+    if people_n >= 3 and not rels:
+        raise SystemExit(f"{fid}: empty relations with {people_n} people")
+    for row in rels:
+        missing = {"src", "rel", "dst", "snippet"} - set(row)
+        if missing:
+            raise SystemExit(f"{fid}: relation missing {sorted(missing)}")
+        if row.get("rel") not in REL_TYPES:
+            raise SystemExit(f"{fid}: bad rel {row.get('rel')}")
 
 
 def extract_fir(
@@ -396,15 +693,17 @@ def extract_fir(
     mentions = _merge([groq or {}, local])
     bound = _bind(mentions, narrative, index)
     fid = fir.get("id")
-    return {
+    record = {
         "fir_id": fid,
         "people": bound["people"],
         "phones": bound["phones"],
         "orgs": bound["orgs"],
         "amounts": bound["amounts"],
         "relations": bound["relations"],
-        "matched_ids": _matched_ids(bound),
+        "matched_ids": _matched_ids(bound, index),
     }
+    _reject_empty_relations(record)
+    return record
 
 
 def _prefetch_groq(firs: list[dict], key: str, model: str) -> dict[str, dict]:
@@ -432,16 +731,39 @@ def _prefetch_groq(firs: list[dict], key: str, model: str) -> dict[str, dict]:
     return out
 
 
-def run(path=None) -> dict:
+def _load_extracted(path: Path | None = None) -> dict:
+    src = path or EXTRACTED
+    if not src.exists() or src.stat().st_size < 8:
+        return {"records": []}
+    try:
+        data = json.loads(src.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {"records": []}
+    if not isinstance(data, dict):
+        return {"records": []}
+    data.setdefault("records", [])
+    return data
+
+
+def run(path=None, fir_id: str | None = None, use_groq: bool = True) -> dict:
+    out = path or EXTRACTED
     firs = _load_firs()
+    if fir_id:
+        firs = [f for f in firs if f.get("id") == fir_id]
+        if not firs:
+            raise SystemExit(f"unknown fir {fir_id}")
+    elif use_groq and (os.environ.get("GROQ_API_KEY") or "").strip():
+        cached = _load_extracted(out)
+        if cached.get("records"):
+            return cached
     nodes = _load_nodes()
     index = build_index(nodes)
-    key = (os.environ.get("GROQ_API_KEY") or "").strip()
+    key = (os.environ.get("GROQ_API_KEY") or "").strip() if use_groq else ""
     model = ""
     if key:
         model = (os.environ.get("GROQ_MODEL") or "").strip() or _resolve_model(key)
     groq_map = _prefetch_groq(firs, key, model)
-    records = []
+    fresh = []
     for fir in firs:
         rec = extract_fir(
             fir,
@@ -450,12 +772,24 @@ def run(path=None) -> dict:
             model=model,
             groq_mentions=groq_map.get(fir.get("id")),
         )
-        records.append(rec)
+        fresh.append(rec)
+    if fir_id:
+        records = []
+        seen = False
+        for rec in _load_extracted(out).get("records") or []:
+            if rec.get("fir_id") == fir_id:
+                records.append(fresh[0])
+                seen = True
+            else:
+                records.append(rec)
+        if not seen:
+            records.append(fresh[0])
+    else:
+        records = fresh
     payload = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "records": records,
     }
-    out = path or EXTRACTED
     PROCESSED.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
     return payload
@@ -504,9 +838,27 @@ def attach_mentions(nodes: dict[str, dict], edges: list[dict]) -> tuple[dict[str
     return nodes, edges
 
 
+def _cli_fir(argv: list[str]) -> str | None:
+    for i, arg in enumerate(argv):
+        if arg == "--fir" and i + 1 < len(argv):
+            return argv[i + 1]
+        if arg.startswith("--fir="):
+            return arg.split("=", 1)[1]
+    return None
+
+
 def main() -> None:
-    payload = run()
-    print(f"wrote {EXTRACTED} firs={len(payload.get('records') or [])}")
+    fir_id = _cli_fir(sys.argv[1:])
+    t0 = time.perf_counter()
+    payload = run(fir_id=fir_id)
+    dt = time.perf_counter() - t0
+    records = payload.get("records") or []
+    if fir_id:
+        rec = next((r for r in records if r.get("fir_id") == fir_id), None)
+        print(f"extract {fir_id}  {dt:.2f}s", flush=True)
+        print(json.dumps(rec, indent=2, ensure_ascii=False), flush=True)
+        return
+    print(f"wrote {EXTRACTED} firs={len(records)}  {dt:.2f}s", flush=True)
 
 
 if __name__ == "__main__":

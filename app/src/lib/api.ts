@@ -1,15 +1,27 @@
-import { GraphKernel, CutResult, PatternHit } from "../types";
+import { GraphKernel, CutResult } from "../types";
 
-const API_BASE = "";
+export const API_BASE_URL = "http://127.0.0.1:8000/api";
 
-export async function fetchGraphKernel(): Promise<GraphKernel> {
+function getAuthHeaders(token?: string | null): Record<string, string> {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json"
+  };
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+  return headers;
+}
+
+export async function fetchGraphKernel(token?: string | null): Promise<GraphKernel> {
   try {
-    const res = await fetch(`${API_BASE}/api/graph`);
+    const res = await fetch(`${API_BASE_URL}/graph`, {
+      headers: getAuthHeaders(token)
+    });
     if (res.ok) {
       return await res.json();
     }
   } catch (err) {
-    console.warn("Backend API not reachable, attempting fallback fetch /data/processed/graph.json", err);
+    console.warn("Backend API not reachable, attempting fallback fetch /graph.json", err);
   }
 
   // Fallback: try loading directly from public/data
@@ -20,11 +32,16 @@ export async function fetchGraphKernel(): Promise<GraphKernel> {
   return await fallback.json();
 }
 
-export async function runCutSimulation(targetId: string, sources?: string[], goals?: string[]): Promise<{ success: boolean; target: string; result: CutResult }> {
+export async function runCutSimulation(
+  targetId: string, 
+  sources?: string[], 
+  goals?: string[],
+  token?: string | null
+): Promise<{ success: boolean; target: string; result: CutResult }> {
   try {
-    const res = await fetch(`${API_BASE}/api/cut`, {
+    const res = await fetch(`${API_BASE_URL}/cut`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: getAuthHeaders(token),
       body: JSON.stringify({ target: targetId, sources, goals }),
     });
     if (res.ok) {
@@ -57,11 +74,16 @@ export interface CopilotResponse {
   answer: string;
 }
 
-export async function queryCopilot(seedId: string, query?: string, provider: string = "local"): Promise<CopilotResponse> {
+export async function queryCopilot(
+  seedId: string, 
+  query?: string, 
+  provider: string = "local",
+  token?: string | null
+): Promise<CopilotResponse> {
   try {
-    const res = await fetch(`${API_BASE}/api/rag`, {
+    const res = await fetch(`${API_BASE_URL}/rag`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: getAuthHeaders(token),
       body: JSON.stringify({ seed: seedId, query, provider }),
     });
     if (res.ok) {

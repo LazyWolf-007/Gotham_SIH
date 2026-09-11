@@ -5,7 +5,11 @@ dist/
 .next/
 **/.next/
 .env
+**/.env
 .venv/
 __pycache__/
 **/*.pyc
 .DS_Store
+firebase-key.json
+firebase-service-account.json
+*.service-account.json

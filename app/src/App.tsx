@@ -5,19 +5,29 @@ import LandingPage from "./landing/LandingPage";
 import { Header } from "./components/Header";
 import { DemoScriptTour } from "./components/DemoScriptTour";
 import { GraphCanvas } from "./canvas/GraphCanvas";
-import { CanvasControls } from "./canvas/CanvasControls";
-import { FilterToolbar } from "./canvas/FilterToolbar";
+import { SidebarNav, SidebarTab } from "./components/SidebarNav";
+import { DetectedPatternsRow } from "./components/patterns/DetectedPatternsRow";
+import { CaseManagementView } from "./components/case/CaseManagementView";
+import { EvidenceView } from "./components/evidence/EvidenceView";
+import { AnalyticsView } from "./components/analytics/AnalyticsView";
+import { CommunitiesView } from "./components/communities/CommunitiesView";
+import { ScenariosView } from "./components/scenarios/ScenariosView";
+import { TimelineView } from "./components/timeline/TimelineView";
+import { DossierView } from "./components/dossier/DossierView";
 import { DossierPanel } from "./dossier/DossierPanel";
 import { TimelinePanel } from "./timeline/TimelinePanel";
 import { CopilotPanel } from "./copilot/CopilotPanel";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { CaseProvider, useCase } from "./context/CaseContext";
 import { LoginScreen } from "./components/auth/LoginScreen";
+import { WorkstationLockScreen } from "./components/auth/WorkstationLockScreen";
+import { PoliceCommandOverview } from "./components/overview/PoliceCommandOverview";
+import { InvestigationReportModal } from "./components/dossier/InvestigationReportModal";
 import { AdminUserModal } from "./components/admin/AdminUserModal";
 import { Shield, RefreshCw, AlertCircle } from "lucide-react";
 
 function WorkbenchContent() {
-  const { user, token, loading: authLoading } = useAuth();
+  const { user, token, loading: authLoading, isLocked } = useAuth();
   const { activeCase } = useCase();
 
   // Page Routing State: Default to "landing" Home Page
@@ -35,9 +45,11 @@ function WorkbenchContent() {
 
   // Admin User Modal State
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+  const [isGlobalReportModalOpen, setIsGlobalReportModalOpen] = useState(false);
 
   // Active UI Panel Tab in Workbench
   const [activeTab, setActiveTab] = useState<"dossier" | "timeline" | "copilot">("dossier");
+  const [sidebarTab, setSidebarTab] = useState<SidebarTab>("overview");
 
   // Selection state
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>("person:naveen_bhatia");
@@ -231,6 +243,11 @@ function WorkbenchContent() {
     );
   }
 
+  // Workstation Lock Screen: hide all investigation data when locked
+  if (isLocked) {
+    return <WorkstationLockScreen />;
+  }
+
   if (loading) {
     return (
       <div className="w-screen h-screen bg-[#070a11] flex flex-col items-center justify-center text-slate-300">
@@ -258,80 +275,331 @@ function WorkbenchContent() {
   }
 
   return (
-    <div className="w-screen h-screen bg-[#070a11] flex flex-col overflow-hidden text-slate-100 font-sans select-none">
-      {/* Header */}
+    <div className="w-screen h-screen bg-[#050607] flex flex-col overflow-hidden text-[#F2F2F2] font-sans select-none">
+      {/* Top Tactical Header */}
       <Header
         kernel={kernel}
-        activeTab={activeTab}
-        onTabChange={(tab) => setActiveTab(tab)}
+        searchQuery={filterState.searchQuery}
+        onSearchChange={(query) =>
+          setFilterState((prev) => ({ ...prev, searchQuery: query }))
+        }
+        onSelectEntity={(entityId) => {
+          setSelectedNodeId(entityId);
+          setSelectedEdge(null);
+          setSidebarTab("graph");
+          setActiveTab("dossier");
+        }}
         onBackToLanding={() => navigateTo("landing")}
-        onOpenAdminModal={() => setIsAdminModalOpen(true)}
+        onUploadClick={() => setIsAdminModalOpen(true)}
       />
 
-      {/* Main Content Area */}
+      {/* Main 3-Column Dashboard Stage */}
       <div className="flex-1 flex overflow-hidden relative">
-        {/* Left Filter Toolbar */}
-        <FilterToolbar
-          filterState={filterState}
-          onChange={(next) => setFilterState(next)}
-          onReset={resetFilters}
-          totalNodes={kernel.nodes.length}
-          totalEdges={kernel.edges.length}
+        {/* Column 1: Left Navigation Rail */}
+        <SidebarNav
+          activeTab={sidebarTab}
+          onSelectTab={(tab) => {
+            setSidebarTab(tab);
+            if (tab === "dossier") setActiveTab("dossier");
+            else if (tab === "timeline") setActiveTab("timeline");
+            else if (tab === "copilot") setActiveTab("copilot");
+            else if (tab === "overview" || tab === "graph") setActiveTab("dossier");
+          }}
+          onOpenAdminModal={() => setIsAdminModalOpen(true)}
         />
 
-        {/* Center Cytoscape Canvas */}
-        <div className="flex-1 h-full relative bg-[#070a11]">
-          <GraphCanvas
-            nodes={kernel.nodes}
-            edges={kernel.edges}
-            selectedNodeId={selectedNodeId}
-            onSelectNode={(nid) => {
-              setSelectedNodeId(nid);
+        {/* Column 2: Center Main Investigation Stage */}
+        {sidebarTab === "overview" ? (
+          <PoliceCommandOverview
+            kernel={kernel}
+            onOpenCase={(caseId) => {
+              setSidebarTab("cases");
+            }}
+            onOpenGraph={(focusEntityId) => {
+              if (focusEntityId) {
+                setSelectedNodeId(focusEntityId);
+                setSelectedEdge(null);
+              }
+              setSidebarTab("graph");
+              setActiveTab("dossier");
+            }}
+            onOpenSubjects={() => {
+              setSidebarTab("cases");
+            }}
+            onOpenEvidence={(evidenceId) => {
+              setSidebarTab("evidence");
+            }}
+            onOpenTimeline={() => {
+              setSidebarTab("timeline");
+            }}
+            onOpenDossier={() => {
+              setSidebarTab("dossier");
+            }}
+            onOpenScenarios={() => {
+              setSidebarTab("scenarios");
+            }}
+            onGenerateReport={() => {
+              setIsGlobalReportModalOpen(true);
+            }}
+          />
+        ) : sidebarTab === "cases" ? (
+          <CaseManagementView
+            kernel={kernel}
+            onOpenCaseNetwork={(caseId, focusEntityId) => {
+              if (focusEntityId) {
+                setSelectedNodeId(focusEntityId);
+                setSelectedEdge(null);
+              }
+              setSidebarTab("graph");
+              setActiveTab("dossier");
+            }}
+            onOpenEvidence={() => setSidebarTab("evidence")}
+            onOpenTimeline={() => setSidebarTab("timeline")}
+            onOpenAnalytics={() => setSidebarTab("analytics")}
+            onOpenScenarios={() => setSidebarTab("scenarios")}
+            onOpenDossier={() => setSidebarTab("dossier")}
+          />
+        ) : sidebarTab === "evidence" ? (
+          <EvidenceView
+            kernel={kernel}
+            onSelectEntity={(entityId) => {
+              setSelectedNodeId(entityId);
               setSelectedEdge(null);
+              setSidebarTab("graph");
+              setActiveTab("dossier");
             }}
-            selectedEdgeId={selectedEdge ? `${selectedEdge.source}-${selectedEdge.target}-${selectedEdge.type}` : null}
-            onSelectEdge={(edge) => {
-              setSelectedEdge(edge);
-              setSelectedNodeId(null);
-            }}
-            filterState={filterState}
-            colorByCommunity={colorByCommunity}
-            activePattern={activePattern}
-            patterns={kernel.patterns}
-            arrestTarget={arrestTarget}
-            arrestCutResult={arrestCutResult}
-            highlightedNodeIds={highlightedNodeIds}
-            layoutName={layoutName}
-            onLayoutChange={(layout) => setLayoutName(layout)}
-            showLabels={showLabels}
+            onOpenTimeline={() => setSidebarTab("timeline")}
+            onOpenDossier={() => setSidebarTab("dossier")}
           />
-
-          {/* Canvas Floating Controls */}
-          <CanvasControls
-            layoutName={layoutName}
-            onLayoutChange={(layout) => setLayoutName(layout)}
-            colorByCommunity={colorByCommunity}
-            onToggleCommunity={() => setColorByCommunity((prev) => !prev)}
-            showLabels={showLabels}
-            onToggleLabels={() => setShowLabels((prev) => !prev)}
-            onFit={() => {}}
-            onReset={resetFilters}
-            activePattern={activePattern}
-            onSelectPattern={(pat) => {
-              setActivePattern(pat);
-              setFilterState((prev) => ({ ...prev, activePattern: pat }));
+        ) : sidebarTab === "dossier" ? (
+          <DossierView
+            kernel={kernel}
+            onSelectEntity={(entityId) => {
+              setSelectedNodeId(entityId);
+              setSelectedEdge(null);
+              setSidebarTab("graph");
+              setActiveTab("dossier");
+            }}
+            onOpenEvidence={() => setSidebarTab("evidence")}
+            onOpenTimeline={() => setSidebarTab("timeline")}
+            onOpenCaseNetwork={(caseId) => {
+              setSidebarTab("graph");
+              setActiveTab("dossier");
             }}
           />
-
-          {/* Sacred Demo Tour Guide Floating Overlay */}
-          <DemoScriptTour
-            currentStep={demoStep}
-            onSelectStep={(step) => setDemoStep(step)}
+        ) : sidebarTab === "timeline" ? (
+          <TimelineView
+            kernel={kernel}
+            onSelectEntity={(entityId) => {
+              setSelectedNodeId(entityId);
+              setSelectedEdge(null);
+              setSidebarTab("graph");
+              setActiveTab("dossier");
+            }}
+            onOpenEvidence={() => setSidebarTab("evidence")}
           />
-        </div>
+        ) : sidebarTab === "analytics" ? (
+          <AnalyticsView
+            kernel={kernel}
+            onSelectEntity={(entityId) => {
+              setSelectedNodeId(entityId);
+              setSelectedEdge(null);
+              setSidebarTab("graph");
+              setActiveTab("dossier");
+            }}
+            onIsolateCommunity={(commId) => {
+              setFilterState((prev) => ({ ...prev, communityFilter: commId }));
+              setColorByCommunity(true);
+              setSidebarTab("graph");
+            }}
+          />
+        ) : sidebarTab === "communities" ? (
+          <CommunitiesView
+            kernel={kernel}
+            onSelectEntity={(entityId) => {
+              setSelectedNodeId(entityId);
+              setSelectedEdge(null);
+              setSidebarTab("graph");
+              setActiveTab("dossier");
+            }}
+            onIsolateCommunity={(commId) => {
+              setFilterState((prev) => ({ ...prev, communityFilter: commId }));
+              setColorByCommunity(true);
+              setSidebarTab("graph");
+            }}
+          />
+        ) : sidebarTab === "scenarios" ? (
+          <ScenariosView
+            kernel={kernel}
+            token={token}
+            onSelectEntity={(entityId) => {
+              setSelectedNodeId(entityId);
+              setSelectedEdge(null);
+              setSidebarTab("graph");
+              setActiveTab("dossier");
+            }}
+            onApplySimulationToGraph={(targetId, result) => {
+              setArrestTarget(targetId);
+              setArrestCutResult(result);
+              if (targetId) {
+                setSidebarTab("graph");
+              }
+            }}
+          />
+        ) : (
+          /* Default Network Overview / Graph Canvas Stage */
+          <div className="flex-1 flex flex-col p-3 gap-2.5 bg-[#050607] overflow-hidden min-w-0">
+            {/* Breadcrumbs & Layout Bar */}
+            <div className="flex items-center justify-between px-1 text-xs select-none shrink-0">
+              <div className="flex items-center gap-2 font-mono">
+                <span
+                  className="text-[#858B92] font-medium hover:text-white cursor-pointer transition-colors"
+                  onClick={() => navigateTo("landing")}
+                >
+                  Operation Grey Ledger
+                </span>
+                <span className="text-[#555C63]">›</span>
+                <span className="text-white font-semibold tracking-wide">Network Overview</span>
+              </div>
 
-        {/* Right Sidebar: Dossier | Timeline | Copilot */}
-        <div className="w-[360px] xl:w-[420px] h-full flex flex-col z-20 border-l border-slate-800 shadow-2xl">
+              <div className="flex items-center gap-2">
+                {/* Quick Link Filters: All / Calls / Money */}
+                <div className="flex items-center bg-[#0E1216] border border-[#20252A] rounded-lg p-0.5 text-[11px] font-mono">
+                  <button
+                    onClick={() =>
+                      setFilterState((prev) => ({
+                        ...prev,
+                        selectedLinkTypes: new Set(LINK_TYPES as any),
+                        selectedObjectTypes: new Set(OBJECT_TYPES as any),
+                      }))
+                    }
+                    className={`px-2 py-0.5 rounded cursor-pointer transition-colors ${
+                      filterState.selectedLinkTypes.size > 2
+                        ? "bg-[#20252A] text-white font-bold"
+                        : "text-[#858B92] hover:text-white"
+                    }`}
+                  >
+                    All
+                  </button>
+                  <button
+                    onClick={() =>
+                      setFilterState((prev) => ({
+                        ...prev,
+                        selectedLinkTypes: new Set(["CALLED"]),
+                        selectedObjectTypes: new Set(["Person", "Phone"]),
+                      }))
+                    }
+                    className={`px-2 py-0.5 rounded cursor-pointer transition-colors ${
+                      filterState.selectedLinkTypes.size === 1 && filterState.selectedLinkTypes.has("CALLED")
+                        ? "bg-sky-950/80 text-sky-300 border border-sky-600/50 font-bold"
+                        : "text-[#858B92] hover:text-white"
+                    }`}
+                  >
+                    Calls
+                  </button>
+                  <button
+                    onClick={() =>
+                      setFilterState((prev) => ({
+                        ...prev,
+                        selectedLinkTypes: new Set(["PAID"]),
+                        selectedObjectTypes: new Set(["Person", "Account", "Organization"]),
+                      }))
+                    }
+                    className={`px-2 py-0.5 rounded cursor-pointer transition-colors ${
+                      filterState.selectedLinkTypes.size === 1 && filterState.selectedLinkTypes.has("PAID")
+                        ? "bg-emerald-950/80 text-emerald-300 border border-emerald-600/50 font-bold"
+                        : "text-[#858B92] hover:text-white"
+                    }`}
+                  >
+                    Money
+                  </button>
+                </div>
+
+                {/* Layout Dropdown */}
+                <select
+                  value={layoutName}
+                  onChange={(e) => setLayoutName(e.target.value)}
+                  className="bg-[#0E1216] border border-[#20252A] text-slate-300 text-[11px] rounded-lg px-2.5 py-1 font-mono outline-none hover:border-[#384048] transition-colors cursor-pointer"
+                >
+                  <option value="cose">Force Directed (CoSE)</option>
+                  <option value="concentric">Concentric Centrality</option>
+                  <option value="breadthfirst">Hierarchical Flow</option>
+                  <option value="circle">Circular Ring</option>
+                  <option value="grid">Orthogonal Grid</option>
+                </select>
+
+                {/* Community Toggle */}
+                <button
+                  onClick={() => setColorByCommunity((prev) => !prev)}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-mono border transition-all cursor-pointer ${
+                    colorByCommunity
+                      ? "bg-purple-950/60 border-purple-500/60 text-purple-300 shadow-sm"
+                      : "bg-[#0E1216] border-[#20252A] text-[#858B92] hover:text-white"
+                  }`}
+                >
+                  Communities
+                </button>
+
+                <div className="flex items-center gap-1.5 text-[11px] text-[#858B92] font-mono ml-1">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                  <span className="tracking-wider hidden xl:inline">ACTIVE GRAPH</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Cytoscape Canvas Container */}
+            <div className="flex-1 rounded-2xl border border-[#20252A] overflow-hidden relative bg-[#050607] shadow-2xl">
+              <GraphCanvas
+                nodes={kernel.nodes}
+                edges={kernel.edges}
+                selectedNodeId={selectedNodeId}
+                onSelectNode={(nid) => {
+                  setSelectedNodeId(nid);
+                  setSelectedEdge(null);
+                }}
+                selectedEdgeId={selectedEdge ? `${selectedEdge.source}-${selectedEdge.target}-${selectedEdge.type}` : null}
+                onSelectEdge={(edge) => {
+                  setSelectedEdge(edge);
+                  setSelectedNodeId(null);
+                }}
+                filterState={filterState}
+                colorByCommunity={colorByCommunity}
+                activePattern={activePattern}
+                patterns={kernel.patterns}
+                arrestTarget={arrestTarget}
+                arrestCutResult={arrestCutResult}
+                highlightedNodeIds={highlightedNodeIds}
+                layoutName={layoutName}
+                onLayoutChange={(layout) => setLayoutName(layout)}
+                showLabels={showLabels}
+                onResetView={resetFilters}
+                onClearPattern={() => setActivePattern(null)}
+                onClearArrest={() => setArrestTarget(null)}
+              />
+
+              {/* Sacred Demo Tour Guide Floating Overlay */}
+              <DemoScriptTour
+                currentStep={demoStep}
+                onSelectStep={(step) => setDemoStep(step)}
+              />
+            </div>
+
+            {/* Detected Patterns Bottom Row */}
+            <div className="h-[96px] shrink-0">
+              <DetectedPatternsRow
+                activePattern={activePattern}
+                onSelectPattern={(patternId) => {
+                  const next = activePattern === patternId ? null : patternId;
+                  setActivePattern(next);
+                  setFilterState((prev) => ({ ...prev, activePattern: next }));
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Column 3: Right Intelligence Dossier / Timeline / Copilot Panel */}
+        <div className="w-[380px] xl:w-[420px] h-full flex flex-col z-20 border-l border-[#20252A] shadow-2xl bg-[#050607] shrink-0">
           {activeTab === "dossier" && (
             <DossierPanel
               node={selectedNode}
@@ -344,6 +612,7 @@ function WorkbenchContent() {
               onIsolateNeighborhood={handleIsolateNeighborhood}
               onRunArrestSimulation={handleRunArrestSimulation}
               onAskCopilot={handleAskCopilot}
+              onRunScenario={() => setSidebarTab("scenarios")}
               patterns={kernel.patterns}
             />
           )}
@@ -381,6 +650,14 @@ function WorkbenchContent() {
           )}
         </div>
       </div>
+
+      {/* Official Investigation Report Dossier Modal */}
+      <InvestigationReportModal
+        kernel={kernel}
+        cutResult={arrestCutResult}
+        isOpen={isGlobalReportModalOpen}
+        onClose={() => setIsGlobalReportModalOpen(false)}
+      />
 
       {/* Admin Investigator Provisioning Modal */}
       <AdminUserModal

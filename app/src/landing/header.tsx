@@ -1,5 +1,5 @@
 import React from "react";
-import { Shield, Sparkles, ArrowRight, ExternalLink, Activity } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 interface HeaderProps {
   onLaunchWorkbench: () => void;
@@ -7,49 +7,57 @@ interface HeaderProps {
 
 export default function Header({ onLaunchWorkbench }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#070b13]/80 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-8 py-3.5">
+    <header className="sticky top-0 z-50 w-full bg-[#050607]/90 backdrop-blur-md border-b border-[#20252A] px-4 lg:px-8 py-3">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Brand */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 shadow-md shadow-sky-600/30">
-            <Shield className="w-4 h-4 text-white" />
-          </div>
+          <img
+            src="/jaal-emblem.png"
+            alt="National Emblem"
+            className="w-7 h-9 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
+          />
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-bold text-slate-100 text-sm tracking-tight">GOTHAM_SIH</span>
-              <span className="text-[10px] px-1.5 py-0.2 rounded bg-sky-950 text-sky-400 border border-sky-800 font-mono font-bold">
+              <span className="font-black text-white text-base tracking-[0.1em]">JAAL</span>
+              <span className="text-[9px] px-1.5 py-0.2 rounded bg-[#E21B23]/20 text-[#FF3038] border border-[#E21B23]/40 font-mono font-bold">
                 SIH26189
               </span>
             </div>
-            <div className="text-[10px] text-slate-500 font-mono hidden sm:block">
-              NCRB / MHA Criminal Network Analysis
+            <div className="text-[10px] text-[#858B92] font-mono tracking-wider">
+              OPERATION GREY LEDGER
             </div>
           </div>
         </div>
 
         {/* Navigation Links */}
-        <nav className="hidden md:flex items-center gap-6 text-xs text-slate-400 font-medium">
-          <a href="#overview" className="hover:text-sky-400 transition-colors">
-            Case Overview
+        <nav className="hidden md:flex items-center gap-8 text-xs text-[#858B92] font-mono tracking-wider uppercase">
+          <a href="#home" className="hover:text-white transition-colors">
+            Home
           </a>
-          <a href="#innovations" className="hover:text-sky-400 transition-colors">
-            4 Innovation Pillars
+          <a href="#features" className="hover:text-white transition-colors">
+            Features
           </a>
-          <a href="#timeline" className="hover:text-sky-400 transition-colors">
-            Operation Timeline
+          <a href="#impact" className="hover:text-white transition-colors">
+            Impact
           </a>
-          <a href="#architecture" className="hover:text-sky-400 transition-colors">
-            Graph Engine Spec
+          <a href="#team" className="hover:text-white transition-colors">
+            Team
           </a>
+          <button
+            onClick={onLaunchWorkbench}
+            className="hover:text-[#FF3038] transition-colors cursor-pointer"
+          >
+            Login
+          </button>
         </nav>
 
         {/* Action Button */}
         <div className="flex items-center gap-3">
           <button
             onClick={onLaunchWorkbench}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-sky-400 hover:to-indigo-400 text-slate-950 font-bold rounded-xl text-xs shadow-lg shadow-sky-500/20 transition-all cursor-pointer group"
+            className="flex items-center gap-2 px-4 py-2 bg-[#E21B23] hover:bg-[#FF3038] text-white font-bold rounded-xl text-xs shadow-lg shadow-[#E21B23]/25 transition-all cursor-pointer group font-mono"
           >
-            <span>Launch Workbench</span>
+            <span>Enter Investigation Desk</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </button>
         </div>

@@ -126,31 +126,39 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLog
 
             {/* Section Title */}
             <div className="mb-6">
-              <h2 className="text-xl font-bold text-white tracking-tight">Secure Access</h2>
-              <p className="text-xs text-zinc-400 mt-0.5">For Authorized Personnel Only</p>
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold text-white tracking-tight">
+                  SECURE INVESTIGATION PORTAL
+                </h2>
+              </div>
+              <div className="flex items-center gap-2 mt-1 font-mono text-[10px] text-[#858B92]">
+                <span className="text-[#FF3038] font-bold">AUTHORIZED PERSONNEL ONLY</span>
+                <span>•</span>
+                <span className="text-emerald-400">SYSTEM STATUS: OPERATIONAL</span>
+              </div>
             </div>
 
             {error && (
-              <div className="mb-5 p-3.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-300 text-xs flex items-center gap-2.5">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+              <div className="mb-5 p-3.5 rounded-xl bg-[#E21B23]/15 border border-[#E21B23]/40 text-[#FF3038] text-xs flex items-center gap-2.5 font-mono">
+                <AlertCircle className="w-4 h-4 text-[#FF3038] shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
             {/* Form Inputs */}
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Username / Email Input */}
+              {/* Officer ID / Badge ID Input */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                   <User className="w-4 h-4 text-zinc-400" />
                 </div>
                 <input
-                  type="email"
+                  type="text"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Username / Email"
-                  className="w-full bg-[#080d19]/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans"
+                  placeholder="Officer ID / Badge ID"
+                  className="w-full bg-[#080d19]/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E21B23] focus:ring-1 focus:ring-[#E21B23] transition-all font-sans"
                 />
               </div>
 
@@ -165,7 +173,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLog
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full bg-[#080d19]/90 border border-slate-700/80 rounded-xl pl-10 pr-10 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all font-sans"
+                  className="w-full bg-[#080d19]/90 border border-slate-700/80 rounded-xl pl-10 pr-10 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E21B23] focus:ring-1 focus:ring-[#E21B23] transition-all font-sans"
                 />
                 <button
                   type="button"
@@ -183,17 +191,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLog
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-red-600 focus:ring-red-500 focus:ring-offset-0 cursor-pointer"
+                    className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-[#E21B23] focus:ring-[#E21B23] focus:ring-offset-0 cursor-pointer"
                   />
-                  <span>Remember me</span>
+                  <span>Remember workstation</span>
                 </label>
                 <a
                   href="#forgot"
                   onClick={(e) => {
                     e.preventDefault();
-                    alert("Please contact Master Admin to reset officer credentials.");
+                    alert("Please contact NCRB Master Admin to reset officer workstation credentials.");
                   }}
-                  className="text-red-400 hover:text-red-300 font-medium transition-colors"
+                  className="text-[#FF3038] hover:text-red-300 font-medium transition-colors"
                 >
                   Forgot password?
                 </a>
@@ -203,23 +211,50 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLog
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-bold text-sm transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2"
+                className="w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2 font-mono"
               >
                 {loading ? (
                   <span className="animate-pulse">Authenticating...</span>
                 ) : (
                   <>
-                    <span>Sign In</span>
+                    <span>SIGN IN</span>
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
+
+              {/* Secondary: Use Demo Investigator */}
+              <button
+                type="button"
+                onClick={async () => {
+                  setEmail("kartik@jaal.gov.in");
+                  setPassword("investigator123");
+                  try {
+                    setLoading(true);
+                    await login("kartik@jaal.gov.in", "investigator123");
+                    if (onLoginSuccess) onLoginSuccess();
+                  } catch (e: any) {
+                    setError(e?.message || "Demo investigator login failed");
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+                className="w-full py-2.5 px-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-200 hover:text-white text-xs font-mono flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
+              >
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Use Demo Investigator (Kartik • IND-IO-26189)</span>
+              </button>
             </form>
 
-            {/* Bottom Security Banner */}
-            <div className="mt-8 pt-4 border-t border-slate-800/80 flex items-center justify-center gap-2 text-[11px] text-zinc-400 font-sans">
-              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Secured. Monitored. For a safer tomorrow.</span>
+            {/* Prototype Authentication Notice */}
+            <div className="mt-6 pt-4 border-t border-slate-800/80 flex flex-col items-center gap-1.5 text-center">
+              <div className="flex items-center gap-2 text-[11px] text-zinc-400 font-mono">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>LOCAL PROTOTYPE AUTHENTICATION</span>
+              </div>
+              <span className="text-[10px] text-zinc-500 font-sans">
+                Authorized for NCRB / Special Cell Operational Review
+              </span>
             </div>
 
           </div>

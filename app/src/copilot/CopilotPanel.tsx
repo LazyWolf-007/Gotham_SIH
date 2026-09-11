@@ -32,29 +32,34 @@ interface ChatMessage {
 
 const PRESET_PROMPTS = [
   {
-    label: "Accountant Cut-Point",
+    label: "Transaction Connections",
     seed: "person:naveen_bhatia",
-    query: "Explain Naveen Bhatia's role as the primary financial bottleneck and cut-point in Operation Grey Ledger.",
+    query: "What connects Naveen Bhatia to the transaction network?",
+    source: "GRAPH • EVIDENCE",
   },
   {
-    label: "Hawala Cycle Loop",
-    seed: "acc:a02",
-    query: "Analyze the circular PAID transaction loop among mule accounts starting from acc:a02.",
+    label: "Associated Evidence",
+    seed: "person:naveen_bhatia",
+    query: "What evidence is associated with this subject?",
+    source: "EVIDENCE • CASE",
   },
   {
-    label: "Arrest Simulation Risk",
+    label: "Pattern Involvement",
     seed: "person:naveen_bhatia",
-    query: "What residual channels remain active if law enforcement arrests Naveen Bhatia?",
+    query: "What patterns involve this subject?",
+    source: "PATTERN • GRAPH",
+  },
+  {
+    label: "Residual Survival",
+    seed: "person:naveen_bhatia",
+    query: "What survives if this subject is removed?",
+    source: "SCENARIO • TIMELINE",
   },
   {
     label: "Mule Call Burst",
     seed: "phone:ph03",
-    query: "Why did phone:ph03 experience a 140+ call burst following the filing of FIR-2026-014?",
-  },
-  {
-    label: "Kingpin Insulation",
-    seed: "person:vikram_haleja",
-    query: "Evaluate Vikram Haleja's network insulation and connection to front organizations.",
+    query: "Why did phone:ph03 experience a 140+ call burst following FIR-2026-014?",
+    source: "TIMELINE • EVIDENCE",
   },
 ];
 

@@ -1,53 +1,38 @@
-import Link from 'next/link'
-import V0Icon from "@/components/icons/v0-icon";
 import React from "react";
-
-const links = [
-    {
-        title: 'Vercel',
-        href: 'https://vercel.com/',
-    },
-    {
-        title: 'v0',
-        href: 'https://v0.dev/',
-    },
-    {
-        title: 'Meetup SDK',
-        href: 'https://meetup-sdk.vercel.com/',
-    },
-    {
-        title: 'v0 IRL',
-        href: 'https://v0.app/irl',
-    },
-]
+import { AshokaEmblem } from "./icons/ashoka-emblem";
+import { Shield, Lock } from "lucide-react";
 
 export default function FooterSection() {
-    return (
-        <footer className="py-16 md:py-32">
-            <div className="mx-auto max-w-5xl px-6">
-                <Link
-                    href="/"
-                    aria-label="go home"
-                    className="mx-auto block size-fit">
-                    <V0Icon size={30} className='text-foreground'/>
-                </Link>
-
-                <div className="my-8 flex flex-wrap justify-center gap-6 text-sm">
-                    {links.map((link, index) => (
-                        <Link
-                            key={index}
-                            href={link.href}
-                            className="text-muted-foreground hover:text-primary block duration-150">
-                            <span>{link.title}</span>
-                        </Link>
-                    ))}
-                </div>
-                <span className="text-muted-foreground block text-center text-sm font-mono">Built with v0, <Link
-                    href="https://tailark.com/"
-                    className="text-foreground underline">Tailark</Link> & <Link
-                    href="https://reactbits.dev/"
-                    className="text-foreground underline">React Bits</Link> • Powered by Vercel.</span>
+  return (
+    <footer id="team" className="py-16 bg-black border-t border-zinc-900 text-white">
+      <div className="mx-auto max-w-6xl px-6 flex flex-col items-center text-center space-y-6">
+        <div className="flex items-center gap-3">
+          <AshokaEmblem className="w-8 h-8 text-zinc-400" />
+          <div className="text-left">
+            <span className="font-serif font-black text-xl tracking-wider text-white">JAAL</span>
+            <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+              OPERATION GREY LEDGER // SIH26189
             </div>
-        </footer>
-    )
+          </div>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-6 text-xs text-zinc-400 font-mono">
+          <span>MINISTRY OF HOME AFFAIRS (MHA)</span>
+          <span>•</span>
+          <span>NATIONAL CRIME RECORDS BUREAU (NCRB)</span>
+          <span>•</span>
+          <span>SMART INDIA HACKATHON 2024-2026</span>
+        </div>
+
+        <p className="text-xs text-zinc-500 max-w-xl leading-relaxed font-sans">
+          A Palantir-lite tactical criminal network intelligence workbench powered by deterministic graph analytics, pattern DSL matching, and graph-local copilot RAG.
+        </p>
+
+        <div className="pt-4 text-[11px] font-mono text-zinc-600 flex items-center gap-2">
+          <Lock className="w-3 h-3 text-red-500" />
+          <span>SYNTHETIC CASE STUDY // LAW ENFORCEMENT INTELLIGENCE DEMO</span>
+        </div>
+      </div>
+    </footer>
+  );
 }

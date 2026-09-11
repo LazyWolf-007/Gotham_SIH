@@ -1,71 +1,85 @@
-import {TextEffect} from "@/components/motion-primitives/text-effect";
+import { TextEffect } from "@/components/motion-primitives/text-effect";
 import React from "react";
-import {transitionVariants} from "@/lib/utils";
-import {AnimatedGroup} from "@/components/motion-primitives/animated-group";
+import { transitionVariants } from "@/lib/utils";
+import { AnimatedGroup } from "@/components/motion-primitives/animated-group";
+import { Clock, CheckCircle2, AlertTriangle, ShieldCheck } from "lucide-react";
 
 export default function Agenda() {
-    return (
-        <section className="scroll-py-16 py-16 md:scroll-py-32 md:py-32">
-            <div className="mx-auto max-w-5xl px-6">
-                <div className="grid gap-y-12 px-2 lg:grid-cols-[1fr_auto]">
-                    <div className="text-center lg:text-left">
-                        <TextEffect
-                            triggerOnView
-                            preset="fade-in-blur"
-                            speedSegment={0.3}
-                            as="h2"
-                            className="mb-4 text-3xl font-semibold md:text-4xl">
-                            Agenda
-                        </TextEffect>
-                    </div>
+  return (
+    <section id="use-cases" className="py-20 md:py-32 bg-black text-white border-t border-zinc-900">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid gap-y-12 lg:grid-cols-[1fr_1.2fr] items-start">
+          <div className="text-center lg:text-left space-y-4">
+            <p className="font-mono text-xs font-semibold tracking-[0.25em] text-red-500 uppercase">
+              CASE TIMELINE
+            </p>
+            <TextEffect
+              triggerOnView
+              preset="fade-in-blur"
+              speedSegment={0.3}
+              as="h2"
+              className="text-3xl md:text-5xl font-bold tracking-tight text-white"
+            >
+              Operation Grey Ledger Phases
+            </TextEffect>
+            <p className="text-zinc-400 text-sm md:text-base leading-relaxed max-w-md">
+              From the initial FIR filings to cross-border Hawala ring disruption and targeted kingpin interdiction.
+            </p>
+          </div>
 
-                    <AnimatedGroup
-                        triggerOnView
-                        variants={{
-                            container: {
-                                visible: {
-                                    transition: {
-                                        staggerChildren: 0.05,
-                                        delayChildren: 0.75,
-                                    },
-                                },
-                            },
-                            ...transitionVariants,
-                        }}
-                        className="divide-y divide-dashed sm:mx-auto sm:max-w-lg lg:mx-0"
-                    >
-                        <div className="pb-6">
-                            <div className="font-medium space-x-2">
-                                <span className='text-muted-foreground font-mono '>11:00</span>
-                                <span>Welcome Video</span>
-                            </div>
-                            <p className="text-muted-foreground mt-4">A special welcome from the v0 Team</p>
-                        </div>
-                        <div className="py-6">
-                            <div className="font-medium space-x-2">
-                                <span className='text-muted-foreground font-mono '>11:30</span>
-                                <span>Build Time!</span>
-                            </div>
-                            <p className="text-muted-foreground mt-4">Hands on to build your project with v0.</p>
-                        </div>
-                        <div className="py-6">
-                            <div className="font-medium space-x-2">
-                                <span className='text-muted-foreground font-mono '>13:00</span>
-                                <span>Showcase Sprint</span>
-                            </div>
-                            <p className="text-muted-foreground mt-4">Show a quick presentation of what you built.</p>
-                        </div>
-                        <div className="py-6">
-                            <div className="font-medium space-x-2">
-                                <span className='text-muted-foreground font-mono '>13:30</span>
-                                <span>Networking and Event Close</span>
-                            </div>
-                            <p className="text-muted-foreground mt-4">Take some time to interact with other and share
-                                ideas.</p>
-                        </div>
-                    </AnimatedGroup>
-                </div>
+          <AnimatedGroup
+            triggerOnView
+            variants={{
+              container: {
+                visible: {
+                  transition: {
+                    staggerChildren: 0.08,
+                    delayChildren: 0.3,
+                  },
+                },
+              },
+              ...transitionVariants,
+            }}
+            className="space-y-6"
+          >
+            {/* Phase 1 */}
+            <div className="p-6 rounded-2xl bg-zinc-950 border border-zinc-800/90 relative pl-8 border-l-4 border-l-red-500">
+              <div className="flex items-center justify-between gap-4 mb-2">
+                <span className="font-mono text-xs text-red-400 font-bold">PHASE 01 // INGESTION</span>
+                <span className="text-xs text-zinc-500 font-mono">60 FIRs + 3,000 CDRs</span>
+              </div>
+              <h3 className="text-base font-bold text-white mb-1">Entity Extraction & Provenance</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Automated parsing of multi-jurisdictional police reports, cell tower handoffs, and suspicious transaction logs into typed graph links.
+              </p>
             </div>
-        </section>
-    )
+
+            {/* Phase 2 */}
+            <div className="p-6 rounded-2xl bg-zinc-950 border border-zinc-800/90 relative pl-8 border-l-4 border-l-amber-500">
+              <div className="flex items-center justify-between gap-4 mb-2">
+                <span className="font-mono text-xs text-amber-400 font-bold">PHASE 02 // PATTERN DETECTION</span>
+                <span className="text-xs text-zinc-500 font-mono">DSL Engine</span>
+              </div>
+              <h3 className="text-base font-bold text-white mb-1">Nexus Node Identification</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Uncovering the intermediary accountant Naveen Bhatia connecting separate criminal cells via betweenness centrality analysis.
+              </p>
+            </div>
+
+            {/* Phase 3 */}
+            <div className="p-6 rounded-2xl bg-zinc-950 border border-zinc-800/90 relative pl-8 border-l-4 border-l-emerald-500">
+              <div className="flex items-center justify-between gap-4 mb-2">
+                <span className="font-mono text-xs text-emerald-400 font-bold">PHASE 03 // ACTION & REMEDIATION</span>
+                <span className="text-xs text-zinc-500 font-mono">Residual Path Check</span>
+              </div>
+              <h3 className="text-base font-bold text-white mb-1">Counterfactual Raid Planning</h3>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                Pre-operation simulation verifying all secondary phone channels (ph02, ph03) are neutralized to prevent syndicate reconstitution.
+              </p>
+            </div>
+          </AnimatedGroup>
+        </div>
+      </div>
+    </section>
+  );
 }

@@ -1,156 +1,224 @@
-import React from 'react'
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { InfiniteSlider } from '@/components/ui/infinite-slider'
-import { ProgressiveBlur } from '@/components/ui/progressive-blur'
-import { TextEffect } from "@/components/motion-primitives/text-effect";
-import { AnimatedGroup } from "@/components/motion-primitives/animated-group";
-import V0Icon from "@/components/icons/v0-icon";
-import VercelWordmarkIcon from "@/components/icons/vercel-wordmark-icon";
-import GlobantLogoIcon from "@/components/icons/globant-logo-icon";
-import DecryptedText from "@/components/DecryptedText";
-import { transitionVariants } from "@/lib/utils";
-import LanyardWithControls from "@/components/lanyard-with-controls";
+import React, { useState } from 'react';
+import { ArrowRight, Play, Crosshair, Network, Scan, ShieldCheck } from 'lucide-react';
+import LanyardWithControls from './lanyard-with-controls';
+import { BriefingModal } from './briefing-modal';
 
-export default function HeroSection() {
-    return (
-        <main className="overflow-x-hidden">
-            <section className='lg:h-screen'>
-                <div
-                    className="pb-24 pt-12 md:pb-32 lg:pb-56 lg:pt-44 lg:grid lg:grid-cols-2 lg:grid-rows-1 grid-cols-1 grid-rows-2">
-                    <div className="relative mx-auto flex max-w-xl flex-col px-6 lg:block">
-                        <div className="mx-auto max-w-2xl text-center lg:ml-0 lg:text-left">
-                            <div className='mt-8 lg:mt-16'>
-                                <DecryptedText
-                                    text="Thursday February 5th, 2026 - New York City"
-                                    animateOn="view"
-                                    revealDirection="start"
-                                    sequential
-                                    useOriginalCharsOnly={false}
-                                    speed={70}
-                                    className='font-mono text-muted-foreground bg-black rounded-md uppercase'
-                                />
-                            </div>
-                            <TextEffect
-                                preset="fade-in-blur"
-                                speedSegment={0.3}
-                                as="h1"
-                                className="max-w-2xl text-balance text-6xl font-semibold md:text-7xl xl:text-8xl">
-                                Prompt to
-                            </TextEffect>
-                            <TextEffect
-                                preset="fade-in-blur"
-                                speedSegment={0.3}
-                                as="h1"
-                                className="max-w-2xl text-balance text-6xl font-semibold md:text-7xl xl:text-8xl">
-                                Production
-                            </TextEffect>
-                            <TextEffect
-                                per="line"
-                                preset="fade-in-blur"
-                                speedSegment={0.3}
-                                delay={0.5}
-                                as="p"
-                                className="mt-8 max-w-2xl text-pretty text-lg text-muted-foreground bg-black p-1 rounded-md">
-                                v0 is getting ready to launch its biggest product update yet. We're celebrating with
-                                v0 IRLs around the world.
-                            </TextEffect>
-                            <AnimatedGroup
-                                variants={{
-                                    container: {
-                                        visible: {
-                                            transition: {
-                                                staggerChildren: 0.05,
-                                                delayChildren: 0.75,
-                                            },
-                                        },
-                                    },
-                                    ...transitionVariants,
-                                }}
-                                className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start"
-                            >
-                                <Button
-                                    asChild
-                                    size="lg"
-                                    className="px-5 text-base">
-                                    <Link href="#link">
-                                        <span className="text-nowrap">Register Now</span>
-                                    </Link>
-                                </Button>
-                                <Button
-                                    key={2}
-                                    asChild
-                                    size="lg"
-                                    variant="ghost"
-                                    className="px-5 text-base bg-black/30 backdrop-blur-sm hover:bg-black/40">
-                                    <Link href="#link">
-                                        <span className="text-nowrap">Contact Host</span>
-                                    </Link>
-                                </Button>
-                            </AnimatedGroup>
-                        </div>
-                    </div>
-                    <LanyardWithControls
-                        position={[0, 0, 20]}
-                        containerClassName='lg:absolute lg:top-0 lg:right-0 lg:w-1/2 relative w-full h-screen bg-radial lg:from-transparent lg:to-transparent from-muted to-background select-none'
-                        defaultName="" />
-                </div>
-            </section>
-            <section className="bg-background pb-16 md:pb-32">
-                <AnimatedGroup
-                    variants={{
-                        container: {
-                            visible: {
-                                transition: {
-                                    staggerChildren: 0.05,
-                                    delayChildren: 0.75,
-                                },
-                            },
-                        },
-                        ...transitionVariants,
-                    }}
-                    className="group relative m-auto max-w-6xl px-6"
+interface HeroSectionProps {
+  onLaunchWorkbench?: () => void;
+}
+
+const CATEGORIES = [
+  { label: 'PEOPLE', active: true },
+  { label: 'TRANSACTIONS', active: false },
+  { label: 'LOCATIONS', active: false },
+  { label: 'COMMUNICATIONS', active: false },
+  { label: 'ORGANIZATIONS', active: false },
+  { label: 'VEHICLES', active: false },
+  { label: 'EVIDENCE', active: false },
+];
+
+export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState('PEOPLE');
+
+  const handleLaunch = () => {
+    if (onLaunchWorkbench) {
+      onLaunchWorkbench();
+    } else {
+      window.dispatchEvent(new CustomEvent('navigate-workbench'));
+    }
+  };
+
+  return (
+    <section id="home" className="relative min-h-screen w-full bg-black text-white flex flex-col justify-between overflow-hidden pt-20 md:pt-24 select-none">
+      {/* Background Tactical Image with Dark Vignette */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <img
+          src="/jaal-bg.jpg"
+          alt="JAAL War Room Intelligence Map"
+          className="w-full h-full object-cover object-center filter brightness-[0.7] contrast-[1.25] saturate-[1.1]"
+        />
+        {/* Gradients to blend seamless dark look */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/80" />
+        {/* Subtle grid pattern overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
+      </div>
+
+      {/* Main Center Container */}
+      <div className="relative z-10 max-w-7xl w-full mx-auto px-6 py-6 md:py-12 flex-1 flex flex-col justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          {/* Left Sub-Sidebar (Category items) */}
+          <div className="hidden lg:flex lg:col-span-2 flex-col space-y-6 border-l border-zinc-800/80 pl-4 py-2">
+            <div className="w-6 h-[2px] bg-red-500 mb-2 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
+            {CATEGORIES.map((cat) => {
+              const isSelected = activeCategory === cat.label;
+              return (
+                <button
+                  key={cat.label}
+                  onClick={() => setActiveCategory(cat.label)}
+                  className={`text-left font-mono text-[11px] tracking-[0.25em] transition-all flex items-center gap-2 group cursor-pointer ${
+                    isSelected
+                      ? 'text-white font-bold translate-x-1'
+                      : 'text-zinc-500 hover:text-zinc-300'
+                  }`}
                 >
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full transition-all ${
+                      isSelected
+                        ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,1)]'
+                        : 'bg-zinc-700 group-hover:bg-zinc-500'
+                    }`}
+                  />
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
+          </div>
 
-                    <div className="flex flex-col items-center md:flex-row">
-                        <div className="md:max-w-44 md:border-r md:pr-6">
-                            <p className="text-end text-sm font-mono uppercase">Supported by</p>
-                        </div>
-                        <div className="relative py-6 md:w-[calc(100%-11rem)]">
-                            <InfiniteSlider
-                                speedOnHover={20}
-                                speed={40}
-                                gap={112}>
-                                <div className="flex items-center">
-                                    <V0Icon size={35} aria-label="v0 Logo" className='text-foreground mx-auto' />
-                                </div>
-                                <div className="flex items-center">
-                                    <VercelWordmarkIcon size={20} aria-label="Vercel Logo"
-                                        className='text-foreground mx-auto' />
-                                </div>
-                                <div className="flex items-center">
-                                    <GlobantLogoIcon size={20} aria-label="Globant Logo"
-                                        className='text-foreground mx-auto' />
-                                </div>
-                            </InfiniteSlider>
-                            <div
-                                className="bg-linear-to-r from-background absolute inset-y-0 left-0 w-20"></div>
-                            <div
-                                className="bg-linear-to-l from-background absolute inset-y-0 right-0 w-20"></div>
-                            <ProgressiveBlur
-                                className="pointer-events-none absolute left-0 top-0 h-full w-20"
-                                direction="left"
-                                blurIntensity={1}
-                            />
-                            <ProgressiveBlur
-                                className="pointer-events-none absolute right-0 top-0 h-full w-20"
-                                direction="right"
-                                blurIntensity={1}
-                            />
-                        </div>
-                    </div>
-                </AnimatedGroup>
-            </section>
-        </main>
-    )
+          {/* Center-Left Hero Main Typography */}
+          <div className="lg:col-span-5 flex flex-col space-y-6">
+            {/* Tagline / Overline */}
+            <div className="space-y-1">
+              <p className="font-mono text-xs md:text-sm font-semibold tracking-[0.22em] text-zinc-400 uppercase leading-snug">
+                A SAFER TOMORROW
+              </p>
+              <p className="font-mono text-xs md:text-sm font-semibold tracking-[0.22em] text-zinc-400 uppercase leading-snug">
+                THROUGH CLEARER CONNECTIONS.
+              </p>
+            </div>
+
+            {/* Giant Title */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-sans font-black tracking-tight leading-[0.98] text-white">
+              INTELLIGENCE
+              <br />
+              THAT BRINGS
+              <br />
+              CRIMINAL NETWORKS
+              <br />
+              <span className="text-[#f83a3a] drop-shadow-[0_0_35px_rgba(248,58,58,0.55)]">
+                INTO FOCUS.
+              </span>
+            </h1>
+
+            {/* Paragraph Description */}
+            <p className="text-zinc-300 text-sm md:text-base leading-relaxed max-w-lg font-normal">
+              JAAL is an investigation workbench that unifies disparate data, reveals hidden links,
+              and helps officers act faster with evidence-backed insights.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <button
+                onClick={handleLaunch}
+                className="group relative inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 shadow-[0_0_25px_rgba(239,68,68,0.45)] hover:shadow-[0_0_35px_rgba(239,68,68,0.65)] transform hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+              >
+                <span>Explore JAAL</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <button
+                onClick={() => setIsVideoModalOpen(true)}
+                className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-medium text-zinc-200 bg-black/60 hover:bg-black/80 border border-zinc-800 hover:border-zinc-600 backdrop-blur-md transition-all cursor-pointer shadow-lg"
+              >
+                <div className="w-5 h-5 rounded-full border border-zinc-400/80 flex items-center justify-center">
+                  <Play className="w-2.5 h-2.5 fill-current translate-x-0.2" />
+                </div>
+                <span>Watch Video</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Right Side: Interactive 3D Lanyard ID Card */}
+          <div className="lg:col-span-5 relative h-[480px] sm:h-[550px] lg:h-[620px] w-full flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <LanyardWithControls
+                position={[0, 0, 19]}
+                containerClassName="relative w-full h-full select-none"
+                defaultName="OFFICER-01"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom HUD Metrics & Quote Bar */}
+      <div className="relative z-10 w-full border-t border-white/10 bg-black/70 backdrop-blur-xl py-4 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+          {/* Left Metrics Columns */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 w-full md:w-auto">
+            {/* Metric 1 */}
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-zinc-900/80 border border-zinc-800 text-red-500">
+                <Crosshair className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-white tracking-tight">
+                  259
+                </div>
+                <div className="text-[11px] text-zinc-400 font-medium">Entities</div>
+              </div>
+            </div>
+
+            {/* Metric 2 */}
+            <div className="flex items-center gap-3 sm:border-l sm:border-zinc-800 sm:pl-8">
+              <div className="p-2 rounded-lg bg-zinc-900/80 border border-zinc-800 text-red-500">
+                <Network className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-white tracking-tight">
+                  3.9K
+                </div>
+                <div className="text-[11px] text-zinc-400 font-medium">Connections</div>
+              </div>
+            </div>
+
+            {/* Metric 3 */}
+            <div className="flex items-center gap-3 sm:border-l sm:border-zinc-800 sm:pl-8">
+              <div className="p-2 rounded-lg bg-zinc-900/80 border border-zinc-800 text-red-500">
+                <Scan className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-white tracking-tight">
+                  8
+                </div>
+                <div className="text-[11px] text-zinc-400 font-medium">Link Types</div>
+              </div>
+            </div>
+
+            {/* Metric 4 */}
+            <div className="flex items-center gap-3 sm:border-l sm:border-zinc-800 sm:pl-8">
+              <div className="p-2 rounded-lg bg-zinc-900/80 border border-zinc-800 text-red-500">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-white tracking-tight">
+                  1
+                </div>
+                <div className="text-[11px] text-zinc-400 font-medium">Mission</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Quote */}
+          <div className="text-center md:text-right space-y-0.5 border-t md:border-t-0 border-zinc-800/80 pt-3 md:pt-0 w-full md:w-auto">
+            <p className="text-xs md:text-sm italic text-zinc-300 font-serif">
+              “Information finds its own connections.”
+            </p>
+            <p className="text-[10px] tracking-[0.25em] text-zinc-500 font-mono uppercase">
+              — OPERATION GREY LEDGER
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Interactive Video / Briefing Modal */}
+      <BriefingModal
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        onLaunchWorkbench={handleLaunch}
+      />
+    </section>
+  );
 }

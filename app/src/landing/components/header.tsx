@@ -1,53 +1,152 @@
-'use client'
-import Link from 'next/link'
-import {Menu, X} from 'lucide-react'
-import {Button} from '@/components/ui/button'
-import React from 'react'
-import V0Icon from "@/components/icons/v0-icon";
+'use client';
+import React, { useState } from 'react';
+import { Menu, X, ArrowRight, ShieldCheck } from 'lucide-react';
+import { AshokaEmblem } from './icons/ashoka-emblem';
 
-export const HeroHeader = () => {
-    const [menuState, setMenuState] = React.useState(false)
-    return (
-        <header>
-            <nav
-                data-state={menuState && 'active'}
-                className="bg-background/50 fixed z-20 w-full border-b backdrop-blur-3xl">
-                <div className="mx-auto max-w-6xl px-6 transition-all duration-300">
-                    <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
-                        <div className="flex w-full items-center justify-between gap-12 lg:w-auto">
-                            <Link
-                                href="/"
-                                aria-label="home"
-                                className="flex items-center space-x-2">
-                                <V0Icon size={30} className='text-foreground'/>
-                                <span className='font-mono'>IRL - NYC</span>
-                            </Link>
-
-                            <button
-                                onClick={() => setMenuState(!menuState)}
-                                aria-label={menuState ? 'Close Menu' : 'Open Menu'}
-                                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden">
-                                <Menu
-                                    className="in-data-[state=active]:rotate-180 in-data-[state=active]:scale-0 in-data-[state=active]:opacity-0 m-auto size-6 duration-200"/>
-                                <X className="in-data-[state=active]:rotate-0 in-data-[state=active]:scale-100 in-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200"/>
-                            </button>
-                        </div>
-
-                        <div
-                            className="bg-background in-data-[state=active]:block lg:in-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
-                            <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                                <Button
-                                    asChild
-                                    size="sm">
-                                    <Link href="https://meetup-sdk.vercel.com/">
-                                        <span>Host an Event</span>
-                                    </Link>
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </header>
-    )
+interface HeroHeaderProps {
+  onLaunchWorkbench?: () => void;
 }
+
+export const HeroHeader: React.FC<HeroHeaderProps> = ({ onLaunchWorkbench }) => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLaunch = () => {
+    if (onLaunchWorkbench) {
+      onLaunchWorkbench();
+    } else {
+      window.dispatchEvent(new CustomEvent('navigate-workbench'));
+    }
+  };
+
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/40 backdrop-blur-md border-b border-white/5">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        {/* Brand: Ashoka Emblem + JAAL */}
+        <div className="flex items-center gap-3.5 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+          <div className="text-zinc-200 hover:text-white transition-colors">
+            <AshokaEmblem className="w-9 h-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+          </div>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-2">
+              <span className="font-serif font-black text-2xl tracking-[0.15em] text-white leading-none">
+                JAAL
+              </span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-red-950/80 text-red-400 border border-red-800/60">
+                LIVE INTEL
+              </span>
+            </div>
+            <span className="text-[10px] tracking-[0.25em] text-zinc-400 font-mono uppercase mt-0.5">
+              OPERATION GREY LEDGER
+            </span>
+          </div>
+        </div>
+
+        {/* Center Nav Links */}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+          <a
+            href="#home"
+            className="text-white relative pb-1 border-b-2 border-red-500 transition-colors"
+          >
+            Home
+          </a>
+          <a
+            href="#features"
+            className="text-zinc-400 hover:text-white transition-colors"
+          >
+            Features
+          </a>
+          <a
+            href="#use-cases"
+            className="text-zinc-400 hover:text-white transition-colors"
+          >
+            Use Cases
+          </a>
+          <a
+            href="#impact"
+            className="text-zinc-400 hover:text-white transition-colors"
+          >
+            Impact
+          </a>
+          <a
+            href="#team"
+            className="text-zinc-400 hover:text-white transition-colors"
+          >
+            Team
+          </a>
+        </nav>
+
+        {/* Right CTA: Access Desk Button */}
+        <div className="hidden md:flex items-center gap-4">
+          <button
+            onClick={handleLaunch}
+            className="group relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold text-white bg-black/60 border border-red-500/40 hover:border-red-500 hover:bg-red-950/30 shadow-[0_0_15px_rgba(239,68,68,0.15)] hover:shadow-[0_0_20px_rgba(239,68,68,0.35)] transition-all cursor-pointer backdrop-blur-md"
+          >
+            <span>Access Desk</span>
+            <ArrowRight className="w-3.5 h-3.5 text-red-400 group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
+
+        {/* Mobile Hamburger */}
+        <div className="flex md:hidden items-center gap-2">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-2 text-zinc-400 hover:text-white"
+          >
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu Dropdown */}
+      {menuOpen && (
+        <div className="md:hidden bg-zinc-950/95 border-b border-zinc-800 px-6 py-6 space-y-4 backdrop-blur-xl">
+          <a
+            href="#home"
+            onClick={() => setMenuOpen(false)}
+            className="block text-white font-medium"
+          >
+            Home
+          </a>
+          <a
+            href="#features"
+            onClick={() => setMenuOpen(false)}
+            className="block text-zinc-400 hover:text-white"
+          >
+            Features
+          </a>
+          <a
+            href="#use-cases"
+            onClick={() => setMenuOpen(false)}
+            className="block text-zinc-400 hover:text-white"
+          >
+            Use Cases
+          </a>
+          <a
+            href="#impact"
+            onClick={() => setMenuOpen(false)}
+            className="block text-zinc-400 hover:text-white"
+          >
+            Impact
+          </a>
+          <a
+            href="#team"
+            onClick={() => setMenuOpen(false)}
+            className="block text-zinc-400 hover:text-white"
+          >
+            Team
+          </a>
+          <button
+            onClick={() => {
+              setMenuOpen(false);
+              handleLaunch();
+            }}
+            className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold text-white bg-red-600 hover:bg-red-500 shadow-lg shadow-red-600/30"
+          >
+            <span>Access Desk</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+    </header>
+  );
+};

@@ -1,22 +1,18 @@
 {
-  "generated_at": "2026-09-10T19:36:23.860487+00:00",
+  "generated_at": "2026-09-11T00:34:02.584102+00:00",
   "records": [
     {
       "fir_id": "FIR-2026-001",
       "people": [
         {
           "text": "Kavita Mundhe",
-          "snippet": "Complainant Kavita Mundhe w/o late stall-holder",
+          "snippet": "Complainant Kavita Mundhe w/o late stall-holder, r/o H.No. 8, Gali No. 2, Azadpur Village, running a kinnow crate stall on the inner lane of Shed No. 3, Azadpur Sabzi Mandi",
           "id": "person:p30"
         },
         {
           "text": "Samina Qazi",
-          "snippet": "She stated that Samina Qazi, r/o Barola, Noida",
+          "snippet": "She stated that Samina Qazi, r/o Barola, Noida, who had come in a blue car DL4SC1034 to lift 28 crates, was shown a UPI QR by an unknown yard boy and paid ₹18,700",
           "id": "person:p40"
-        },
-        {
-          "text": "unknown yard boy",
-          "snippet": "was shown a UPI QR by an unknown yard boy"
         },
         {
           "text": "Rukka",
@@ -26,12 +22,12 @@
       "phones": [
         {
           "text": "9810001999",
-          "snippet": "The amount left Kavita Mundhe's own prepaid 9810001999",
+          "snippet": "The amount left Kavita Mundhe's own prepaid 9810001999 and did not hit the committee parchi",
           "id": "phone:ph11"
         },
         {
           "text": "9810003729",
-          "snippet": "CDR of mobile no. 9810001999 and 9810003729 (Samina Qazi) to be obtained.",
+          "snippet": "CDR of mobile no. 9810001999 and 9810003729 (Samina Qazi) to be obtained",
           "id": "phone:ph21"
         }
       ],
@@ -44,7 +40,7 @@
       "amounts": [
         {
           "text": "₹18,700",
-          "snippet": "and paid ₹18,700 thinking it was mandi cess"
+          "snippet": "paid ₹18,700 thinking it was mandi cess"
         }
       ],
       "relations": [
@@ -54,23 +50,23 @@
           "id": "person:p30"
         },
         {
-          "text": "Samina Qazi paid ₹18,700 via UPI QR shown by unknown yard boy",
+          "text": "Samina Qazi paid ₹18,700 using a UPI QR shown by an unknown yard boy",
           "snippet": "was shown a UPI QR by an unknown yard boy and paid ₹18,700",
           "id": "person:p40"
         },
         {
-          "text": "Unknown yard boy showed UPI QR to Samina Qazi",
-          "snippet": "was shown a UPI QR by an unknown yard boy and paid ₹18,700",
-          "id": "person:p40"
+          "text": "The payment of ₹18,700 was deducted from Kavita Mundhe's prepaid number 9810001999",
+          "snippet": "The amount left Kavita Mundhe's own prepaid 9810001999",
+          "id": "person:p30"
         },
         {
-          "text": "Rukka prepared a report after neighbour enquiry at Shed No. 3",
+          "text": "Rukka prepared the case after a neighbour enquiry at Shed No. 3",
           "snippet": "Rukka prepared after neighbour enquiry at Shed No. 3"
         },
         {
-          "text": "CDR to be obtained for mobile numbers 9810001999 (Kavita Mundhe) and 9810003729 (Samina Qazi)",
-          "snippet": "CDR of mobile no. 9810001999 and 9810003729 (Samina Qazi) to be obtained.",
-          "id": "person:p30"
+          "text": "CDR records for mobile numbers 9810001999 and 9810003729 are to be obtained",
+          "snippet": "CDR of mobile no. 9810001999 and 9810003729 (Samina Qazi) to be obtained",
+          "id": "phone:ph21"
         }
       ],
       "matched_ids": [
@@ -89,12 +85,8 @@
           "id": "person:p31"
         },
         {
-          "text": "Harkesh Nagar",
-          "snippet": "Pallavi Upasani d/o, r/o Harkesh Nagar"
-        },
-        {
           "text": "Preeti Jangra",
-          "snippet": "the undersigned SI Preeti Jangra visited Shed B-9"
+          "snippet": "SI Preeti Jangra visited Shed B-9"
         },
         {
           "text": "Lodhi",
@@ -123,9 +115,17 @@
       ],
       "relations": [
         {
-          "text": "Pallavi Upasani entrusted 90 sealed cartons of packing tape to Orbit Packers",
-          "snippet": "She had entrusted 90 sealed cartons of packing tape (invoice value ₹62,400) to a job-work party who used the name Orbit Packers on the gate pass",
+          "text": "Pallavi Upasani entrusted cartons to Orbit Packers",
+          "snippet": "She had entrusted 90 sealed cartons of packing tape (invoice value ₹62,400) to a job-work party who used the name Orbit Packers",
           "id": "person:p31"
+        },
+        {
+          "text": "Preeti Jangra visited Shed B-9",
+          "snippet": "The undersigned SI Preeti Jangra visited Shed B-9"
+        },
+        {
+          "text": "Watchman reported white motorcycle UP16E1068 parked at Shed B-9",
+          "snippet": "the watchman said a white motorcycle UP16E1068 was parked there last Friday"
         }
       ],
       "matched_ids": [
@@ -139,7 +139,7 @@
       "people": [
         {
           "text": "Manoj Ambavne",
-          "snippet": "Manoj Ambavne s/o, r/o Barola village, ... reported theft",
+          "snippet": "Manoj Ambavne s/o, r/o Barola village, plot-side godown opposite the Sec 63 police line, reported theft...",
           "id": "person:p32"
         }
       ],
@@ -150,7 +150,16 @@
           "id": "phone:ph13"
         }
       ],
-      "orgs": [],
+      "orgs": [
+        {
+          "text": "Sec 63 police line",
+          "snippet": "plot-side godown opposite the Sec 63 police line"
+        },
+        {
+          "text": "Noida Sec 63",
+          "snippet": "the one facing Noida Sec 63"
+        }
+      ],
       "amounts": [
         {
           "text": "₹21,000",
@@ -159,12 +168,7 @@
       ],
       "relations": [
         {
-          "text": "Manoj Ambavne uses mobile 9810002345",
-          "snippet": "His mobile 9810002345 was used to call two labourers",
-          "id": "person:p32"
-        },
-        {
-          "text": "Manoj Ambavne called two labourers",
+          "text": "Manoj Ambavne used mobile 9810002345 to call two labourers",
           "snippet": "His mobile 9810002345 was used to call two labourers",
           "id": "person:p32"
         }
@@ -179,52 +183,53 @@
       "people": [
         {
           "text": "Yogesh Chitnis",
-          "snippet": "Yogesh Chitnis, wholesale of plastic jars, shop No. 11",
+          "snippet": "Yogesh Chitnis, wholesale of plastic jars",
           "id": "person:p33"
         }
       ],
       "phones": [
         {
           "text": "9810002518",
-          "snippet": "His mobile 9810002518.",
+          "snippet": "His mobile 9810002518",
           "id": "phone:ph14"
         }
       ],
       "orgs": [
         {
           "text": "Azadpur committee",
-          "snippet": "inner sacks still had Azadpur committee stencil."
+          "snippet": "inner sacks still had Azadpur committee stencil"
         }
       ],
       "amounts": [
         {
           "text": "₹9,500",
-          "snippet": "walk-in seller left against ₹9,500 cash."
+          "snippet": "against ₹9,500 cash"
         }
       ],
       "relations": [
         {
-          "text": "Yogesh Chitnis is a wholesale of plastic jars at shop No. 11",
-          "snippet": "Yogesh Chitnis, wholesale of plastic jars, shop No. 11",
+          "text": "Yogesh Chitnis is a wholesale of plastic jars",
+          "snippet": "Yogesh Chitnis, wholesale of plastic jars",
           "id": "person:p33"
         },
         {
-          "text": "Yogesh Chitnis's mobile number is 9810002518",
-          "snippet": "His mobile 9810002518.",
+          "text": "Yogesh Chitnis operates shop No. 11, Katra Dhudagar",
+          "snippet": "shop No. 11, Katra Dhudagar",
           "id": "person:p33"
-        },
-        {
-          "text": "walk-in seller paid ₹9,500 cash for the bundles",
-          "snippet": "walk-in seller left against ₹9,500 cash."
         },
         {
           "text": "Yogesh Chitnis brought the lot to the police station",
-          "snippet": "He became suspicious and brought the lot to the PS rather than sell.",
+          "snippet": "brought the lot to the PS rather than sell",
           "id": "person:p33"
         },
         {
-          "text": "The inner sacks bore Azadpur committee stencil",
-          "snippet": "inner sacks still had Azadpur committee stencil."
+          "text": "Seller left 6 gunny bundles against ₹9,500 cash",
+          "snippet": "came with 6 gunny bundles that a walk-in seller left against ₹9,500 cash"
+        },
+        {
+          "text": "Yogesh Chitnis's mobile number is 9810002518",
+          "snippet": "His mobile 9810002518",
+          "id": "person:p33"
         }
       ],
       "matched_ids": [
@@ -278,24 +283,19 @@
           "id": "person:p34"
         },
         {
-          "text": "Bhavesh Rangnekar's mobile is 9810002691",
-          "snippet": "Bhavesh's mobile 9810002691",
-          "id": "person:p34"
-        },
-        {
-          "text": "Bhaskar Makhija's mobile is 9810004421",
-          "snippet": "Bhaskar's 9810004421",
+          "text": "Bhaskar Makhija owns grey pickup DL3CH1119",
+          "snippet": "for Bhaskar's grey pickup DL3CH1119",
           "id": "person:p44"
         },
         {
-          "text": "Mehra Logistics is on e-way bill for Bhaskar Makhija's grey pickup DL3CH1119",
-          "snippet": "e-way bill in the name of Mehra Logistics for Bhaskar's grey pickup DL3CH1119",
-          "id": "person:p44"
+          "text": "Bhavesh Rangnekar and Bhaskar Makhija paid ₹7,200 on UPI to a number",
+          "snippet": "They paid ₹7,200 \"fast-tag / papers\" on UPI to a number",
+          "id": "person:p34"
         },
         {
-          "text": "Bhavesh Rangnekar and Bhaskar Makhija paid ₹7,200 via UPI",
-          "snippet": "They paid ₹7,200 \"fast-tag / papers\" on UPI",
-          "id": "person:p34"
+          "text": "Mehra Logistics is the name on the e-way bill",
+          "snippet": "e-way bill in the name of Mehra Logistics",
+          "id": "org:mehra_logistics"
         }
       ],
       "matched_ids": [
@@ -311,14 +311,14 @@
       "people": [
         {
           "text": "Pradeep Bhatia",
-          "snippet": "Pradeep Bhatia, apple commission, shed near Gate No. 1 of Ghazipur Fruit Market...",
+          "snippet": "Pradeep Bhatia, apple commission, shed near Gate No. 1 of Ghazipur Fruit Market",
           "id": "person:p35"
         }
       ],
       "phones": [
         {
           "text": "9810002864",
-          "snippet": "his own prepaid 9810002864 on which a missed call came from an unknown series",
+          "snippet": "his own prepaid 9810002864 on which a missed call came from an unknown series.",
           "id": "phone:ph16"
         }
       ],
@@ -332,7 +332,7 @@
       "relations": [
         {
           "text": "Pradeep Bhatia owns phone 9810002864",
-          "snippet": "his own prepaid 9810002864 on which a missed call came from an unknown series",
+          "snippet": "his own prepaid 9810002864 on which a missed call came from an unknown series.",
           "id": "person:p35"
         },
         {

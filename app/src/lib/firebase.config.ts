@@ -3,14 +3,14 @@ import { getAuth } from "firebase/auth";
 
 const env = (import.meta as any).env || {};
 
-// Firebase web configuration (uses env vars if present, falls back to live project config)
+// Firebase web configuration (uses env vars if present, falls back to safe demo placeholders)
 const firebaseConfig = {
-  apiKey: env.VITE_FIREBASE_API_KEY || "AIzaSyAmwpiGm4bnyPaSRhnB84FvLr6ytQ3W77s",
-  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || "gotham-sih.firebaseapp.com",
-  projectId: env.VITE_FIREBASE_PROJECT_ID || "gotham-sih",
-  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || "gotham-sih.firebasestorage.app",
-  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || "460136536018",
-  appId: env.VITE_FIREBASE_APP_ID || "1:460136536018:web:6ae53de138622c08d09a0b"
+  apiKey: env.VITE_FIREBASE_API_KEY || "AIzaSyDemoKeyGothamSIH26189Placeholder",
+  authDomain: env.VITE_FIREBASE_AUTH_DOMAIN || "gotham-demo.firebaseapp.com",
+  projectId: env.VITE_FIREBASE_PROJECT_ID || "gotham-demo",
+  storageBucket: env.VITE_FIREBASE_STORAGE_BUCKET || "gotham-demo.appspot.com",
+  messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID || "000000000000",
+  appId: env.VITE_FIREBASE_APP_ID || "1:000000000000:web:demo000000000000"
 };
 
 // Initialize Firebase App

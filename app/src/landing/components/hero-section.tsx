@@ -46,11 +46,11 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
       </div>
 
       {/* Main Center Container */}
-      <div className="relative z-10 max-w-7xl w-full mx-auto px-6 py-6 md:py-12 flex-1 flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div className="relative z-10 max-w-[1600px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-4 md:py-8 flex-1 flex flex-col justify-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 items-center">
           
           {/* Left Sub-Sidebar (Category items) */}
-          <div className="hidden lg:flex lg:col-span-2 flex-col space-y-6 border-l border-zinc-800/80 pl-4 py-2">
+          <div className="hidden lg:flex lg:col-span-2 flex-col space-y-5 border-l border-zinc-800/80 pl-3 py-1">
             <div className="w-6 h-[2px] bg-red-500 mb-2 shadow-[0_0_8px_rgba(239,68,68,0.8)]" />
             {CATEGORIES.map((cat) => {
               const isSelected = activeCategory === cat.label;
@@ -58,7 +58,7 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
                 <button
                   key={cat.label}
                   onClick={() => setActiveCategory(cat.label)}
-                  className={`text-left font-mono text-[11px] tracking-[0.25em] transition-all flex items-center gap-2 group cursor-pointer ${
+                  className={`text-left font-mono text-[10px] xl:text-[11px] tracking-[0.22em] transition-all flex items-center gap-2 group cursor-pointer ${
                     isSelected
                       ? 'text-white font-bold translate-x-1'
                       : 'text-zinc-500 hover:text-zinc-300'
@@ -78,9 +78,9 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
           </div>
 
           {/* Center-Left Hero Main Typography */}
-          <div className="lg:col-span-5 flex flex-col space-y-6">
+          <div className="lg:col-span-5 xl:col-span-5 flex flex-col space-y-5 lg:-ml-4 xl:-ml-8">
             {/* Tagline / Overline */}
-            <div className="space-y-1">
+            <div className="space-y-0.5">
               <p className="font-mono text-xs md:text-sm font-semibold tracking-[0.22em] text-zinc-400 uppercase leading-snug">
                 A SAFER TOMORROW
               </p>
@@ -90,7 +90,7 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
             </div>
 
             {/* Giant Title */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-sans font-black tracking-tight leading-[0.98] text-white">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-sans font-black tracking-tight leading-[0.98] text-white">
               INTELLIGENCE
               <br />
               THAT BRINGS
@@ -103,7 +103,7 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
             </h1>
 
             {/* Paragraph Description */}
-            <p className="text-zinc-300 text-sm md:text-base leading-relaxed max-w-lg font-normal">
+            <p className="text-zinc-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-md font-normal">
               JAAL is an investigation workbench that unifies disparate data, reveals hidden links,
               and helps officers act faster with evidence-backed insights.
             </p>
@@ -112,7 +112,7 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <button
                 onClick={handleLaunch}
-                className="group relative inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 shadow-[0_0_25px_rgba(239,68,68,0.45)] hover:shadow-[0_0_35px_rgba(239,68,68,0.65)] transform hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+                className="group relative inline-flex items-center justify-center gap-2.5 px-7 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 shadow-[0_0_25px_rgba(239,68,68,0.45)] hover:shadow-[0_0_35px_rgba(239,68,68,0.65)] transform hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
               >
                 <span>Explore JAAL</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -120,7 +120,7 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
 
               <button
                 onClick={() => setIsVideoModalOpen(true)}
-                className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl text-sm font-medium text-zinc-200 bg-black/60 hover:bg-black/80 border border-zinc-800 hover:border-zinc-600 backdrop-blur-md transition-all cursor-pointer shadow-lg"
+                className="inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium text-zinc-200 bg-black/60 hover:bg-black/80 border border-zinc-800 hover:border-zinc-600 backdrop-blur-md transition-all cursor-pointer shadow-lg"
               >
                 <div className="w-5 h-5 rounded-full border border-zinc-400/80 flex items-center justify-center">
                   <Play className="w-2.5 h-2.5 fill-current translate-x-0.2" />
@@ -131,7 +131,7 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
           </div>
 
           {/* Right Side: Interactive 3D Lanyard ID Card */}
-          <div className="lg:col-span-5 relative h-[520px] sm:h-[600px] lg:h-[660px] w-full flex items-center justify-center lg:justify-end lg:translate-x-6 xl:translate-x-12">
+          <div className="lg:col-span-5 xl:col-span-5 relative h-[520px] sm:h-[600px] lg:h-[660px] w-full flex items-center justify-center lg:justify-end lg:translate-x-8 xl:translate-x-16">
             <div className="absolute inset-0 flex items-center justify-center lg:justify-end">
               <LanyardWithControls
                 position={[0.5, 0, 18]}

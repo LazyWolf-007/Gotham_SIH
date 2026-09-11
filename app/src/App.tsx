@@ -20,8 +20,14 @@ function WorkbenchContent() {
   const { user, token, loading: authLoading } = useAuth();
   const { activeCase } = useCase();
 
-  // Page Routing State: Always default to "landing" Home Page upon initial login
-  const [currentPage, setCurrentPage] = useState<"landing" | "workbench">("landing");
+  // Page Routing State: Default to "landing" Home Page
+  const [currentPage, setCurrentPage] = useState<"landing" | "login" | "workbench">(() => {
+    const path = window.location.pathname;
+    const hash = window.location.hash;
+    if (path === "/workbench" || hash === "#workbench") return "workbench";
+    if (path === "/login" || hash === "#login") return "login";
+    return "landing";
+  });
 
   const [kernel, setKernel] = useState<GraphKernel | null>(null);
   const [loading, setLoading] = useState(true);
@@ -73,6 +79,8 @@ function WorkbenchContent() {
       const hash = window.location.hash;
       if (path === "/workbench" || hash === "#workbench" || e.state?.page === "workbench") {
         setCurrentPage("workbench");
+      } else if (path === "/login" || hash === "#login" || e.state?.page === "login") {
+        setCurrentPage("login");
       } else {
         setCurrentPage("landing");
       }
@@ -82,13 +90,28 @@ function WorkbenchContent() {
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
-  const navigateTo = (page: "landing" | "workbench") => {
+  const navigateTo = (page: "landing" | "login" | "workbench") => {
     setCurrentPage(page);
-    const targetUrl = page === "workbench" ? "/workbench" : "/";
+    const targetUrl = page === "workbench" ? "/workbench" : page === "login" ? "/login" : "/";
     if (window.location.pathname !== targetUrl) {
       window.history.pushState({ page }, "", targetUrl);
     }
   };
+
+  const handleLaunchWorkbench = () => {
+    if (user) {
+      navigateTo("workbench");
+    } else {
+      navigateTo("login");
+    }
+  };
+
+  // If user logs out while in workbench, return to landing page
+  useEffect(() => {
+    if (!user && currentPage === "workbench") {
+      navigateTo("landing");
+    }
+  }, [user]);
 
   // Load Graph Kernel on Mount or Case Change
   useEffect(() => {
@@ -168,6 +191,27 @@ function WorkbenchContent() {
     });
   };
 
+  // 1. Landing Page: Open and visible by default without blocking login
+  if (currentPage === "landing") {
+    return <LandingPage onLaunchWorkbench={handleLaunchWorkbench} />;
+  }
+
+  // 2. Explicit Login Route
+  if (currentPage === "login") {
+    if (user) {
+      // If user is already authenticated, redirect straight to workbench
+      navigateTo("workbench");
+    } else {
+      return (
+        <LoginScreen
+          onBackToLanding={() => navigateTo("landing")}
+          onLoginSuccess={() => navigateTo("workbench")}
+        />
+      );
+    }
+  }
+
+  // 3. Workbench / Dashboard: Protected Route
   if (authLoading) {
     return (
       <div className="w-screen h-screen bg-[#070a11] flex flex-col items-center justify-center text-slate-300">
@@ -177,14 +221,14 @@ function WorkbenchContent() {
     );
   }
 
-  // Enforce Login Protection
+  // If not logged in and attempting to access workbench, prompt login with back option
   if (!user) {
-    return <LoginScreen />;
-  }
-
-  // Render Home Page (Landing Page with 3D Lanyard, Case Briefing, Features & Access Desk CTA)
-  if (currentPage === "landing") {
-    return <LandingPage onLaunchWorkbench={() => navigateTo("workbench")} />;
+    return (
+      <LoginScreen
+        onBackToLanding={() => navigateTo("landing")}
+        onLoginSuccess={() => navigateTo("workbench")}
+      />
+    );
   }
 
   if (loading) {

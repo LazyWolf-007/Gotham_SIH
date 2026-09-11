@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { User, Lock, Eye, EyeOff, ShieldCheck, ArrowRight, AlertCircle } from "lucide-react";
+import { User, Lock, Eye, EyeOff, ShieldCheck, ArrowRight, ArrowLeft, AlertCircle } from "lucide-react";
 
-export const LoginScreen: React.FC = () => {
+interface LoginScreenProps {
+  onBackToLanding?: () => void;
+  onLoginSuccess?: () => void;
+}
+
+export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLoginSuccess }) => {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +22,9 @@ export const LoginScreen: React.FC = () => {
     setLoading(true);
     try {
       await login(email, password);
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
     } catch (err: any) {
       console.error("Login failed:", err);
       if (
@@ -46,6 +54,17 @@ export const LoginScreen: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-black/70" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50" />
       </div>
+
+      {/* Back to Portal Button */}
+      {onBackToLanding && (
+        <button
+          onClick={onBackToLanding}
+          className="absolute top-5 left-5 z-30 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/70 hover:bg-black/90 border border-white/20 text-xs text-zinc-300 hover:text-white transition-all backdrop-blur-md cursor-pointer shadow-lg group"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 text-red-400 group-hover:-translate-x-0.5 transition-transform" />
+          <span>Back to Portal</span>
+        </button>
+      )}
 
       {/* TWO SECTIONS LAYOUT */}
       <div className="relative z-10 w-full h-full flex flex-col md:flex-row">

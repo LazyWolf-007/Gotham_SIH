@@ -1,5 +1,5 @@
 import type { AskPayload, CutPayload } from "../lib/kernel";
-import { TYPE_COLORS } from "../lib/graphView";
+import { TYPE_COLORS, humanLabel } from "../lib/graphView";
 import type { GraphNode, NeighborHit, ProvenanceHit } from "../lib/types";
 
 type Props = {
@@ -8,6 +8,7 @@ type Props = {
   provenance: ProvenanceHit[];
   arrest: CutPayload | null;
   ask: AskPayload | null;
+  labelOf: (id: string) => string;
   onSelectNeighbor: (id: string) => void;
 };
 
@@ -18,40 +19,34 @@ function fmtBetweenness(value: number | undefined): string {
 
 function ArrestBlock({
   arrest,
+  labelOf,
   onSelectNeighbor,
 }: {
   arrest: CutPayload;
+  labelOf: (id: string) => string;
   onSelectNeighbor: (id: string) => void;
 }) {
   const path = arrest.residual_path || [];
+  const before = arrest.pairs_before ?? "—";
+  const after = arrest.pairs_after ?? "—";
   return (
     <>
       <h3 className="dossier-sub">
         Arrest
-        <span>{arrest.node_id}</span>
+        <span>{labelOf(arrest.node_id)}</span>
       </h3>
-      <dl className="facts">
-        <div>
-          <dt>pairs before</dt>
-          <dd>{arrest.pairs_before ?? "—"}</dd>
-        </div>
-        <div>
-          <dt>pairs after</dt>
-          <dd>{arrest.pairs_after ?? "—"}</dd>
-        </div>
-      </dl>
-      <h3 className="dossier-sub">
-        Residual path
-        <span>{path.length}</span>
-      </h3>
+      <p className="arrest-copy">
+        Routes that needed this person: {before} → {after}. Those bridges are
+        gone. Leftover path still reaches a mule:
+      </p>
       {path.length === 0 ? (
-        <p className="muted">No residual path.</p>
+        <p className="muted">No leftover path.</p>
       ) : (
         <ol className="path-list">
           {path.map((id) => (
             <li key={id}>
               <button type="button" onClick={() => onSelectNeighbor(id)}>
-                <span className="mono">{id}</span>
+                <span>{labelOf(id)}</span>
               </button>
             </li>
           ))}
@@ -96,6 +91,7 @@ export function Dossier({
   provenance,
   arrest,
   ask,
+  labelOf,
   onSelectNeighbor,
 }: Props) {
   if (!node) {
@@ -105,7 +101,11 @@ export function Dossier({
           <>
             <div className="dossier-kicker">Dossier</div>
             {arrest && (
-              <ArrestBlock arrest={arrest} onSelectNeighbor={onSelectNeighbor} />
+              <ArrestBlock
+                arrest={arrest}
+                labelOf={labelOf}
+                onSelectNeighbor={onSelectNeighbor}
+              />
             )}
             {ask && <AskBlock ask={ask} />}
           </>
@@ -118,11 +118,12 @@ export function Dossier({
 
   const color = TYPE_COLORS[node.type] ?? "#8A8F98";
   const shown = neighbors.slice(0, 20);
+  const name = humanLabel(node, node.id);
 
   return (
     <aside className="dossier" aria-label="Dossier">
       <div className="dossier-kicker">Dossier</div>
-      <h2 className="dossier-name">{node.label}</h2>
+      <h2 className="dossier-name">{name}</h2>
       <div className="type-pill" style={{ color, borderColor: color }}>
         <span className="swatch" style={{ background: color }} />
         {node.type}
@@ -130,29 +131,30 @@ export function Dossier({
 
       <dl className="facts">
         <div>
-          <dt>id</dt>
-          <dd className="mono">{node.id}</dd>
-        </div>
-        <div>
           <dt>type</dt>
           <dd>{node.type}</dd>
         </div>
         <div>
-          <dt>community</dt>
+          <dt>Pocket</dt>
           <dd>{node.metrics?.community ?? "—"}</dd>
         </div>
         <div>
-          <dt>degree</dt>
+          <dt>Direct ties</dt>
           <dd>{node.metrics?.degree ?? "—"}</dd>
         </div>
         <div>
-          <dt>betweenness</dt>
+          <dt>Routes through them</dt>
           <dd>{fmtBetweenness(node.metrics?.betweenness)}</dd>
+          <p className="fact-note">pick-up score</p>
         </div>
       </dl>
 
       {arrest && (
-        <ArrestBlock arrest={arrest} onSelectNeighbor={onSelectNeighbor} />
+        <ArrestBlock
+          arrest={arrest}
+          labelOf={labelOf}
+          onSelectNeighbor={onSelectNeighbor}
+        />
       )}
       {ask && <AskBlock ask={ask} />}
 
@@ -198,7 +200,9 @@ export function Dossier({
                   }}
                 />
                 <span className="neighbor-copy">
-                  <span className="neighbor-label">{hit.node.label}</span>
+                  <span className="neighbor-label">
+                    {humanLabel(hit.node, hit.node.id)}
+                  </span>
                   <span className="neighbor-meta">
                     {hit.node.type} · {hit.edgeType}
                   </span>

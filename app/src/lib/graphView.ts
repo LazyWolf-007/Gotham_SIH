@@ -22,6 +22,10 @@ export const PAID_CYCLE_IDS = [
 export const PAID_CYCLE_SET = new Set<string>(PAID_CYCLE_IDS);
 
 const CALL_EDGE_CAP = 400;
+export const ASK_HIGHLIGHT_CAP = 12;
+
+const RAW_ID = /^(person|phone|acc|org|loc|cam|veh)[:\-]/i;
+const STORY_NEEDLES = ["bhatia", "lodhi", "mundhe", "haleja", "azadpur"];
 
 export const DEFAULT_NODE_TYPES = new Set([
   "Person",
@@ -62,6 +66,50 @@ export const EDGE_COLORS: Record<string, string> = {
 
 const SIZE_MIN = 16;
 const SIZE_MAX = 28;
+
+export function stripRawId(id: string): string {
+  if (!id) return "";
+  if (RAW_ID.test(id)) return id.split(":").slice(1).join(":").replace(/_/g, " ");
+  return id;
+}
+
+export function humanLabel(
+  node: GraphNode | undefined | null,
+  fallbackId = "",
+): string {
+  const id = fallbackId || node?.id || "";
+  if (node) {
+    const attrs = node.attributes || {};
+    if (node.type === "Phone") {
+      const digits = String(attrs.msisdn ?? node.label ?? "").replace(/\D/g, "");
+      if (digits) return digits;
+    }
+    for (const key of ["name", "number", "code"] as const) {
+      const val = attrs[key];
+      if (typeof val === "string" && val.trim() && !RAW_ID.test(val.trim())) {
+        return val.trim();
+      }
+    }
+    if (node.label && !RAW_ID.test(node.label)) return node.label;
+  }
+  return stripRawId(id);
+}
+
+export function isStoryNode(node: GraphNode): boolean {
+  const hay = `${node.label} ${node.id}`.toLowerCase();
+  return STORY_NEEDLES.some((n) => hay.includes(n));
+}
+
+export function capHighlightIds(ids: string[] | null | undefined): string[] {
+  if (!ids || ids.length === 0) return [];
+  const out: string[] = [];
+  for (const id of ids) {
+    if (!id || out.includes(id)) continue;
+    out.push(id);
+    if (out.length >= ASK_HIGHLIGHT_CAP) break;
+  }
+  return out;
+}
 
 export function sumCounts(counts: Record<string, number> | undefined): number | null {
   if (!counts) return null;
@@ -279,6 +327,7 @@ export function toElements(
       community: n.metrics?.community ?? null,
       degree: n.metrics?.degree ?? 0,
       betweenness: n.metrics?.betweenness ?? 0,
+      storyLabel: isStoryNode(n),
       showLabel: labeledIds ? labeledIds.has(n.id) : false,
       cycleHighlight:
         options?.highlightCycle === true && PAID_CYCLE_SET.has(n.id),

@@ -69,14 +69,18 @@ def _parse_firs(path: Path) -> list[dict]:
     return out
 
 
-def _read_universe() -> dict:
-    if not UNIVERSE.exists() or UNIVERSE.stat().st_size < 8:
+def _read_universe_at(path: Path) -> dict:
+    if not path.exists() or path.stat().st_size < 8:
         return {}
     try:
-        data = json.loads(UNIVERSE.read_text(encoding="utf-8"))
+        data = json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
         return {}
     return data if isinstance(data, dict) else {}
+
+
+def _read_universe() -> dict:
+    return _read_universe_at(UNIVERSE)
 
 
 def _hydrate_from_kernel() -> tuple[dict[str, dict], list[dict], dict]:
@@ -118,8 +122,14 @@ def _hydrate_from_kernel() -> tuple[dict[str, dict], list[dict], dict]:
     return nodes, edges, universe
 
 
-def load() -> tuple[dict[str, dict], list[dict], dict]:
-    universe = _read_universe()
+def load(
+    root: Path | None = None,
+    extra: Path | None = None,
+) -> tuple[dict[str, dict], list[dict], dict]:
+    raw_dir = Path(root) if root is not None else RAW
+    universe = _read_universe_at(raw_dir / "universe.json")
+    if not (universe.get("gold") or {}).get("accountant_id"):
+        universe = _read_universe()
     if not (universe.get("gold") or {}).get("accountant_id"):
         return _hydrate_from_kernel()
     nodes: dict[str, dict] = {}
@@ -163,8 +173,31 @@ def load() -> tuple[dict[str, dict], list[dict], dict]:
                 }.get(prefix, "Person")
                 nodes[nid] = {"id": nid, "type": guess, "attributes": {"id": nid}}
 
+    _ingest_feeds(nodes, edges, raw_dir, missing_ok=False)
+    if extra is not None:
+        extra_dir = Path(extra)
+        if extra_dir.is_dir() and extra_dir.resolve() != raw_dir.resolve():
+            _ingest_feeds(nodes, edges, extra_dir, missing_ok=True)
+
+    universe = dict(universe)
+    universe["gold"] = with_derived(universe.get("gold") or frozen_gold(), edges)
+    return nodes, edges, universe
+
+
+def _ingest_feeds(
+    nodes: dict[str, dict],
+    edges: list[dict],
+    raw_dir: Path,
+    missing_ok: bool,
+) -> None:
     fir_pack = _load_pack("fir")
-    firs = _parse_firs(RAW / Path(fir_pack["source"]).name)
+    fir_path = raw_dir / Path(fir_pack["source"]).name
+    if fir_path.exists():
+        firs = _parse_firs(fir_path)
+    elif missing_ok:
+        firs = []
+    else:
+        firs = _parse_firs(RAW / Path(fir_pack["source"]).name)
     for fir in firs:
         fid = fir["id"]
         nodes[fid] = {
@@ -194,57 +227,67 @@ def load() -> tuple[dict[str, dict], list[dict], dict]:
                 nodes[pid] = {"id": pid, "type": "Person", "attributes": {"id": pid}}
 
     cdr_pack = _load_pack("cdr")
-    cdr_path = RAW / Path(cdr_pack["source"]).name
-    with cdr_path.open(encoding="utf-8", newline="") as fh:
-        for i, row in enumerate(csv.DictReader(fh)):
-            caller, callee = row["caller"], row["callee"]
-            sid = f"cdr:{i}"
-            snippet = f"{caller} called {callee} at {row['timestamp']}"
-            edges.append(
-                _edge(
-                    "CALLED",
-                    caller,
-                    callee,
-                    {
-                        **_prov("cdr", sid, snippet),
-                        "at": row["timestamp"],
-                        "duration_s": int(row["duration_s"]),
-                        "tower": row["cell_tower"],
-                        "imei": row.get("imei", ""),
-                    },
+    cdr_path = raw_dir / Path(cdr_pack["source"]).name
+    if not cdr_path.exists() and not missing_ok:
+        cdr_path = RAW / Path(cdr_pack["source"]).name
+    if cdr_path.exists():
+        with cdr_path.open(encoding="utf-8", newline="") as fh:
+            for i, row in enumerate(csv.DictReader(fh)):
+                caller, callee = row["caller"], row["callee"]
+                sid = f"cdr:{i}"
+                snippet = f"{caller} called {callee} at {row['timestamp']}"
+                edges.append(
+                    _edge(
+                        "CALLED",
+                        caller,
+                        callee,
+                        {
+                            **_prov("cdr", sid, snippet),
+                            "at": row["timestamp"],
+                            "duration_s": int(row["duration_s"]),
+                            "tower": row["cell_tower"],
+                            "imei": row.get("imei", ""),
+                        },
+                    )
                 )
-            )
-            for pid in (caller, callee):
-                if pid not in nodes:
-                    nodes[pid] = {"id": pid, "type": "Phone", "attributes": {"id": pid}}
+                for pid in (caller, callee):
+                    if pid not in nodes:
+                        nodes[pid] = {"id": pid, "type": "Phone", "attributes": {"id": pid}}
 
     txn_pack = _load_pack("txn")
-    txn_path = RAW / Path(txn_pack["source"]).name
-    with txn_path.open(encoding="utf-8", newline="") as fh:
-        for i, row in enumerate(csv.DictReader(fh)):
-            src, dst = row["src_account"], row["dst_account"]
-            sid = f"txn:{i}"
-            snippet = f"{src} paid {row['amount_inr']} to {dst} via {row['channel']}"
-            edges.append(
-                _edge(
-                    "PAID",
-                    src,
-                    dst,
-                    {
-                        **_prov("txn", sid, snippet),
-                        "at": row["timestamp"],
-                        "amount_inr": int(row["amount_inr"]),
-                        "channel": row["channel"],
-                        "note": row.get("note", ""),
-                    },
+    txn_path = raw_dir / Path(txn_pack["source"]).name
+    if not txn_path.exists() and not missing_ok:
+        txn_path = RAW / Path(txn_pack["source"]).name
+    if txn_path.exists():
+        with txn_path.open(encoding="utf-8", newline="") as fh:
+            for i, row in enumerate(csv.DictReader(fh)):
+                src, dst = row["src_account"], row["dst_account"]
+                sid = f"txn:{i}"
+                snippet = f"{src} paid {row['amount_inr']} to {dst} via {row['channel']}"
+                edges.append(
+                    _edge(
+                        "PAID",
+                        src,
+                        dst,
+                        {
+                            **_prov("txn", sid, snippet),
+                            "at": row["timestamp"],
+                            "amount_inr": int(row["amount_inr"]),
+                            "channel": row["channel"],
+                            "note": row.get("note", ""),
+                        },
+                    )
                 )
-            )
-            for aid in (src, dst):
-                if aid not in nodes:
-                    nodes[aid] = {"id": aid, "type": "Account", "attributes": {"id": aid}}
+                for aid in (src, dst):
+                    if aid not in nodes:
+                        nodes[aid] = {"id": aid, "type": "Account", "attributes": {"id": aid}}
 
     surv_pack = _load_pack("surv")
-    surv_path = RAW / Path(surv_pack["source"]).name
+    surv_path = raw_dir / Path(surv_pack["source"]).name
+    if not surv_path.exists() and not missing_ok:
+        surv_path = RAW / Path(surv_pack["source"]).name
+    if not surv_path.exists():
+        return
     notes = json.loads(surv_path.read_text(encoding="utf-8"))
     for i, note in enumerate(notes):
         sid = f"surv:{i}"
@@ -286,7 +329,3 @@ def load() -> tuple[dict[str, dict], list[dict], dict]:
                         {**_prov("surv", sid, snippet), "at": at, "confidence": conf},
                     )
                 )
-
-    universe = dict(universe)
-    universe["gold"] = with_derived(universe.get("gold") or frozen_gold(), edges)
-    return nodes, edges, universe

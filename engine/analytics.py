@@ -7,7 +7,7 @@ from collections import defaultdict
 from datetime import datetime
 
 from engine.cut import arrest
-from engine.graph import from_payload, hinge_person
+from engine.graph import display_name, from_payload, hinge_person, short_id
 from engine.paths import KERNEL
 from engine.patterns import load_dsl
 
@@ -72,6 +72,15 @@ def build(payload: dict | None = None) -> dict:
     burst = _burst_series(G)
     hinge = hinge_person(G)
     impact = arrest(G, hinge)
+    residual = list(impact.get("residual_path") or [])
+    hinge_accounts = _accounts_of(G, hinge)
+    hinge_rupees = 0
+    for e in edges:
+        if e.get("type") != "PAID":
+            continue
+        if e.get("source") in hinge_accounts or e.get("target") in hinge_accounts:
+            hinge_rupees += int((e.get("attributes") or {}).get("amount_inr") or 0)
+    burst_phone = burst.get("phone")
     return {
         "kpis": {
             "nodes": len(nodes),
@@ -79,6 +88,7 @@ def build(payload: dict | None = None) -> dict:
             "persons": len(persons),
             "rupees_sum": rupees,
             "calls": calls,
+            "hinge_rupees": hinge_rupees,
         },
         "scatter": scatter,
         "money_series": money_series,
@@ -88,9 +98,39 @@ def build(payload: dict | None = None) -> dict:
             "target": hinge,
             "pairs_before": impact.get("pairs_before"),
             "pairs_after": impact.get("pairs_after"),
-            "residual_path": impact.get("residual_path"),
+            "residual_path": residual,
+        },
+        "briefing": {
+            "hinge_id": hinge,
+            "hinge_name": display_name(G, hinge),
+            "pairs_before": impact.get("pairs_before"),
+            "pairs_after": impact.get("pairs_after"),
+            "residual_path": residual,
+            "residual_labels": [display_name(G, nid) for nid in residual],
+            "burst_before": burst.get("before"),
+            "burst_after": burst.get("after"),
+            "burst_phone": burst_phone,
+            "burst_phone_short": short_id(burst_phone or ""),
+            "burst_phone_digits": display_name(G, burst_phone) if burst_phone else "",
+            "burst_fir_id": burst.get("fir_id"),
+            "rupees_sum": rupees,
+            "hinge_rupees": hinge_rupees,
         },
     }
+
+
+def _accounts_of(G, person: str) -> set[str]:
+    out: set[str] = set()
+    if not person or person not in G:
+        return out
+    for u, v, data in G.edges(data=True):
+        if data.get("type") != "OWNS":
+            continue
+        if u == person and G.nodes[v].get("type") == "Account":
+            out.add(v)
+        elif v == person and G.nodes[u].get("type") == "Account":
+            out.add(u)
+    return out
 
 
 def _burst_series(G) -> dict:

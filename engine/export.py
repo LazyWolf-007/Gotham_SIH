@@ -80,8 +80,8 @@ def _inferred_uses(G) -> list[dict]:
     return extra
 
 
-def write(path=None) -> dict:
-    kernel = build_kernel()
+def write(path=None, *, root=None, extra=None) -> dict:
+    kernel = build_kernel(root=root, extra=extra)
     payload = serialize(kernel)
     out = path or KERNEL
     PROCESSED.mkdir(parents=True, exist_ok=True)

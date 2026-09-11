@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+import re
+
 import networkx as nx
 
 from engine.paths import BETWEENNESS_TYPES
+
+_RAW_ID = re.compile(r"^(person|phone|acc|org|loc|cam|veh)[:\-]", re.I)
 
 
 def build(nodes: dict[str, dict], edges: list[dict]) -> nx.MultiDiGraph:
@@ -23,6 +27,38 @@ def build(nodes: dict[str, dict], edges: list[dict]) -> nx.MultiDiGraph:
         )
     _annotate_metrics(G)
     return G
+
+
+def display_name(G, nid: str) -> str:
+    """Human surface for a node. Never returns person:/phone:/acc: prefixes."""
+    if not nid:
+        return ""
+    data = G.nodes[nid] if nid in G else {}
+    attrs = data.get("attributes") or {}
+    typ = data.get("type")
+    if typ == "Phone":
+        raw = str(attrs.get("msisdn") or data.get("label") or "")
+        digits = "".join(ch for ch in raw if ch.isdigit())
+        if digits:
+            return digits
+    for key in ("name", "number", "code"):
+        val = attrs.get(key)
+        if isinstance(val, str) and val.strip() and not _RAW_ID.match(val.strip()):
+            return val.strip()
+    label = data.get("label")
+    if isinstance(label, str) and label.strip() and not _RAW_ID.match(label.strip()):
+        return label.strip()
+    if _RAW_ID.match(nid):
+        return nid.split(":", 1)[-1].replace("_", " ")
+    return nid
+
+
+def short_id(nid: str) -> str:
+    if not nid:
+        return ""
+    if ":" in nid:
+        return nid.split(":", 1)[-1]
+    return nid
 
 
 def hinge_person(G: nx.MultiDiGraph, rank_top: int = 3, degree_max: int = 15) -> str:

@@ -16,7 +16,7 @@ if str(ROOT) not in sys.path:
 from engine.analytics import build as build_analytics
 from engine.cut import arrest
 from engine.graph import from_payload
-from engine.paths import INSIGHTS, KERNEL
+from engine.paths import CASES, INSIGHTS, KERNEL, RAW
 from engine.rag import ask
 
 CORS_ORIGIN = "http://localhost:5173"
@@ -34,6 +34,42 @@ def _kernel():
 
         _KERNEL = build_kernel()
     return _KERNEL
+
+
+def _reset_kernel() -> None:
+    global _KERNEL
+    _KERNEL = None
+
+
+def _safe_root(value: str | None) -> Path:
+    raw = (value or "data/raw").strip() or "data/raw"
+    path = Path(raw)
+    path = path.resolve() if path.is_absolute() else (ROOT / path).resolve()
+    try:
+        path.relative_to(ROOT)
+    except ValueError:
+        return RAW
+    return path if path.is_dir() else RAW
+
+
+def _safe_extra(name: str | None) -> Path | None:
+    if not name:
+        return None
+    slug = Path(str(name)).name
+    if not slug or slug in {".", ".."}:
+        return None
+    d = (CASES / slug).resolve()
+    try:
+        d.relative_to(CASES.resolve())
+    except ValueError:
+        return None
+    return d if d.is_dir() else None
+
+
+def _count_sum(counts) -> int:
+    if not isinstance(counts, dict):
+        return 0
+    return int(sum(int(v or 0) for v in counts.values()))
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -114,26 +150,101 @@ class Handler(BaseHTTPRequestHandler):
                 },
             )
             return
+        if path == "/pipeline":
+            try:
+                self._send(200, self._run_pipeline())
+            except (Exception, SystemExit) as exc:
+                self._fail(exc)
+            return
         self._send(404, {"error": "not found"})
 
-    def do_POST(self) -> None:
-        path = urlparse(self.path).path.rstrip("/") or "/"
-        if path != "/ask":
-            self._send(404, {"error": "not found"})
-            return
+    def _read_json(self) -> dict:
         length = int(self.headers.get("Content-Length") or 0)
         raw = self.rfile.read(length) if length else b"{}"
         try:
             body = json.loads(raw.decode("utf-8") or "{}")
         except json.JSONDecodeError:
-            self._send(400, {"error": "invalid json"})
+            return {}
+        return body if isinstance(body, dict) else {}
+
+    def _run_pipeline(self, root: Path | None = None, extra: Path | None = None) -> dict:
+        from engine.pipeline import run as run_pipeline
+
+        result = run_pipeline(root=root, extra=extra)
+        _reset_kernel()
+        return result
+
+    def _fail(self, exc: BaseException) -> None:
+        msg = str(exc).strip() or exc.__class__.__name__
+        self._send(500, {"error": msg})
+
+    def do_POST(self) -> None:
+        path = urlparse(self.path).path.rstrip("/") or "/"
+        if path == "/ask":
+            body = self._read_json()
+            question = (body.get("question") or "").strip()
+            if not question:
+                self._send(400, {"error": "missing question"})
+                return
+            result = ask(question, kernel=_kernel())
+            self._send(200, result)
             return
-        question = (body.get("question") or "").strip() if isinstance(body, dict) else ""
-        if not question:
-            self._send(400, {"error": "missing question"})
+        if path == "/pipeline":
+            body = self._read_json()
+            root = _safe_root(body.get("root") if isinstance(body.get("root"), str) else None)
+            extra = _safe_extra(body.get("case") or body.get("extra"))
+            try:
+                self._send(200, self._run_pipeline(root=root, extra=extra))
+            except (Exception, SystemExit) as exc:
+                self._fail(exc)
             return
-        result = ask(question, kernel=_kernel())
-        self._send(200, result)
+        if path == "/extract":
+            body = self._read_json()
+            fir_id = (body.get("fir_id") or "").strip() or "FIR-2026-014"
+            from engine.extract import run as extract_run
+            from engine.export import write
+
+            try:
+                payload = extract_run(fir_id=fir_id)
+                rec = next(
+                    (r for r in (payload.get("records") or []) if r.get("fir_id") == fir_id),
+                    None,
+                )
+                graph = write()
+                _reset_kernel()
+            except (Exception, SystemExit) as exc:
+                self._fail(exc)
+                return
+            meta = graph.get("meta") or {}
+            self._send(
+                200,
+                {
+                    "fir_id": fir_id,
+                    "record": rec,
+                    "log": [f"extract {fir_id}", "wrote graph"],
+                    "meta": meta,
+                    "object_counts": meta.get("object_counts") or {},
+                    "link_counts": meta.get("link_counts") or {},
+                },
+            )
+            return
+        if path == "/ingest":
+            body = self._read_json()
+            root = _safe_root(body.get("root") if isinstance(body.get("root"), str) else None)
+            extra = _safe_extra(body.get("case") or body.get("extra") or body.get("pack"))
+            try:
+                result = self._run_pipeline(root=root, extra=extra)
+            except (Exception, SystemExit) as exc:
+                self._fail(exc)
+                return
+            objects = _count_sum(result.get("object_counts"))
+            links = _count_sum(result.get("link_counts"))
+            result["objects"] = objects
+            result["links"] = links
+            result["flash"] = f"{objects} objects · {links} links"
+            self._send(200, result)
+            return
+        self._send(404, {"error": "not found"})
 
 
 def main() -> None:

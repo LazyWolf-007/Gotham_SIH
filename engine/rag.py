@@ -16,6 +16,7 @@ from engine.patterns import load_dsl
 MAX_HOPS = 2
 MAX_NODES = 40
 MAX_SNIPPETS = 5
+HIGHLIGHT_CAP = 12
 GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
 GROQ_MODELS_URL = "https://api.groq.com/openai/v1/models"
 GROQ_MODEL = "llama-3.3-70b-versatile"
@@ -76,7 +77,13 @@ def ask(question: str, kernel: dict | None = None) -> dict:
     snippets = _snippets(G, hops, max_snippets=MAX_SNIPPETS)
     known_ids = _source_ids(G)
     citations = [s for s in snippets if s["source_id"] in known_ids]
-    highlights = [n for n in hops if n in G]
+    residual = list(cut.get("residual_path_ph02_ph03") or cut.get("residual_path") or [])
+    highlights = _highlight_ids(
+        G,
+        seeds,
+        residual,
+        arrest=_is_arrest_question(question),
+    )
     answer = _one_model_call(
         question,
         G,
@@ -190,6 +197,36 @@ def _has_alias(q_low: str, alias: str) -> bool:
 def _is_arrest_question(question: str) -> bool:
     q = (question or "").lower()
     return any(w in q for w in ("arrest", "remove", "counterfactual"))
+
+
+def _path_between(G, a: str, b: str) -> list[str]:
+    U = undirected_of(G)
+    if a not in U or b not in U:
+        return [x for x in (a, b) if x in G]
+    try:
+        return list(nx.shortest_path(U, a, b))
+    except nx.NetworkXNoPath:
+        return [x for x in (a, b) if x in G]
+
+
+def _highlight_ids(G, seeds: list[str], residual: list[str], arrest: bool) -> list[str]:
+    """Canvas highlight: residual/asked path only, cap 12. Not the 2-hop phone strip."""
+    if arrest and residual:
+        ids = list(residual)
+    elif len(seeds) >= 2:
+        ids = _path_between(G, seeds[0], seeds[1])
+        for s in seeds[2:]:
+            if s not in ids:
+                ids.append(s)
+    else:
+        ids = list(seeds)
+    out: list[str] = []
+    for n in ids:
+        if n in G and n not in out:
+            out.append(n)
+        if len(out) >= HIGHLIGHT_CAP:
+            break
+    return out
 
 
 def _dedupe_present(ids: list[str], G) -> list[str]:

@@ -6,25 +6,45 @@ import { fetchGraph } from "./lib/api";
 import {
   type FocusKind,
   type ViewMode,
+  capHighlightIds,
   findNodeByQuery,
   hingePerson,
+  humanLabel,
   neighborsOf,
   provenanceFor,
   sumCounts,
 } from "./lib/graphView";
 import {
   KERNEL_OFFLINE,
+  KernelError,
   type AnalyticsPayload,
   type AskPayload,
   type CutPayload,
   fetchAnalytics,
   fetchAsk,
   fetchCut,
+  fetchHealth,
   kernelMessage,
+  postExtract,
+  postIngest,
+  postPipeline,
 } from "./lib/kernel";
-import type { GraphPayload } from "./lib/types";
+import type { GraphNode, GraphPayload } from "./lib/types";
 
 type DeskTab = "map" | "analytics";
+type KernelAction =
+  | "arrest"
+  | "ask"
+  | "analytics"
+  | "pipeline"
+  | "extract"
+  | "ingest";
+
+function firIdOf(node: GraphNode | null): string {
+  if (node?.type === "FIR" && node.id) return node.id;
+  if (node?.id && /^FIR-/i.test(node.id)) return node.id;
+  return "FIR-2026-014";
+}
 
 export default function App() {
   const [graph, setGraph] = useState<GraphPayload | null>(null);
@@ -43,13 +63,24 @@ export default function App() {
   const [ask, setAsk] = useState<AskPayload | null>(null);
   const [analytics, setAnalytics] = useState<AnalyticsPayload | null>(null);
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
+  const [kernelUp, setKernelUp] = useState(true);
   const [kernelMsg, setKernelMsg] = useState<string | null>(null);
-  const [kernelAction, setKernelAction] = useState<"arrest" | "ask" | "analytics" | null>(
-    null,
-  );
+  const [kernelAction, setKernelAction] = useState<KernelAction | null>(null);
+  const [deskLog, setDeskLog] = useState<string[]>([]);
+  const [deskFlash, setDeskFlash] = useState<string | null>(null);
+  const [caseName, setCaseName] = useState("");
+  const [busy, setBusy] = useState(false);
   const canvasRef = useRef<CanvasHandle>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const askRef = useRef<HTMLInputElement>(null);
+
+  const reloadGraph = useCallback(async () => {
+    const payload = await fetchGraph();
+    setGraph(payload);
+    setLoading(false);
+    setError(null);
+    return payload;
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -67,6 +98,20 @@ export default function App() {
           setError(err instanceof Error ? err.message : "Failed to load graph");
           setLoading(false);
         }
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchHealth()
+      .then(() => {
+        if (!cancelled) setKernelUp(true);
+      })
+      .catch(() => {
+        if (!cancelled) setKernelUp(false);
       });
     return () => {
       cancelled = true;
@@ -122,8 +167,17 @@ export default function App() {
     setTab("map");
   }, [graph, searchQuery]);
 
-  const offlineLabel = (action: "arrest" | "ask" | "analytics", live: string) =>
-    kernelMsg === KERNEL_OFFLINE && kernelAction === action ? KERNEL_OFFLINE : live;
+  const markKernel = (err: unknown) => {
+    const msg = kernelMessage(err);
+    setKernelMsg(msg);
+    if (err instanceof KernelError && err.offline) setKernelUp(false);
+  };
+
+  const offlineLabel = (action: KernelAction, live: string) => {
+    if (!kernelUp) return KERNEL_OFFLINE;
+    if (kernelMsg === KERNEL_OFFLINE && kernelAction === action) return KERNEL_OFFLINE;
+    return live;
+  };
 
   const runArrest = useCallback(async () => {
     if (!graph) return;
@@ -133,15 +187,16 @@ export default function App() {
     setKernelMsg(null);
     try {
       const cut = await fetchCut(id);
+      setKernelUp(true);
       setArrest(cut);
       setAsk(null);
       setSelectedId(cut.node_id || id);
-      setHighlightIds(cut.residual_path || []);
+      setHighlightIds(capHighlightIds(cut.residual_path || []));
       setTab("map");
       setJumpToNodeId(null);
     } catch (err) {
       setArrest(null);
-      setKernelMsg(kernelMessage(err));
+      markKernel(err);
     }
   }, [graph, selectedId]);
 
@@ -152,12 +207,13 @@ export default function App() {
     setKernelMsg(null);
     try {
       const result = await fetchAsk(question);
+      setKernelUp(true);
       setAsk(result);
-      setHighlightIds(result.highlight_node_ids || []);
+      setHighlightIds(capHighlightIds(result.highlight_node_ids || []));
       setTab("map");
     } catch (err) {
       setAsk(null);
-      setKernelMsg(kernelMessage(err));
+      markKernel(err);
     }
   }, [askQuery]);
 
@@ -168,6 +224,7 @@ export default function App() {
     setAnalyticsLoading(true);
     try {
       const payload = await fetchAnalytics();
+      setKernelUp(true);
       if (payload.error) {
         setAnalytics(null);
         setKernelMsg(String(payload.error));
@@ -176,7 +233,7 @@ export default function App() {
       }
     } catch (err) {
       setAnalytics(null);
-      setKernelMsg(kernelMessage(err));
+      markKernel(err);
     } finally {
       setAnalyticsLoading(false);
     }
@@ -187,6 +244,96 @@ export default function App() {
     setJumpToNodeId(id);
     setTab("map");
   }, []);
+
+  const replayDocket = useCallback(async () => {
+    if (!kernelUp) {
+      setKernelAction("pipeline");
+      setKernelMsg(KERNEL_OFFLINE);
+      return;
+    }
+    setKernelAction("pipeline");
+    setKernelMsg(null);
+    setBusy(true);
+    setDeskLog(["running pipeline…"]);
+    try {
+      const result = await postPipeline({ root: "data/raw" });
+      setKernelUp(true);
+      setDeskLog(result.log || ["wrote graph"]);
+      await reloadGraph();
+    } catch (err) {
+      setDeskLog([]);
+      markKernel(err);
+    } finally {
+      setBusy(false);
+    }
+  }, [kernelUp, reloadGraph]);
+
+  const rereadFir = useCallback(async () => {
+    if (!kernelUp) {
+      setKernelAction("extract");
+      setKernelMsg(KERNEL_OFFLINE);
+      return;
+    }
+    const node = graph?.nodes.find((n) => n.id === selectedId) ?? null;
+    const firId = firIdOf(node);
+    setKernelAction("extract");
+    setKernelMsg(null);
+    setBusy(true);
+    setDeskLog([`extract ${firId}…`]);
+    try {
+      const result = await postExtract(firId);
+      setKernelUp(true);
+      setDeskLog(result.log || [`extract ${firId}`, "wrote graph"]);
+      const next = await reloadGraph();
+      if (next.nodes.some((n) => n.id === firId)) {
+        setSelectedId(firId);
+      }
+    } catch (err) {
+      setDeskLog([]);
+      markKernel(err);
+    } finally {
+      setBusy(false);
+    }
+  }, [graph, kernelUp, reloadGraph, selectedId]);
+
+  const loadCase = useCallback(async () => {
+    if (!kernelUp) {
+      setKernelAction("ingest");
+      setKernelMsg(KERNEL_OFFLINE);
+      return;
+    }
+    setKernelAction("ingest");
+    setKernelMsg(null);
+    setBusy(true);
+    setDeskLog(["loading case…"]);
+    const extra = caseName.trim();
+    try {
+      const body = extra
+        ? { root: "data/raw", case: extra }
+        : { root: "data/raw" };
+      const result = await postIngest(body);
+      setKernelUp(true);
+      setDeskLog(result.log || ["wrote graph"]);
+      const flash =
+        result.flash ||
+        (typeof result.objects === "number" && typeof result.links === "number"
+          ? `${result.objects} objects · ${result.links} links`
+          : null);
+      setDeskFlash(flash);
+      await reloadGraph();
+    } catch (err) {
+      setDeskLog([]);
+      markKernel(err);
+    } finally {
+      setBusy(false);
+    }
+  }, [caseName, kernelUp, reloadGraph]);
+
+  useEffect(() => {
+    if (!deskFlash) return;
+    const t = window.setTimeout(() => setDeskFlash(null), 4000);
+    return () => window.clearTimeout(t);
+  }, [deskFlash]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -220,6 +367,14 @@ export default function App() {
   const provenance = useMemo(
     () => (graph && selected ? provenanceFor(graph, selected.id) : []),
     [graph, selected],
+  );
+
+  const labelOf = useCallback(
+    (id: string) => {
+      const node = graph?.nodes.find((n) => n.id === id);
+      return humanLabel(node, id);
+    },
+    [graph],
   );
 
   const objectCount = sumCounts(graph?.meta?.object_counts) ?? graph?.nodes.length ?? null;
@@ -281,7 +436,7 @@ export default function App() {
             Reset
           </button>
           <span className="toolbar-sep" aria-hidden="true" />
-          <button type="button" className="tool-btn" onClick={runArrest}>
+          <button type="button" className="tool-btn" onClick={runArrest} disabled={busy}>
             {offlineLabel("arrest", "Arrest selected")}
           </button>
           <label className="search-box">
@@ -310,8 +465,42 @@ export default function App() {
             type="button"
             className={`tool-btn${tab === "analytics" ? " active" : ""}`}
             onClick={openAnalytics}
+            disabled={busy}
           >
             {offlineLabel("analytics", "Analytics")}
+          </button>
+          <span className="toolbar-sep" aria-hidden="true" />
+          <button
+            type="button"
+            className="tool-btn"
+            onClick={replayDocket}
+            disabled={busy}
+          >
+            {offlineLabel("pipeline", "Replay docket")}
+          </button>
+          <button
+            type="button"
+            className="tool-btn"
+            onClick={rereadFir}
+            disabled={busy}
+          >
+            {offlineLabel("extract", "Re-read this FIR")}
+          </button>
+          <input
+            type="text"
+            className="search-input case-input"
+            placeholder="case folder"
+            value={caseName}
+            onChange={(e) => setCaseName(e.target.value)}
+            disabled={busy}
+          />
+          <button
+            type="button"
+            className="tool-btn"
+            onClick={loadCase}
+            disabled={busy}
+          >
+            {offlineLabel("ingest", "Load case")}
           </button>
         </nav>
         <div className="counts">
@@ -326,6 +515,14 @@ export default function App() {
           ) : null}
         </div>
       </header>
+      {(deskLog.length > 0 || deskFlash) && (
+        <div className="desk-log" role="status">
+          {deskFlash && <span className="desk-flash">{deskFlash}</span>}
+          {deskLog.map((line) => (
+            <span key={line}>{line}</span>
+          ))}
+        </div>
+      )}
       <div className="workspace">
         {tab === "analytics" ? (
           <Analytics
@@ -355,6 +552,7 @@ export default function App() {
           provenance={provenance}
           arrest={arrest}
           ask={ask}
+          labelOf={labelOf}
           onSelectNeighbor={(id) => {
             setSelectedId(id);
             setTab("map");

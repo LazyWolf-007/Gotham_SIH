@@ -528,6 +528,106 @@ button {
   width: 180px;
 }
 
+.case-input {
+  width: 110px;
+}
+
+.fact-note {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.arrest-copy {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.desk-log {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--line);
+  background: #0c1424;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.desk-flash {
+  color: var(--amber-bright);
+}
+
+.briefing-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.briefing {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 8px 10px;
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  background: transparent;
+  color: inherit;
+}
+
+button.briefing {
+  cursor: pointer;
+}
+
+button.briefing:hover:not(:disabled) {
+  border-color: var(--amber);
+}
+
+.briefing span {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.briefing strong {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.briefing em {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.briefing-path {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.linkish {
+  display: inline;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: 0;
+  color: var(--amber-bright);
+  cursor: pointer;
+  font: inherit;
+}
+
+.linkish:hover {
+  text-decoration: underline;
+}
+
 .path-list {
   list-style: none;
   margin: 0;

@@ -34,7 +34,25 @@ export type AnalyticsKpis = {
   links?: number;
   persons?: number;
   rupees_sum?: number;
+  hinge_rupees?: number;
   calls?: number;
+};
+
+export type BriefingPayload = {
+  hinge_id?: string;
+  hinge_name?: string;
+  pairs_before?: number | null;
+  pairs_after?: number | null;
+  residual_path?: string[];
+  residual_labels?: string[];
+  burst_before?: number | null;
+  burst_after?: number | null;
+  burst_phone?: string | null;
+  burst_phone_short?: string;
+  burst_phone_digits?: string;
+  burst_fir_id?: string | null;
+  rupees_sum?: number;
+  hinge_rupees?: number;
 };
 
 export type AnalyticsRow = {
@@ -63,6 +81,29 @@ export type AnalyticsPayload = {
     pairs_after?: number | null;
     residual_path?: string[] | null;
   };
+  briefing?: BriefingPayload;
+  error?: string;
+};
+
+export type PipelinePayload = {
+  log?: string[];
+  kpis?: AnalyticsKpis;
+  meta?: { object_counts?: Record<string, number>; link_counts?: Record<string, number> };
+  object_counts?: Record<string, number>;
+  link_counts?: Record<string, number>;
+  objects?: number;
+  links?: number;
+  flash?: string;
+  error?: string;
+};
+
+export type ExtractPayload = {
+  fir_id?: string;
+  record?: unknown;
+  log?: string[];
+  meta?: { object_counts?: Record<string, number>; link_counts?: Record<string, number> };
+  object_counts?: Record<string, number>;
+  link_counts?: Record<string, number>;
   error?: string;
 };
 
@@ -104,6 +145,44 @@ export function fetchAsk(question: string): Promise<AskPayload> {
 
 export function fetchAnalytics(): Promise<AnalyticsPayload> {
   return kernelFetch("/analytics") as Promise<AnalyticsPayload>;
+}
+
+export function fetchHealth(): Promise<{ ok: boolean }> {
+  return kernelFetch("/health") as Promise<{ ok: boolean }>;
+}
+
+export function fetchKernelGraph(): Promise<unknown> {
+  return kernelFetch("/graph");
+}
+
+export function postPipeline(body?: {
+  root?: string;
+  case?: string;
+}): Promise<PipelinePayload> {
+  return kernelFetch("/pipeline", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body || { root: "data/raw" }),
+  }) as Promise<PipelinePayload>;
+}
+
+export function postExtract(firId: string): Promise<ExtractPayload> {
+  return kernelFetch("/extract", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ fir_id: firId }),
+  }) as Promise<ExtractPayload>;
+}
+
+export function postIngest(body?: {
+  root?: string;
+  case?: string;
+}): Promise<PipelinePayload> {
+  return kernelFetch("/ingest", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body || { root: "data/raw" }),
+  }) as Promise<PipelinePayload>;
 }
 
 export function kernelMessage(err: unknown): string {

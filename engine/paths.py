@@ -2,6 +2,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
+CASES = ROOT / "data" / "cases"
 PROCESSED = ROOT / "data" / "processed"
 PACKS = ROOT / "packs"
 SCHEMA = ROOT / "schema"

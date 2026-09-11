@@ -11,8 +11,8 @@ from engine.graph import hinge_person
 from engine.paths import EXTRACTED
 
 
-def build_kernel() -> dict:
-    nodes, edges, universe = ingest.load()
+def build_kernel(root=None, extra=None) -> dict:
+    nodes, edges, universe = ingest.load(root=root, extra=extra)
     nodes, edges = attach_mentions(nodes, edges)
     nodes, edges, same_as = resolve.resolve(nodes, edges)
     G = graph.build(nodes, edges)
@@ -58,7 +58,7 @@ def build_kernel() -> dict:
     }
 
 
-def _reader_payload() -> dict:
+def _reader_payload() -> tuple[dict, str]:
     """Reuse extracted.json so Groq is not billed for all ~60 FIRs."""
     if EXTRACTED.exists() and EXTRACTED.stat().st_size >= 8:
         try:
@@ -66,10 +66,10 @@ def _reader_payload() -> dict:
         except json.JSONDecodeError:
             data = {}
         if isinstance(data, dict) and data.get("records"):
-            return data
+            return data, "cached"
     from engine.extract import run
 
-    return run(use_groq=False)
+    return run(use_groq=False), "read"
 
 
 def _print_extract_oneliners(payload: dict) -> None:
@@ -96,33 +96,52 @@ def _print_extract_oneliners(payload: dict) -> None:
         )
 
 
-def main() -> None:
+def run(root=None, extra=None) -> dict:
+    """Compile data/raw (optional extra case pack) into graph.json. Does not touch data/raw."""
+    log: list[str] = []
     t0 = time.perf_counter()
-    _nodes, edges, _universe = ingest.load()
+    _nodes, edges, _universe = ingest.load(root=root, extra=extra)
     called = sum(1 for e in edges if e.get("type") == "CALLED")
     paid = sum(1 for e in edges if e.get("type") == "PAID")
+    log.append(f"CALLED {called}")
+    log.append(f"PAID {paid}")
     print(
         f"compile CALLED {called} / PAID {paid}  {time.perf_counter() - t0:.2f}s",
         flush=True,
     )
 
     t1 = time.perf_counter()
-    extracted = _reader_payload()
+    extracted, fir_status = _reader_payload()
     n = len(extracted.get("records") or [])
-    print(f"reader {n} FIRs  {time.perf_counter() - t1:.2f}s", flush=True)
+    log.append(f"FIRs {fir_status} {n}")
+    print(f"reader {n} FIRs {fir_status}  {time.perf_counter() - t1:.2f}s", flush=True)
     _print_extract_oneliners(extracted)
 
     t2 = time.perf_counter()
     from engine.export import write
 
-    payload = write()
+    payload = write(root=root, extra=extra)
+    log.append("wrote graph")
     print(f"wrote graph.json  {time.perf_counter() - t2:.2f}s", flush=True)
 
     t3 = time.perf_counter()
     from engine.analytics import build as build_analytics
 
     kpis = build_analytics(payload).get("kpis") or {}
+    log.append(f"kpis {json.dumps(kpis)}")
     print(f"analytics kpis {json.dumps(kpis)}  {time.perf_counter() - t3:.2f}s", flush=True)
+    meta = payload.get("meta") or {}
+    return {
+        "log": log,
+        "kpis": kpis,
+        "meta": meta,
+        "object_counts": meta.get("object_counts") or {},
+        "link_counts": meta.get("link_counts") or {},
+    }
+
+
+def main() -> None:
+    run()
 
 
 if __name__ == "__main__":

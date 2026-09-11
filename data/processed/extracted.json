@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-11T00:34:02.584102+00:00",
+  "generated_at": "2026-09-11T11:32:03.955912+00:00",
   "records": [
     {
       "fir_id": "FIR-2026-001",
@@ -677,7 +677,44 @@
           "snippet": "mobile 9810000788, told her he had already NEFT'd ₹2,15,031 on 16.03.2026 from his BOB A/c BOB100071278 to HDFC A/c HDF100026189 as \"produce settleme"
         }
       ],
-      "relations": [],
+      "relations": [
+        {
+          "src": "Rakesh Mundhe",
+          "rel": "MEMBER_OF",
+          "dst": "Panchsheel Spices",
+          "snippet": "Rakesh Mundhe of Panchsheel Spices, who keeps Gate No."
+        },
+        {
+          "src": "Imtiaz Qureshi",
+          "rel": "MEMBER_OF",
+          "dst": "Qadir Cold Store",
+          "snippet": "Imtiaz Qureshi, manager Qadir Cold Store, mobile 9810000788, told her he had already NEFT'd ₹2,15,031 on 16.03.2026 from his BOB A/c BOB100071278 to HDFC A/c HDF100026189 as \"produce settlement\" and that this was the usual road."
+        },
+        {
+          "src": "BOB100071278",
+          "rel": "PAID",
+          "dst": "HDF100026189",
+          "snippet": "Imtiaz Qureshi, manager Qadir Cold Store, mobile 9810000788, told her he had already NEFT'd ₹2,15,031 on 16.03.2026 from his BOB A/c BOB100071278 to HDFC A/c HDF100026189 as \"produce settlement\" and that this was the usual road."
+        },
+        {
+          "src": "Farhan Lodhi",
+          "rel": "MEMBER_OF",
+          "dst": "Orbit Packers",
+          "snippet": "That prepaid is used by Farhan Lodhi, dispatch clerk on paper at Orbit Packers, Okhla, who is also signatory on SBI A/c SBI100034387."
+        },
+        {
+          "src": "Farhan Lodhi",
+          "rel": "USES",
+          "dst": "9810000615",
+          "snippet": "That prepaid is used by Farhan Lodhi, dispatch clerk on paper at Orbit Packers, Okhla, who is also signatory on SBI A/c SBI100034387."
+        },
+        {
+          "src": "Farhan Lodhi",
+          "rel": "OWNS",
+          "dst": "9810000961",
+          "snippet": "Lodhi's own handset is 9810000961;"
+        }
+      ],
       "matched_ids": [
         "person:imtiaz_qureshi",
         "person:rakesh_mundhe",
@@ -690,7 +727,9 @@
         "phone:ph05",
         "org:panchsheel_spices",
         "org:qadir_cold_store",
-        "org:orbit_packers"
+        "org:orbit_packers",
+        "acc:a11",
+        "acc:a00"
       ]
     },
     {

@@ -11,8 +11,10 @@ import {
   NAVEEN_ID,
   PAID_CYCLE_IDS,
   TYPE_COLORS,
+  ASK_HIGHLIGHT_CAP,
   betweennessRange,
   filterGraph,
+  isStoryNode,
   nodeSize,
   splitLinked,
   toElements,
@@ -47,6 +49,9 @@ const LABEL_ZOOM = 0.6;
 function applyLabelVisibility(cy: Core) {
   const selectedOnly = Boolean(cy.scratch("_selectedLabelsOnly"));
   cy.nodes().removeClass("labeled");
+  cy.nodes()
+    .filter((n) => Boolean(n.data("storyLabel")))
+    .addClass("labeled");
   if (!selectedOnly && cy.zoom() >= LABEL_ZOOM) {
     cy.nodes().filter((n) => Boolean(n.data("showLabel"))).addClass("labeled");
   }
@@ -118,7 +123,7 @@ function focusPaidCycle(
 }
 
 function highlightPath(cy: Core, graph: GraphPayload, ids: string[]) {
-  const want = ids.filter(Boolean);
+  const want = ids.filter(Boolean).slice(0, ASK_HIGHLIGHT_CAP);
   if (want.length === 0) return;
   const { min, max } = betweennessRange(graph.nodes);
   const added = new Set<string>();
@@ -135,6 +140,7 @@ function highlightPath(cy: Core, graph: GraphPayload, ids: string[]) {
         type: n.type,
         color: TYPE_COLORS[n.type] ?? "#8A8F98",
         size: nodeSize(n.metrics, min, max),
+        storyLabel: isStoryNode(n),
         showLabel: true,
       },
     });

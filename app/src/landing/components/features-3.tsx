@@ -7,7 +7,7 @@ import { AnimatedGroup } from "@/components/motion-primitives/animated-group";
 
 export default function Features() {
   return (
-    <section id="features" className="py-20 md:py-32 bg-black text-white relative">
+    <section id="features" className="py-20 md:py-32 bg-transparent text-white relative">
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <p className="font-mono text-xs font-semibold tracking-[0.25em] text-red-500 uppercase">

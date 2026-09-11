@@ -6,7 +6,7 @@ import { Clock, CheckCircle2, AlertTriangle, ShieldCheck } from "lucide-react";
 
 export default function Agenda() {
   return (
-    <section id="use-cases" className="py-20 md:py-32 bg-black text-white border-t border-zinc-900">
+    <section id="use-cases" className="py-20 md:py-32 bg-transparent text-white border-t border-zinc-900/60">
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid gap-y-12 lg:grid-cols-[1fr_1.2fr] items-start">
           <div className="text-center lg:text-left space-y-4">

@@ -5,6 +5,7 @@ import Features from "./components/features-3";
 import Agenda from "./components/agenda";
 import CallToAction from "./components/call-to-action";
 import FooterSection from "./components/footer";
+import { Scene } from "./components/Scene";
 
 interface LandingPageProps {
   onLaunchWorkbench: () => void;
@@ -28,9 +29,21 @@ export default function LandingPage({ onLaunchWorkbench }: LandingPageProps) {
       {/* Main Sections */}
       <main className="relative z-10">
         <HeroSection onLaunchWorkbench={onLaunchWorkbench} />
-        <Features />
-        <Agenda />
-        <CallToAction onLaunchWorkbench={onLaunchWorkbench} />
+
+        {/* ThreeUI PredictiveArcCanvas Signal Particles Field */}
+        <div className="relative w-full overflow-hidden">
+          {/* Signal Particles Canvas covering the lower sections */}
+          <div className="absolute inset-0 pointer-events-none z-0 opacity-100">
+            <Scene />
+          </div>
+
+          {/* Foreground Tactical Content */}
+          <div className="relative z-10 pointer-events-auto">
+            <Features />
+            <Agenda />
+            <CallToAction onLaunchWorkbench={onLaunchWorkbench} />
+          </div>
+        </div>
       </main>
 
       {/* Footer */}

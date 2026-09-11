@@ -17,7 +17,7 @@ export default function CallToAction({ onLaunchWorkbench }: CallToActionProps) {
   };
 
   return (
-    <section id="impact" className="py-20 bg-black text-white relative">
+    <section id="impact" className="py-20 bg-transparent text-white relative">
       <div className="mx-auto max-w-5xl rounded-3xl border border-zinc-800 bg-gradient-to-b from-zinc-950 to-black px-6 py-16 md:py-24 text-center relative overflow-hidden shadow-2xl">
         {/* Glow effect */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />

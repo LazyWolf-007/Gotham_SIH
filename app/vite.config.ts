@@ -17,6 +17,8 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src/landing"),
       "@app": path.resolve(__dirname, "./src"),
+      "@designcodeio/threeui/style.css": path.resolve(__dirname, "./src/shaders/threeui.css"),
+      "@designcodeio/threeui": path.resolve(__dirname, "./src/shaders/index.ts"),
       "next/link": path.resolve(__dirname, "./src/landing/components/Link.tsx"),
       "next/image": path.resolve(__dirname, "./src/landing/components/Image.tsx"),
       "next/navigation": path.resolve(__dirname, "./src/landing/components/Navigation.ts"),

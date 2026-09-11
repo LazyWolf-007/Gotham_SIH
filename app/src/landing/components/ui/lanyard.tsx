@@ -129,7 +129,7 @@ function Band({maxSpeed = 50, minSpeed = 0, isMobile = false, cardTextureUrl}: B
     };
 
     const {nodes, materials} = useGLTF(cardGLB) as any;
-    const texture = useTexture(typeof lanyard === 'string' ? lanyard : lanyard.src) as THREE.Texture;
+    const texture = useTexture(typeof lanyard === 'string' ? lanyard : (lanyard as any).src) as THREE.Texture;
     
     // Load custom card texture if provided - use state to handle async loading
     const [customCardTexture, setCustomCardTexture] = useState<THREE.Texture | null>(null);

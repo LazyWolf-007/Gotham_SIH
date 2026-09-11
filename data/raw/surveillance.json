@@ -1,0 +1,137 @@
+[
+  {
+    "timestamp": "2026-02-25T02:10:00+05:30",
+    "camera_id": "cam:azadpur_gate",
+    "location_id": "loc:azadpur_mandi",
+    "person_id": "person:rakesh_mundhe",
+    "vehicle_id": "veh:v01",
+    "plate": "DL3CB1017",
+    "confidence": 0.86
+  },
+  {
+    "timestamp": "2026-02-25T02:25:00+05:30",
+    "camera_id": "cam:azadpur_yard",
+    "location_id": "loc:azadpur_mandi",
+    "person_id": "person:imtiaz_qureshi",
+    "vehicle_id": "veh:v00",
+    "plate": "DL1CA1000",
+    "confidence": 0.84
+  },
+  {
+    "timestamp": "2026-04-12T14:40:00+05:30",
+    "camera_id": "cam:azadpur_gate",
+    "location_id": "loc:azadpur_mandi",
+    "person_id": "person:rakesh_mundhe",
+    "vehicle_id": "",
+    "plate": "",
+    "confidence": 0.9
+  },
+  {
+    "timestamp": "2026-04-12T15:40:00+05:30",
+    "camera_id": "cam:okhla_shed",
+    "location_id": "loc:okhla_industrial",
+    "person_id": "person:farhan_lodhi",
+    "vehicle_id": "veh:v04",
+    "plate": "UP16E1068",
+    "confidence": 0.77
+  },
+  {
+    "timestamp": "2026-03-16T19:00:00+05:30",
+    "camera_id": "cam:karol_lane",
+    "location_id": "loc:karol_bagh",
+    "person_id": "person:naveen_bhatia",
+    "vehicle_id": "",
+    "plate": "",
+    "confidence": 0.72
+  },
+  {
+    "timestamp": "2026-02-08T00:00:00+05:30",
+    "camera_id": "cam:azadpur_gate",
+    "location_id": "loc:azadpur_mandi",
+    "person_id": "person:imtiaz_qureshi",
+    "vehicle_id": "veh:v00",
+    "plate": "DL1CA1000",
+    "confidence": 0.88
+  },
+  {
+    "timestamp": "2026-04-05T17:00:00+05:30",
+    "camera_id": "cam:noida_lobby",
+    "location_id": "loc:noida_sec63",
+    "person_id": "person:roshni_talreja",
+    "vehicle_id": "",
+    "plate": "",
+    "confidence": 0.69
+  },
+  {
+    "timestamp": "2026-04-06T17:00:00+05:30",
+    "camera_id": "cam:udyog_bay",
+    "location_id": "loc:udyog_vihar",
+    "person_id": "person:parvinder_makhija",
+    "vehicle_id": "veh:v10",
+    "plate": "UP16K1170",
+    "confidence": 0.74
+  },
+  {
+    "timestamp": "2026-02-16T04:00:00+05:30",
+    "camera_id": "cam:azadpur_yard",
+    "location_id": "loc:azadpur_mandi",
+    "person_id": "person:rakesh_mundhe",
+    "vehicle_id": "",
+    "plate": "",
+    "confidence": 0.8
+  },
+  {
+    "timestamp": "2026-03-01T15:00:00+05:30",
+    "camera_id": "cam:okhla_shed",
+    "location_id": "loc:okhla_industrial",
+    "person_id": "person:farhan_lodhi",
+    "vehicle_id": "",
+    "plate": "",
+    "confidence": 0.6
+  },
+  {
+    "timestamp": "2026-03-13T05:00:00+05:30",
+    "camera_id": "cam:azadpur_gate",
+    "location_id": "loc:azadpur_mandi",
+    "person_id": "person:kavita_nadkarni",
+    "vehicle_id": "veh:v08",
+    "plate": "DL4SI1136",
+    "confidence": 0.64
+  },
+  {
+    "timestamp": "2026-03-23T21:00:00+05:30",
+    "camera_id": "cam:noida_lobby",
+    "location_id": "loc:noida_sec63",
+    "person_id": "person:sushil_ambwani",
+    "vehicle_id": "",
+    "plate": "",
+    "confidence": 0.58
+  },
+  {
+    "timestamp": "2026-03-27T01:00:00+05:30",
+    "camera_id": "cam:udyog_bay",
+    "location_id": "loc:udyog_vihar",
+    "person_id": "",
+    "vehicle_id": "veh:v12",
+    "plate": "DL1CM1204",
+    "confidence": 0.71
+  },
+  {
+    "timestamp": "2026-04-15T18:00:00+05:30",
+    "camera_id": "cam:karol_lane",
+    "location_id": "loc:karol_bagh",
+    "person_id": "person:p50",
+    "vehicle_id": "",
+    "plate": "",
+    "confidence": 0.55
+  },
+  {
+    "timestamp": "2026-04-26T03:00:00+05:30",
+    "camera_id": "cam:azadpur_yard",
+    "location_id": "loc:azadpur_mandi",
+    "person_id": "person:rakesh_mundhe",
+    "vehicle_id": "",
+    "plate": "",
+    "confidence": 0.83
+  }
+]

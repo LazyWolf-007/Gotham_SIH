@@ -1,0 +1,801 @@
+timestamp,src_account,dst_account,amount_inr,channel,note
+2026-01-21T02:00:00+05:30,acc:a11,acc:a00,58646,NEFT,produce settlement
+2026-04-06T18:00:00+05:30,acc:a12,acc:a00,236064,NEFT,produce settlement
+2026-03-17T01:00:00+05:30,acc:a13,acc:a00,58334,NEFT,produce settlement
+2026-02-26T17:00:00+05:30,acc:a14,acc:a00,129539,NEFT,produce settlement
+2026-02-28T01:00:00+05:30,acc:a15,acc:a00,45658,NEFT,produce settlement
+2026-04-11T23:00:00+05:30,acc:a16,acc:a00,161882,NEFT,produce settlement
+2026-01-20T02:00:00+05:30,acc:a17,acc:a00,98033,NEFT,produce settlement
+2026-02-18T00:00:00+05:30,acc:a11,acc:a00,46607,NEFT,produce settlement
+2026-03-05T01:00:00+05:30,acc:a12,acc:a00,268710,NEFT,produce settlement
+2026-01-30T00:00:00+05:30,acc:a13,acc:a00,189431,NEFT,produce settlement
+2026-02-01T18:00:00+05:30,acc:a14,acc:a00,174016,NEFT,produce settlement
+2026-04-20T22:00:00+05:30,acc:a15,acc:a00,142861,NEFT,produce settlement
+2026-01-13T19:00:00+05:30,acc:a16,acc:a00,124262,NEFT,produce settlement
+2026-03-13T18:00:00+05:30,acc:a17,acc:a00,239550,NEFT,produce settlement
+2026-02-18T00:00:00+05:30,acc:a11,acc:a00,77225,NEFT,produce settlement
+2026-03-24T17:00:00+05:30,acc:a12,acc:a00,141354,NEFT,produce settlement
+2026-01-13T01:00:00+05:30,acc:a13,acc:a00,236474,NEFT,produce settlement
+2026-03-18T22:00:00+05:30,acc:a14,acc:a00,73731,NEFT,produce settlement
+2026-04-16T18:00:00+05:30,acc:a15,acc:a00,163225,NEFT,produce settlement
+2026-05-10T23:00:00+05:30,acc:a16,acc:a00,239190,NEFT,produce settlement
+2026-02-24T19:00:00+05:30,acc:a17,acc:a00,68426,NEFT,produce settlement
+2026-05-13T19:00:00+05:30,acc:a11,acc:a00,172618,NEFT,produce settlement
+2026-04-02T18:00:00+05:30,acc:a12,acc:a00,77206,NEFT,produce settlement
+2026-02-01T21:00:00+05:30,acc:a13,acc:a00,221508,NEFT,produce settlement
+2026-02-15T23:00:00+05:30,acc:a14,acc:a00,242039,NEFT,produce settlement
+2026-01-12T22:00:00+05:30,acc:a15,acc:a00,136281,NEFT,produce settlement
+2026-04-21T00:00:00+05:30,acc:a16,acc:a00,187392,NEFT,produce settlement
+2026-05-11T22:00:00+05:30,acc:a17,acc:a00,102055,NEFT,produce settlement
+2026-03-16T00:00:00+05:30,acc:a11,acc:a00,215031,NEFT,produce settlement
+2026-03-02T18:00:00+05:30,acc:a12,acc:a00,101531,NEFT,produce settlement
+2026-05-10T02:00:00+05:30,acc:a13,acc:a00,168241,NEFT,produce settlement
+2026-03-15T18:00:00+05:30,acc:a14,acc:a00,173914,NEFT,produce settlement
+2026-02-08T17:00:00+05:30,acc:a15,acc:a00,248638,NEFT,produce settlement
+2026-02-26T20:00:00+05:30,acc:a16,acc:a00,255483,NEFT,produce settlement
+2026-05-22T18:00:00+05:30,acc:a17,acc:a00,171246,NEFT,produce settlement
+2026-03-27T20:00:00+05:30,acc:a11,acc:a00,68628,NEFT,produce settlement
+2026-03-20T19:00:00+05:30,acc:a12,acc:a00,130625,NEFT,produce settlement
+2026-03-15T02:00:00+05:30,acc:a13,acc:a00,56279,NEFT,produce settlement
+2026-04-06T19:00:00+05:30,acc:a14,acc:a00,197934,NEFT,produce settlement
+2026-01-19T17:00:00+05:30,acc:a15,acc:a00,58081,NEFT,produce settlement
+2026-03-18T17:00:00+05:30,acc:a16,acc:a00,219772,NEFT,produce settlement
+2026-02-20T22:00:00+05:30,acc:a17,acc:a00,121666,NEFT,produce settlement
+2026-03-18T21:00:00+05:30,acc:a11,acc:a00,194951,NEFT,produce settlement
+2026-04-26T20:00:00+05:30,acc:a12,acc:a00,94307,NEFT,produce settlement
+2026-03-07T18:00:00+05:30,acc:a13,acc:a00,91914,NEFT,produce settlement
+2026-04-26T02:00:00+05:30,acc:a14,acc:a00,238617,NEFT,produce settlement
+2026-05-24T01:00:00+05:30,acc:a15,acc:a00,86158,NEFT,produce settlement
+2026-03-07T22:00:00+05:30,acc:a16,acc:a00,256263,NEFT,produce settlement
+2026-01-31T17:00:00+05:30,acc:a17,acc:a00,99565,NEFT,produce settlement
+2026-01-27T01:00:00+05:30,acc:a11,acc:a00,80929,NEFT,produce settlement
+2026-03-04T17:00:00+05:30,acc:a12,acc:a00,255223,NEFT,produce settlement
+2026-05-15T22:00:00+05:30,acc:a13,acc:a00,191547,NEFT,produce settlement
+2026-02-26T01:00:00+05:30,acc:a14,acc:a00,120665,NEFT,produce settlement
+2026-02-13T23:00:00+05:30,acc:a15,acc:a00,46514,NEFT,produce settlement
+2026-03-08T00:00:00+05:30,acc:a16,acc:a00,105671,NEFT,produce settlement
+2026-01-31T02:00:00+05:30,acc:a17,acc:a00,249326,NEFT,produce settlement
+2026-02-02T02:00:00+05:30,acc:a11,acc:a00,81262,NEFT,produce settlement
+2026-04-12T19:00:00+05:30,acc:a12,acc:a00,50577,NEFT,produce settlement
+2026-03-06T20:00:00+05:30,acc:a13,acc:a00,238168,NEFT,produce settlement
+2026-04-23T00:00:00+05:30,acc:a14,acc:a00,245418,NEFT,produce settlement
+2026-01-17T01:00:00+05:30,acc:a15,acc:a00,93776,NEFT,produce settlement
+2026-05-12T18:00:00+05:30,acc:a16,acc:a00,143852,NEFT,produce settlement
+2026-02-07T18:00:00+05:30,acc:a17,acc:a00,131471,NEFT,produce settlement
+2026-05-15T02:00:00+05:30,acc:a11,acc:a00,49863,NEFT,produce settlement
+2026-04-23T21:00:00+05:30,acc:a12,acc:a00,243510,NEFT,produce settlement
+2026-03-23T01:00:00+05:30,acc:a13,acc:a00,263242,NEFT,produce settlement
+2026-04-12T00:00:00+05:30,acc:a14,acc:a00,142838,NEFT,produce settlement
+2026-02-01T21:00:00+05:30,acc:a15,acc:a00,72328,NEFT,produce settlement
+2026-05-10T17:00:00+05:30,acc:a16,acc:a00,98683,NEFT,produce settlement
+2026-03-23T23:00:00+05:30,acc:a17,acc:a00,85889,NEFT,produce settlement
+2026-04-28T22:00:00+05:30,acc:a11,acc:a00,183034,NEFT,produce settlement
+2026-05-09T22:00:00+05:30,acc:a12,acc:a00,198731,NEFT,produce settlement
+2026-04-02T22:00:00+05:30,acc:a13,acc:a00,52657,NEFT,produce settlement
+2026-02-15T02:00:00+05:30,acc:a14,acc:a00,87244,NEFT,produce settlement
+2026-04-08T00:00:00+05:30,acc:a15,acc:a00,54261,NEFT,produce settlement
+2026-03-28T19:00:00+05:30,acc:a16,acc:a00,242664,NEFT,produce settlement
+2026-05-25T17:00:00+05:30,acc:a17,acc:a00,179127,NEFT,produce settlement
+2026-02-09T23:00:00+05:30,acc:a11,acc:a00,114248,NEFT,produce settlement
+2026-04-05T02:00:00+05:30,acc:a12,acc:a00,144404,NEFT,produce settlement
+2026-04-03T02:00:00+05:30,acc:a13,acc:a00,111842,NEFT,produce settlement
+2026-04-03T01:00:00+05:30,acc:a14,acc:a00,196499,NEFT,produce settlement
+2026-01-12T21:00:00+05:30,acc:a15,acc:a00,163274,NEFT,produce settlement
+2026-02-18T22:00:00+05:30,acc:a16,acc:a00,192377,NEFT,produce settlement
+2026-04-06T18:00:00+05:30,acc:a17,acc:a00,158819,NEFT,produce settlement
+2026-04-01T00:00:00+05:30,acc:a11,acc:a00,224668,NEFT,produce settlement
+2026-03-07T01:00:00+05:30,acc:a12,acc:a00,171703,NEFT,produce settlement
+2026-03-22T22:00:00+05:30,acc:a13,acc:a00,232678,NEFT,produce settlement
+2026-04-11T22:00:00+05:30,acc:a14,acc:a00,237192,NEFT,produce settlement
+2026-02-22T17:00:00+05:30,acc:a15,acc:a00,77089,NEFT,produce settlement
+2026-05-10T01:00:00+05:30,acc:a16,acc:a00,218372,NEFT,produce settlement
+2026-02-08T02:00:00+05:30,acc:a17,acc:a00,228877,NEFT,produce settlement
+2026-04-22T02:00:00+05:30,acc:a11,acc:a00,150923,NEFT,produce settlement
+2026-01-23T01:00:00+05:30,acc:a12,acc:a00,79045,NEFT,produce settlement
+2026-03-19T17:00:00+05:30,acc:a13,acc:a00,53108,NEFT,produce settlement
+2026-02-10T00:00:00+05:30,acc:a14,acc:a00,276251,NEFT,produce settlement
+2026-01-14T23:00:00+05:30,acc:a15,acc:a00,61520,NEFT,produce settlement
+2026-05-21T02:00:00+05:30,acc:a16,acc:a00,164688,NEFT,produce settlement
+2026-02-09T20:00:00+05:30,acc:a17,acc:a00,143136,NEFT,produce settlement
+2026-02-28T18:00:00+05:30,acc:a11,acc:a00,94489,NEFT,produce settlement
+2026-05-07T00:00:00+05:30,acc:a12,acc:a00,160010,NEFT,produce settlement
+2026-05-01T01:00:00+05:30,acc:a13,acc:a00,167248,NEFT,produce settlement
+2026-02-11T17:00:00+05:30,acc:a14,acc:a00,227113,NEFT,produce settlement
+2026-04-30T21:00:00+05:30,acc:a15,acc:a00,66935,NEFT,produce settlement
+2026-04-11T18:00:00+05:30,acc:a16,acc:a00,85078,NEFT,produce settlement
+2026-02-23T22:00:00+05:30,acc:a17,acc:a00,198375,NEFT,produce settlement
+2026-02-04T21:00:00+05:30,acc:a11,acc:a00,251833,NEFT,produce settlement
+2026-03-14T20:00:00+05:30,acc:a12,acc:a00,52538,NEFT,produce settlement
+2026-01-26T18:00:00+05:30,acc:a13,acc:a00,179156,NEFT,produce settlement
+2026-02-20T21:00:00+05:30,acc:a14,acc:a00,74086,NEFT,produce settlement
+2026-05-07T21:00:00+05:30,acc:a15,acc:a00,241204,NEFT,produce settlement
+2026-05-19T17:00:00+05:30,acc:a16,acc:a00,211167,NEFT,produce settlement
+2026-05-02T22:00:00+05:30,acc:a17,acc:a00,108962,NEFT,produce settlement
+2026-02-16T22:00:00+05:30,acc:a11,acc:a00,139753,NEFT,produce settlement
+2026-04-20T19:00:00+05:30,acc:a12,acc:a00,181345,NEFT,produce settlement
+2026-04-28T02:00:00+05:30,acc:a13,acc:a00,180057,NEFT,produce settlement
+2026-03-06T20:00:00+05:30,acc:a14,acc:a00,150346,NEFT,produce settlement
+2026-03-08T21:00:00+05:30,acc:a15,acc:a00,117026,NEFT,produce settlement
+2026-01-23T18:00:00+05:30,acc:a16,acc:a00,60406,NEFT,produce settlement
+2026-02-28T02:00:00+05:30,acc:a17,acc:a00,124969,NEFT,produce settlement
+2026-05-23T01:00:00+05:30,acc:a11,acc:a00,266004,NEFT,produce settlement
+2026-04-02T21:00:00+05:30,acc:a12,acc:a00,56350,NEFT,produce settlement
+2026-04-09T01:00:00+05:30,acc:a13,acc:a00,187059,NEFT,produce settlement
+2026-01-16T01:00:00+05:30,acc:a14,acc:a00,279733,NEFT,produce settlement
+2026-04-16T21:00:00+05:30,acc:a15,acc:a00,110161,NEFT,produce settlement
+2026-02-17T00:00:00+05:30,acc:a16,acc:a00,75604,NEFT,produce settlement
+2026-02-16T20:00:00+05:30,acc:a17,acc:a00,128720,NEFT,produce settlement
+2026-01-13T20:00:00+05:30,acc:a11,acc:a00,205195,NEFT,produce settlement
+2026-01-15T18:00:00+05:30,acc:a12,acc:a00,54370,NEFT,produce settlement
+2026-04-29T21:00:00+05:30,acc:a13,acc:a00,96691,NEFT,produce settlement
+2026-02-11T18:00:00+05:30,acc:a14,acc:a00,101876,NEFT,produce settlement
+2026-04-15T18:00:00+05:30,acc:a15,acc:a00,206743,NEFT,produce settlement
+2026-02-18T02:00:00+05:30,acc:a16,acc:a00,220776,NEFT,produce settlement
+2026-04-16T18:00:00+05:30,acc:a17,acc:a00,129503,NEFT,produce settlement
+2026-03-18T02:00:00+05:30,acc:a11,acc:a00,84646,NEFT,produce settlement
+2026-01-17T19:00:00+05:30,acc:a12,acc:a00,253170,NEFT,produce settlement
+2026-05-16T01:00:00+05:30,acc:a13,acc:a00,162249,NEFT,produce settlement
+2026-01-27T00:00:00+05:30,acc:a14,acc:a00,265571,NEFT,produce settlement
+2026-02-11T02:00:00+05:30,acc:a15,acc:a00,130138,NEFT,produce settlement
+2026-02-11T23:00:00+05:30,acc:a16,acc:a00,56721,NEFT,produce settlement
+2026-04-17T22:00:00+05:30,acc:a17,acc:a00,258408,NEFT,produce settlement
+2026-04-08T00:00:00+05:30,acc:a11,acc:a00,238942,NEFT,produce settlement
+2026-01-16T22:00:00+05:30,acc:a12,acc:a00,225182,NEFT,produce settlement
+2026-03-15T22:00:00+05:30,acc:a13,acc:a00,83529,NEFT,produce settlement
+2026-03-03T18:00:00+05:30,acc:a14,acc:a00,168023,NEFT,produce settlement
+2026-02-04T23:00:00+05:30,acc:a15,acc:a00,91414,NEFT,produce settlement
+2026-02-06T19:00:00+05:30,acc:a16,acc:a00,228342,NEFT,produce settlement
+2026-02-24T21:00:00+05:30,acc:a17,acc:a00,73728,NEFT,produce settlement
+2026-03-18T01:00:00+05:30,acc:a11,acc:a00,215997,NEFT,produce settlement
+2026-05-19T23:00:00+05:30,acc:a12,acc:a00,263375,NEFT,produce settlement
+2026-04-01T23:00:00+05:30,acc:a13,acc:a00,182492,NEFT,produce settlement
+2026-04-30T17:00:00+05:30,acc:a14,acc:a00,243023,NEFT,produce settlement
+2026-04-01T22:00:00+05:30,acc:a15,acc:a00,204444,NEFT,produce settlement
+2026-01-28T17:00:00+05:30,acc:a16,acc:a00,71857,NEFT,produce settlement
+2026-03-11T18:00:00+05:30,acc:a17,acc:a00,84766,NEFT,produce settlement
+2026-03-16T00:00:00+05:30,acc:a11,acc:a00,192639,NEFT,produce settlement
+2026-05-06T19:00:00+05:30,acc:a12,acc:a00,245113,NEFT,produce settlement
+2026-04-18T02:00:00+05:30,acc:a13,acc:a00,219264,NEFT,produce settlement
+2026-02-21T00:00:00+05:30,acc:a14,acc:a00,80116,NEFT,produce settlement
+2026-01-22T02:00:00+05:30,acc:a15,acc:a00,270850,NEFT,produce settlement
+2026-02-26T23:00:00+05:30,acc:a16,acc:a00,179469,NEFT,produce settlement
+2026-03-11T18:00:00+05:30,acc:a17,acc:a00,267649,NEFT,produce settlement
+2026-03-24T22:00:00+05:30,acc:a11,acc:a00,278237,NEFT,produce settlement
+2026-02-27T21:00:00+05:30,acc:a12,acc:a00,164400,NEFT,produce settlement
+2026-01-28T21:00:00+05:30,acc:a13,acc:a00,191092,NEFT,produce settlement
+2026-05-17T22:00:00+05:30,acc:a14,acc:a00,105892,NEFT,produce settlement
+2026-02-19T02:00:00+05:30,acc:a15,acc:a00,189705,NEFT,produce settlement
+2026-04-20T23:00:00+05:30,acc:a16,acc:a00,118101,NEFT,produce settlement
+2026-05-11T01:00:00+05:30,acc:a17,acc:a00,219132,NEFT,produce settlement
+2026-03-28T21:00:00+05:30,acc:a11,acc:a00,121526,NEFT,produce settlement
+2026-05-08T17:00:00+05:30,acc:a12,acc:a00,191754,NEFT,produce settlement
+2026-05-10T20:00:00+05:30,acc:a13,acc:a00,253872,NEFT,produce settlement
+2026-03-05T17:00:00+05:30,acc:a14,acc:a00,263932,NEFT,produce settlement
+2026-01-22T17:00:00+05:30,acc:a15,acc:a00,99991,NEFT,produce settlement
+2026-02-19T19:00:00+05:30,acc:a16,acc:a00,77972,NEFT,produce settlement
+2026-01-31T21:00:00+05:30,acc:a17,acc:a00,257655,NEFT,produce settlement
+2026-05-11T18:00:00+05:30,acc:a11,acc:a00,95984,NEFT,produce settlement
+2026-01-13T23:00:00+05:30,acc:a12,acc:a00,134568,NEFT,produce settlement
+2026-05-03T18:00:00+05:30,acc:a13,acc:a00,172007,NEFT,produce settlement
+2026-02-03T20:00:00+05:30,acc:a14,acc:a00,251959,NEFT,produce settlement
+2026-03-28T01:00:00+05:30,acc:a15,acc:a00,166090,NEFT,produce settlement
+2026-03-07T18:00:00+05:30,acc:a16,acc:a00,69904,NEFT,produce settlement
+2026-05-24T02:00:00+05:30,acc:a17,acc:a00,130906,NEFT,produce settlement
+2026-01-22T18:00:00+05:30,acc:a11,acc:a00,200037,NEFT,produce settlement
+2026-03-19T22:00:00+05:30,acc:a12,acc:a00,160055,NEFT,produce settlement
+2026-03-27T02:00:00+05:30,acc:a13,acc:a00,185568,NEFT,produce settlement
+2026-02-11T00:00:00+05:30,acc:a14,acc:a00,223937,NEFT,produce settlement
+2026-04-26T20:00:00+05:30,acc:a15,acc:a00,98861,NEFT,produce settlement
+2026-05-22T00:00:00+05:30,acc:a16,acc:a00,182935,NEFT,produce settlement
+2026-02-12T02:00:00+05:30,acc:a17,acc:a00,214116,NEFT,produce settlement
+2026-04-01T22:00:00+05:30,acc:a11,acc:a00,54674,NEFT,produce settlement
+2026-04-28T19:00:00+05:30,acc:a12,acc:a00,158587,NEFT,produce settlement
+2026-05-18T17:00:00+05:30,acc:a13,acc:a00,124069,NEFT,produce settlement
+2026-04-03T21:00:00+05:30,acc:a14,acc:a00,115583,NEFT,produce settlement
+2026-01-21T01:00:00+05:30,acc:a15,acc:a00,244462,NEFT,produce settlement
+2026-04-24T18:00:00+05:30,acc:a16,acc:a00,81275,NEFT,produce settlement
+2026-03-04T18:00:00+05:30,acc:a17,acc:a00,175964,NEFT,produce settlement
+2026-02-04T17:00:00+05:30,acc:a11,acc:a00,92512,NEFT,produce settlement
+2026-05-20T22:00:00+05:30,acc:a12,acc:a00,151865,NEFT,produce settlement
+2026-05-04T01:00:00+05:30,acc:a13,acc:a00,161363,NEFT,produce settlement
+2026-05-25T02:00:00+05:30,acc:a14,acc:a00,90578,NEFT,produce settlement
+2026-02-09T22:00:00+05:30,acc:a15,acc:a00,234523,NEFT,produce settlement
+2026-03-23T17:00:00+05:30,acc:a16,acc:a00,161113,NEFT,produce settlement
+2026-01-16T01:00:00+05:30,acc:a17,acc:a00,229763,NEFT,produce settlement
+2026-02-16T00:00:00+05:30,acc:a11,acc:a00,240937,NEFT,produce settlement
+2026-03-25T01:00:00+05:30,acc:a12,acc:a00,68791,NEFT,produce settlement
+2026-03-11T19:00:00+05:30,acc:a13,acc:a00,99767,NEFT,produce settlement
+2026-05-18T23:00:00+05:30,acc:a14,acc:a00,143205,NEFT,produce settlement
+2026-03-02T01:00:00+05:30,acc:a15,acc:a00,151226,NEFT,produce settlement
+2026-02-27T02:00:00+05:30,acc:a16,acc:a00,78956,NEFT,produce settlement
+2026-02-12T18:00:00+05:30,acc:a17,acc:a00,168729,NEFT,produce settlement
+2026-02-27T22:00:00+05:30,acc:a11,acc:a00,270523,NEFT,produce settlement
+2026-01-27T23:00:00+05:30,acc:a12,acc:a00,76322,NEFT,produce settlement
+2026-03-22T19:00:00+05:30,acc:a13,acc:a00,164575,NEFT,produce settlement
+2026-05-14T23:00:00+05:30,acc:a14,acc:a00,152541,NEFT,produce settlement
+2026-02-21T17:00:00+05:30,acc:a15,acc:a00,182485,NEFT,produce settlement
+2026-04-29T21:00:00+05:30,acc:a16,acc:a00,172871,NEFT,produce settlement
+2026-02-07T02:00:00+05:30,acc:a17,acc:a00,73907,NEFT,produce settlement
+2026-05-23T18:00:00+05:30,acc:a11,acc:a00,145436,NEFT,produce settlement
+2026-02-01T20:00:00+05:30,acc:a12,acc:a00,97541,NEFT,produce settlement
+2026-04-19T20:00:00+05:30,acc:a13,acc:a00,194111,NEFT,produce settlement
+2026-02-18T00:00:00+05:30,acc:a01,acc:a02,222361,RTGS,consultancy / packing
+2026-04-25T00:00:00+05:30,acc:a01,acc:a03,163374,RTGS,consultancy / packing
+2026-01-19T21:00:00+05:30,acc:a01,acc:a04,60419,RTGS,consultancy / packing
+2026-02-23T00:00:00+05:30,acc:a01,acc:a05,225716,RTGS,consultancy / packing
+2026-02-05T02:00:00+05:30,acc:a01,acc:a06,44796,RTGS,consultancy / packing
+2026-05-24T23:00:00+05:30,acc:a01,acc:a07,65540,RTGS,consultancy / packing
+2026-05-31T03:00:00+05:30,acc:a01,acc:a02,58140,RTGS,consultancy / packing
+2026-03-03T01:00:00+05:30,acc:a01,acc:a03,143061,RTGS,consultancy / packing
+2026-04-09T23:00:00+05:30,acc:a01,acc:a04,240097,RTGS,consultancy / packing
+2026-05-01T00:00:00+05:30,acc:a01,acc:a05,224898,RTGS,consultancy / packing
+2026-02-24T01:00:00+05:30,acc:a01,acc:a06,154768,RTGS,consultancy / packing
+2026-04-10T23:00:00+05:30,acc:a01,acc:a07,150673,RTGS,consultancy / packing
+2026-05-26T20:00:00+05:30,acc:a01,acc:a02,77474,RTGS,consultancy / packing
+2026-02-03T19:00:00+05:30,acc:a01,acc:a03,186898,RTGS,consultancy / packing
+2026-02-21T22:00:00+05:30,acc:a01,acc:a04,174218,RTGS,consultancy / packing
+2026-02-01T19:00:00+05:30,acc:a01,acc:a05,217641,RTGS,consultancy / packing
+2026-03-10T19:00:00+05:30,acc:a01,acc:a06,77380,RTGS,consultancy / packing
+2026-05-27T18:00:00+05:30,acc:a01,acc:a07,192842,RTGS,consultancy / packing
+2026-03-01T19:00:00+05:30,acc:a01,acc:a02,199732,RTGS,consultancy / packing
+2026-01-26T02:00:00+05:30,acc:a01,acc:a03,87225,RTGS,consultancy / packing
+2026-04-08T03:00:00+05:30,acc:a01,acc:a04,227479,RTGS,consultancy / packing
+2026-02-16T20:00:00+05:30,acc:a01,acc:a05,244392,RTGS,consultancy / packing
+2026-02-13T18:00:00+05:30,acc:a01,acc:a06,54641,RTGS,consultancy / packing
+2026-04-06T01:00:00+05:30,acc:a01,acc:a07,215237,RTGS,consultancy / packing
+2026-03-11T19:00:00+05:30,acc:a01,acc:a02,185047,RTGS,consultancy / packing
+2026-04-17T18:00:00+05:30,acc:a01,acc:a03,221706,RTGS,consultancy / packing
+2026-05-14T20:00:00+05:30,acc:a01,acc:a04,200424,RTGS,consultancy / packing
+2026-02-17T19:00:00+05:30,acc:a01,acc:a05,117196,RTGS,consultancy / packing
+2026-03-15T00:00:00+05:30,acc:a01,acc:a06,214415,RTGS,consultancy / packing
+2026-04-27T18:00:00+05:30,acc:a01,acc:a07,243533,RTGS,consultancy / packing
+2026-03-30T03:00:00+05:30,acc:a01,acc:a02,187044,RTGS,consultancy / packing
+2026-01-29T02:00:00+05:30,acc:a01,acc:a03,147319,RTGS,consultancy / packing
+2026-04-14T22:00:00+05:30,acc:a01,acc:a04,146234,RTGS,consultancy / packing
+2026-05-03T18:00:00+05:30,acc:a01,acc:a05,156535,RTGS,consultancy / packing
+2026-05-05T19:00:00+05:30,acc:a01,acc:a06,239986,RTGS,consultancy / packing
+2026-04-30T21:00:00+05:30,acc:a01,acc:a07,253375,RTGS,consultancy / packing
+2026-04-15T22:00:00+05:30,acc:a01,acc:a02,210478,RTGS,consultancy / packing
+2026-02-07T03:00:00+05:30,acc:a01,acc:a03,42022,RTGS,consultancy / packing
+2026-02-24T01:00:00+05:30,acc:a01,acc:a04,192398,RTGS,consultancy / packing
+2026-03-24T23:00:00+05:30,acc:a01,acc:a05,80611,RTGS,consultancy / packing
+2026-03-04T20:00:00+05:30,acc:a01,acc:a06,133988,RTGS,consultancy / packing
+2026-02-16T18:00:00+05:30,acc:a01,acc:a07,114351,RTGS,consultancy / packing
+2026-05-03T20:00:00+05:30,acc:a01,acc:a02,245553,RTGS,consultancy / packing
+2026-01-12T02:00:00+05:30,acc:a01,acc:a03,253792,RTGS,consultancy / packing
+2026-04-04T22:00:00+05:30,acc:a01,acc:a04,248774,RTGS,consultancy / packing
+2026-05-26T21:00:00+05:30,acc:a01,acc:a05,180253,RTGS,consultancy / packing
+2026-02-11T19:00:00+05:30,acc:a01,acc:a06,241738,RTGS,consultancy / packing
+2026-02-06T00:00:00+05:30,acc:a01,acc:a07,114649,RTGS,consultancy / packing
+2026-03-01T23:00:00+05:30,acc:a01,acc:a02,185540,RTGS,consultancy / packing
+2026-05-01T00:00:00+05:30,acc:a01,acc:a03,194628,RTGS,consultancy / packing
+2026-03-23T22:00:00+05:30,acc:a01,acc:a04,65551,RTGS,consultancy / packing
+2026-03-11T22:00:00+05:30,acc:a01,acc:a05,50340,RTGS,consultancy / packing
+2026-03-01T00:00:00+05:30,acc:a01,acc:a06,50575,RTGS,consultancy / packing
+2026-04-19T21:00:00+05:30,acc:a01,acc:a07,135438,RTGS,consultancy / packing
+2026-04-29T18:00:00+05:30,acc:a01,acc:a02,94378,RTGS,consultancy / packing
+2026-05-02T02:00:00+05:30,acc:a01,acc:a03,116751,RTGS,consultancy / packing
+2026-03-03T00:00:00+05:30,acc:a01,acc:a04,109619,RTGS,consultancy / packing
+2026-03-05T22:00:00+05:30,acc:a01,acc:a05,206962,RTGS,consultancy / packing
+2026-03-18T00:00:00+05:30,acc:a01,acc:a06,167006,RTGS,consultancy / packing
+2026-02-07T19:00:00+05:30,acc:a01,acc:a07,239100,RTGS,consultancy / packing
+2026-05-21T22:00:00+05:30,acc:a01,acc:a02,52147,RTGS,consultancy / packing
+2026-01-13T00:00:00+05:30,acc:a01,acc:a03,200676,RTGS,consultancy / packing
+2026-02-21T19:00:00+05:30,acc:a01,acc:a04,72378,RTGS,consultancy / packing
+2026-04-07T19:00:00+05:30,acc:a01,acc:a05,165145,RTGS,consultancy / packing
+2026-03-17T02:00:00+05:30,acc:a01,acc:a06,164690,RTGS,consultancy / packing
+2026-03-04T00:00:00+05:30,acc:a01,acc:a07,141137,RTGS,consultancy / packing
+2026-03-29T21:00:00+05:30,acc:a01,acc:a02,252385,RTGS,consultancy / packing
+2026-03-16T20:00:00+05:30,acc:a01,acc:a03,255601,RTGS,consultancy / packing
+2026-01-28T03:00:00+05:30,acc:a01,acc:a04,204530,RTGS,consultancy / packing
+2026-02-19T19:00:00+05:30,acc:a01,acc:a05,82507,RTGS,consultancy / packing
+2026-02-06T03:00:00+05:30,acc:a01,acc:a06,246688,RTGS,consultancy / packing
+2026-05-29T00:00:00+05:30,acc:a01,acc:a07,53469,RTGS,consultancy / packing
+2026-05-26T02:00:00+05:30,acc:a01,acc:a02,71676,RTGS,consultancy / packing
+2026-04-02T22:00:00+05:30,acc:a01,acc:a03,188364,RTGS,consultancy / packing
+2026-02-18T20:00:00+05:30,acc:a01,acc:a04,54070,RTGS,consultancy / packing
+2026-02-28T01:00:00+05:30,acc:a01,acc:a05,56690,RTGS,consultancy / packing
+2026-05-25T19:00:00+05:30,acc:a01,acc:a06,153556,RTGS,consultancy / packing
+2026-04-23T21:00:00+05:30,acc:a01,acc:a07,185932,RTGS,consultancy / packing
+2026-02-08T01:00:00+05:30,acc:a01,acc:a02,112797,RTGS,consultancy / packing
+2026-02-14T18:00:00+05:30,acc:a01,acc:a03,133914,RTGS,consultancy / packing
+2026-01-21T00:00:00+05:30,acc:a01,acc:a04,111790,RTGS,consultancy / packing
+2026-04-27T19:00:00+05:30,acc:a01,acc:a05,87849,RTGS,consultancy / packing
+2026-03-10T23:00:00+05:30,acc:a01,acc:a06,69197,RTGS,consultancy / packing
+2026-05-16T21:00:00+05:30,acc:a01,acc:a07,111957,RTGS,consultancy / packing
+2026-02-24T21:00:00+05:30,acc:a01,acc:a02,50338,RTGS,consultancy / packing
+2026-02-02T19:00:00+05:30,acc:a01,acc:a03,121682,RTGS,consultancy / packing
+2026-05-26T00:00:00+05:30,acc:a01,acc:a04,159429,RTGS,consultancy / packing
+2026-04-03T02:00:00+05:30,acc:a01,acc:a05,64500,RTGS,consultancy / packing
+2026-01-20T19:00:00+05:30,acc:a01,acc:a06,178551,RTGS,consultancy / packing
+2026-03-04T22:00:00+05:30,acc:a01,acc:a07,41070,RTGS,consultancy / packing
+2026-03-20T00:00:00+05:30,acc:a01,acc:a02,157240,RTGS,consultancy / packing
+2026-02-26T21:00:00+05:30,acc:a01,acc:a03,226723,RTGS,consultancy / packing
+2026-03-18T19:00:00+05:30,acc:a01,acc:a04,70292,RTGS,consultancy / packing
+2026-01-20T01:00:00+05:30,acc:a01,acc:a05,91954,RTGS,consultancy / packing
+2026-05-15T23:00:00+05:30,acc:a01,acc:a06,101986,RTGS,consultancy / packing
+2026-02-02T22:00:00+05:30,acc:a01,acc:a07,208760,RTGS,consultancy / packing
+2026-03-11T00:00:00+05:30,acc:a01,acc:a02,110723,RTGS,consultancy / packing
+2026-01-17T01:00:00+05:30,acc:a01,acc:a03,187136,RTGS,consultancy / packing
+2026-05-12T21:00:00+05:30,acc:a01,acc:a04,53874,RTGS,consultancy / packing
+2026-03-19T23:00:00+05:30,acc:a01,acc:a05,50562,RTGS,consultancy / packing
+2026-05-03T23:00:00+05:30,acc:a01,acc:a06,198892,RTGS,consultancy / packing
+2026-01-23T21:00:00+05:30,acc:a01,acc:a07,56793,RTGS,consultancy / packing
+2026-01-17T00:00:00+05:30,acc:a01,acc:a02,122705,RTGS,consultancy / packing
+2026-02-06T19:00:00+05:30,acc:a01,acc:a03,210813,RTGS,consultancy / packing
+2026-03-21T22:00:00+05:30,acc:a01,acc:a04,45732,RTGS,consultancy / packing
+2026-05-30T01:00:00+05:30,acc:a01,acc:a05,135338,RTGS,consultancy / packing
+2026-01-28T22:00:00+05:30,acc:a01,acc:a06,79196,RTGS,consultancy / packing
+2026-04-20T23:00:00+05:30,acc:a01,acc:a07,234761,RTGS,consultancy / packing
+2026-03-20T18:00:00+05:30,acc:a01,acc:a02,134335,RTGS,consultancy / packing
+2026-05-10T23:00:00+05:30,acc:a01,acc:a03,149232,RTGS,consultancy / packing
+2026-04-14T21:00:00+05:30,acc:a01,acc:a04,126112,RTGS,consultancy / packing
+2026-04-23T18:00:00+05:30,acc:a01,acc:a05,175715,RTGS,consultancy / packing
+2026-05-25T21:00:00+05:30,acc:a01,acc:a06,227883,RTGS,consultancy / packing
+2026-03-11T21:00:00+05:30,acc:a01,acc:a07,173418,RTGS,consultancy / packing
+2026-01-17T21:00:00+05:30,acc:a01,acc:a02,228289,RTGS,consultancy / packing
+2026-05-22T01:00:00+05:30,acc:a01,acc:a03,208342,RTGS,consultancy / packing
+2026-04-03T22:00:00+05:30,acc:a01,acc:a04,184382,RTGS,consultancy / packing
+2026-02-23T23:00:00+05:30,acc:a01,acc:a05,192038,RTGS,consultancy / packing
+2026-04-22T19:00:00+05:30,acc:a01,acc:a06,200246,RTGS,consultancy / packing
+2026-03-25T23:00:00+05:30,acc:a01,acc:a07,41919,RTGS,consultancy / packing
+2026-05-29T23:00:00+05:30,acc:a01,acc:a02,146065,RTGS,consultancy / packing
+2026-03-08T19:00:00+05:30,acc:a01,acc:a03,188802,RTGS,consultancy / packing
+2026-01-23T03:00:00+05:30,acc:a01,acc:a04,41055,RTGS,consultancy / packing
+2026-03-18T00:00:00+05:30,acc:a01,acc:a05,222164,RTGS,consultancy / packing
+2026-04-21T18:00:00+05:30,acc:a01,acc:a06,197804,RTGS,consultancy / packing
+2026-05-12T03:00:00+05:30,acc:a01,acc:a07,227886,RTGS,consultancy / packing
+2026-02-27T18:00:00+05:30,acc:a01,acc:a02,177221,RTGS,consultancy / packing
+2026-04-23T03:00:00+05:30,acc:a01,acc:a03,74693,RTGS,consultancy / packing
+2026-03-19T21:00:00+05:30,acc:a01,acc:a04,144995,RTGS,consultancy / packing
+2026-04-18T18:00:00+05:30,acc:a01,acc:a05,100528,RTGS,consultancy / packing
+2026-04-06T03:00:00+05:30,acc:a01,acc:a06,76460,RTGS,consultancy / packing
+2026-04-11T02:00:00+05:30,acc:a01,acc:a07,164769,RTGS,consultancy / packing
+2026-02-07T22:00:00+05:30,acc:a01,acc:a02,51243,RTGS,consultancy / packing
+2026-02-04T19:00:00+05:30,acc:a01,acc:a03,90347,RTGS,consultancy / packing
+2026-03-05T18:00:00+05:30,acc:a01,acc:a04,181126,RTGS,consultancy / packing
+2026-02-17T18:00:00+05:30,acc:a01,acc:a05,86805,RTGS,consultancy / packing
+2026-02-17T22:00:00+05:30,acc:a01,acc:a06,50902,RTGS,consultancy / packing
+2026-02-26T23:00:00+05:30,acc:a01,acc:a07,61212,RTGS,consultancy / packing
+2026-03-27T03:00:00+05:30,acc:a01,acc:a02,66064,RTGS,consultancy / packing
+2026-02-05T20:00:00+05:30,acc:a01,acc:a03,157424,RTGS,consultancy / packing
+2026-02-10T21:00:00+05:30,acc:a01,acc:a04,114001,RTGS,consultancy / packing
+2026-02-23T23:00:00+05:30,acc:a01,acc:a05,53491,RTGS,consultancy / packing
+2026-03-24T22:00:00+05:30,acc:a01,acc:a06,143003,RTGS,consultancy / packing
+2026-04-27T00:00:00+05:30,acc:a01,acc:a07,44066,RTGS,consultancy / packing
+2026-05-23T21:00:00+05:30,acc:a01,acc:a02,256468,RTGS,consultancy / packing
+2026-03-14T22:00:00+05:30,acc:a01,acc:a03,226464,RTGS,consultancy / packing
+2026-04-16T22:00:00+05:30,acc:a01,acc:a04,177404,RTGS,consultancy / packing
+2026-05-25T23:00:00+05:30,acc:a01,acc:a05,187942,RTGS,consultancy / packing
+2026-03-27T01:00:00+05:30,acc:a01,acc:a06,218366,RTGS,consultancy / packing
+2026-04-24T23:00:00+05:30,acc:a01,acc:a07,215294,RTGS,consultancy / packing
+2026-05-30T23:00:00+05:30,acc:a01,acc:a02,257575,RTGS,consultancy / packing
+2026-05-19T23:00:00+05:30,acc:a01,acc:a03,169815,RTGS,consultancy / packing
+2026-03-03T22:00:00+05:30,acc:a01,acc:a04,152246,RTGS,consultancy / packing
+2026-03-12T01:00:00+05:30,acc:a01,acc:a05,234320,RTGS,consultancy / packing
+2026-02-28T01:00:00+05:30,acc:a01,acc:a06,161387,RTGS,consultancy / packing
+2026-02-28T03:00:00+05:30,acc:a01,acc:a07,254840,RTGS,consultancy / packing
+2026-01-22T21:00:00+05:30,acc:a01,acc:a02,201529,RTGS,consultancy / packing
+2026-03-14T22:00:00+05:30,acc:a01,acc:a03,41027,RTGS,consultancy / packing
+2026-03-16T00:00:00+05:30,acc:a01,acc:a04,157509,RTGS,consultancy / packing
+2026-04-24T03:00:00+05:30,acc:a01,acc:a05,174529,RTGS,consultancy / packing
+2026-03-28T20:00:00+05:30,acc:a01,acc:a06,45897,RTGS,consultancy / packing
+2026-02-15T23:00:00+05:30,acc:a01,acc:a07,152668,RTGS,consultancy / packing
+2026-02-02T01:00:00+05:30,acc:a01,acc:a02,193999,RTGS,consultancy / packing
+2026-03-14T03:00:00+05:30,acc:a01,acc:a03,152422,RTGS,consultancy / packing
+2026-04-17T02:00:00+05:30,acc:a01,acc:a04,184282,RTGS,consultancy / packing
+2026-01-18T22:00:00+05:30,acc:a01,acc:a05,205872,RTGS,consultancy / packing
+2026-03-02T03:00:00+05:30,acc:a01,acc:a06,138109,RTGS,consultancy / packing
+2026-01-30T02:00:00+05:30,acc:a01,acc:a07,185927,RTGS,consultancy / packing
+2026-01-19T18:00:00+05:30,acc:a01,acc:a02,77911,RTGS,consultancy / packing
+2026-03-04T03:00:00+05:30,acc:a01,acc:a03,78944,RTGS,consultancy / packing
+2026-04-30T02:00:00+05:30,acc:a01,acc:a04,86473,RTGS,consultancy / packing
+2026-03-26T02:00:00+05:30,acc:a01,acc:a05,89038,RTGS,consultancy / packing
+2026-01-15T21:00:00+05:30,acc:a01,acc:a06,83946,RTGS,consultancy / packing
+2026-05-03T18:00:00+05:30,acc:a01,acc:a07,154551,RTGS,consultancy / packing
+2026-04-07T18:00:00+05:30,acc:a01,acc:a02,87643,RTGS,consultancy / packing
+2026-03-02T21:00:00+05:30,acc:a01,acc:a03,51891,RTGS,consultancy / packing
+2026-04-23T02:00:00+05:30,acc:a01,acc:a04,256867,RTGS,consultancy / packing
+2026-02-09T20:00:00+05:30,acc:a01,acc:a05,42597,RTGS,consultancy / packing
+2026-04-16T19:00:00+05:30,acc:a01,acc:a06,157332,RTGS,consultancy / packing
+2026-03-25T03:00:00+05:30,acc:a01,acc:a07,92786,RTGS,consultancy / packing
+2026-01-15T19:00:00+05:30,acc:a01,acc:a02,204981,RTGS,consultancy / packing
+2026-04-03T18:00:00+05:30,acc:a01,acc:a03,158126,RTGS,consultancy / packing
+2026-01-28T00:00:00+05:30,acc:a01,acc:a04,129865,RTGS,consultancy / packing
+2026-04-01T20:00:00+05:30,acc:a01,acc:a05,81186,RTGS,consultancy / packing
+2026-05-10T02:00:00+05:30,acc:a01,acc:a06,79671,RTGS,consultancy / packing
+2026-03-25T19:00:00+05:30,acc:a01,acc:a07,137375,RTGS,consultancy / packing
+2026-05-03T20:00:00+05:30,acc:a01,acc:a02,96315,RTGS,consultancy / packing
+2026-03-08T03:00:00+05:30,acc:a01,acc:a03,163441,RTGS,consultancy / packing
+2026-05-29T19:00:00+05:30,acc:a01,acc:a04,213857,RTGS,consultancy / packing
+2026-04-11T19:00:00+05:30,acc:a01,acc:a05,156604,RTGS,consultancy / packing
+2026-01-21T00:00:00+05:30,acc:a01,acc:a06,178691,RTGS,consultancy / packing
+2026-01-21T20:00:00+05:30,acc:a01,acc:a07,168401,RTGS,consultancy / packing
+2026-04-18T01:00:00+05:30,acc:a01,acc:a02,171587,RTGS,consultancy / packing
+2026-03-26T21:00:00+05:30,acc:a01,acc:a03,59971,RTGS,consultancy / packing
+2026-01-12T20:00:00+05:30,acc:a01,acc:a04,197458,RTGS,consultancy / packing
+2026-04-04T02:00:00+05:30,acc:a01,acc:a05,68727,RTGS,consultancy / packing
+2026-03-12T22:00:00+05:30,acc:a01,acc:a06,120527,RTGS,consultancy / packing
+2026-01-13T22:00:00+05:30,acc:a01,acc:a07,92971,RTGS,consultancy / packing
+2026-03-28T20:00:00+05:30,acc:a01,acc:a02,244127,RTGS,consultancy / packing
+2026-05-05T22:00:00+05:30,acc:a01,acc:a03,159093,RTGS,consultancy / packing
+2026-03-10T22:00:00+05:30,acc:a01,acc:a04,228507,RTGS,consultancy / packing
+2026-04-28T02:00:00+05:30,acc:a01,acc:a05,42736,RTGS,consultancy / packing
+2026-05-01T22:00:00+05:30,acc:a01,acc:a06,46592,RTGS,consultancy / packing
+2026-02-05T01:00:00+05:30,acc:a01,acc:a07,226210,RTGS,consultancy / packing
+2026-01-22T21:00:00+05:30,acc:a01,acc:a02,199328,RTGS,consultancy / packing
+2026-01-16T18:00:00+05:30,acc:a01,acc:a03,54548,RTGS,consultancy / packing
+2026-04-17T18:00:00+05:30,acc:a01,acc:a04,78960,RTGS,consultancy / packing
+2026-02-26T02:00:00+05:30,acc:a01,acc:a05,192327,RTGS,consultancy / packing
+2026-03-09T21:00:00+05:30,acc:a01,acc:a06,67401,RTGS,consultancy / packing
+2026-02-20T02:00:00+05:30,acc:a01,acc:a07,179520,RTGS,consultancy / packing
+2026-01-30T03:00:00+05:30,acc:a01,acc:a02,205755,RTGS,consultancy / packing
+2026-04-08T19:00:00+05:30,acc:a01,acc:a03,191140,RTGS,consultancy / packing
+2026-03-19T02:00:00+05:30,acc:a01,acc:a04,132218,RTGS,consultancy / packing
+2026-05-01T02:00:00+05:30,acc:a01,acc:a05,101761,RTGS,consultancy / packing
+2026-05-09T00:00:00+05:30,acc:a01,acc:a06,167218,RTGS,consultancy / packing
+2026-05-14T03:00:00+05:30,acc:a01,acc:a07,178649,RTGS,consultancy / packing
+2026-02-10T20:00:00+05:30,acc:a01,acc:a02,187864,RTGS,consultancy / packing
+2026-02-12T22:00:00+05:30,acc:a01,acc:a03,88316,RTGS,consultancy / packing
+2026-05-15T18:00:00+05:30,acc:a01,acc:a04,123212,RTGS,consultancy / packing
+2026-04-12T18:00:00+05:30,acc:a01,acc:a05,215872,RTGS,consultancy / packing
+2026-01-25T22:00:00+05:30,acc:a02,acc:a03,141636,IMPS,inter-firm adjustment
+2026-01-27T22:01:00+05:30,acc:a03,acc:a08,115186,IMPS,inter-firm adjustment
+2026-01-29T22:02:00+05:30,acc:a08,acc:a09,116159,IMPS,inter-firm adjustment
+2026-01-31T22:03:00+05:30,acc:a09,acc:a02,160940,IMPS,inter-firm adjustment
+2026-02-02T22:04:00+05:30,acc:a02,acc:a03,133229,IMPS,inter-firm adjustment
+2026-02-04T22:05:00+05:30,acc:a03,acc:a08,106143,IMPS,inter-firm adjustment
+2026-02-06T22:06:00+05:30,acc:a08,acc:a09,114519,IMPS,inter-firm adjustment
+2026-02-08T22:07:00+05:30,acc:a09,acc:a02,102669,IMPS,inter-firm adjustment
+2026-02-10T22:08:00+05:30,acc:a02,acc:a03,124373,IMPS,inter-firm adjustment
+2026-02-12T22:09:00+05:30,acc:a03,acc:a08,99277,IMPS,inter-firm adjustment
+2026-02-14T22:10:00+05:30,acc:a08,acc:a09,173533,IMPS,inter-firm adjustment
+2026-02-16T22:11:00+05:30,acc:a09,acc:a02,108898,IMPS,inter-firm adjustment
+2026-02-18T22:12:00+05:30,acc:a02,acc:a03,167987,IMPS,inter-firm adjustment
+2026-02-20T22:13:00+05:30,acc:a03,acc:a08,96562,IMPS,inter-firm adjustment
+2026-02-22T22:14:00+05:30,acc:a08,acc:a09,157593,IMPS,inter-firm adjustment
+2026-02-24T22:15:00+05:30,acc:a09,acc:a02,126324,IMPS,inter-firm adjustment
+2026-02-26T22:16:00+05:30,acc:a02,acc:a03,162532,IMPS,inter-firm adjustment
+2026-02-28T22:17:00+05:30,acc:a03,acc:a08,128987,IMPS,inter-firm adjustment
+2026-03-02T22:18:00+05:30,acc:a08,acc:a09,136625,IMPS,inter-firm adjustment
+2026-03-04T22:19:00+05:30,acc:a09,acc:a02,152578,IMPS,inter-firm adjustment
+2026-03-06T22:20:00+05:30,acc:a02,acc:a03,111954,IMPS,inter-firm adjustment
+2026-03-08T22:21:00+05:30,acc:a03,acc:a08,119016,IMPS,inter-firm adjustment
+2026-03-10T22:22:00+05:30,acc:a08,acc:a09,97657,IMPS,inter-firm adjustment
+2026-03-12T22:23:00+05:30,acc:a09,acc:a02,169471,IMPS,inter-firm adjustment
+2026-03-14T22:24:00+05:30,acc:a02,acc:a03,101554,IMPS,inter-firm adjustment
+2026-03-16T22:25:00+05:30,acc:a03,acc:a08,153304,IMPS,inter-firm adjustment
+2026-03-18T22:26:00+05:30,acc:a08,acc:a09,133183,IMPS,inter-firm adjustment
+2026-03-20T22:27:00+05:30,acc:a09,acc:a02,167203,IMPS,inter-firm adjustment
+2026-03-22T22:28:00+05:30,acc:a02,acc:a03,102032,IMPS,inter-firm adjustment
+2026-03-24T22:29:00+05:30,acc:a03,acc:a08,90278,IMPS,inter-firm adjustment
+2026-03-26T22:30:00+05:30,acc:a08,acc:a09,120939,IMPS,inter-firm adjustment
+2026-03-28T22:31:00+05:30,acc:a09,acc:a02,148335,IMPS,inter-firm adjustment
+2026-03-30T22:32:00+05:30,acc:a02,acc:a03,162286,IMPS,inter-firm adjustment
+2026-04-01T22:33:00+05:30,acc:a03,acc:a08,96370,IMPS,inter-firm adjustment
+2026-04-03T22:34:00+05:30,acc:a08,acc:a09,111487,IMPS,inter-firm adjustment
+2026-04-05T22:35:00+05:30,acc:a09,acc:a02,172735,IMPS,inter-firm adjustment
+2026-04-07T22:36:00+05:30,acc:a02,acc:a03,90252,IMPS,inter-firm adjustment
+2026-04-09T22:37:00+05:30,acc:a03,acc:a08,146875,IMPS,inter-firm adjustment
+2026-04-11T22:38:00+05:30,acc:a08,acc:a09,124374,IMPS,inter-firm adjustment
+2026-04-13T22:39:00+05:30,acc:a09,acc:a02,151009,IMPS,inter-firm adjustment
+2026-04-15T22:40:00+05:30,acc:a02,acc:a03,114578,IMPS,inter-firm adjustment
+2026-04-17T22:41:00+05:30,acc:a03,acc:a08,138686,IMPS,inter-firm adjustment
+2026-04-19T22:42:00+05:30,acc:a08,acc:a09,148356,IMPS,inter-firm adjustment
+2026-04-21T22:43:00+05:30,acc:a09,acc:a02,123446,IMPS,inter-firm adjustment
+2026-04-23T22:44:00+05:30,acc:a02,acc:a03,143405,IMPS,inter-firm adjustment
+2026-04-25T22:45:00+05:30,acc:a03,acc:a08,113991,IMPS,inter-firm adjustment
+2026-04-27T22:46:00+05:30,acc:a08,acc:a09,153402,IMPS,inter-firm adjustment
+2026-04-29T22:47:00+05:30,acc:a09,acc:a02,149524,IMPS,inter-firm adjustment
+2026-04-03T19:00:00+05:30,acc:a06,acc:a04,9671,NEFT,packing credit
+2026-05-19T20:00:00+05:30,acc:a03,acc:a04,24073,NEFT,packing credit
+2026-06-13T23:00:00+05:30,acc:a02,acc:a05,63914,NEFT,packing credit
+2026-04-12T01:00:00+05:30,acc:a17,acc:a16,51465,UPI,yard cash pooling
+2026-06-13T16:00:00+05:30,acc:a29,acc:a18,1807,UPI,personal transfer
+2026-05-15T02:00:00+05:30,acc:a15,acc:a11,89201,UPI,yard cash pooling
+2026-04-10T19:00:00+05:30,acc:a23,acc:a29,51750,UPI,personal transfer
+2026-05-18T16:00:00+05:30,acc:a26,acc:a29,42407,UPI,personal transfer
+2026-05-11T22:00:00+05:30,acc:a08,acc:a06,8298,NEFT,packing credit
+2026-04-04T05:00:00+05:30,acc:a14,acc:a16,7957,UPI,yard cash pooling
+2026-06-14T01:00:00+05:30,acc:a18,acc:a25,55845,UPI,personal transfer
+2026-06-01T16:00:00+05:30,acc:a12,acc:a14,15376,UPI,yard cash pooling
+2026-03-27T23:00:00+05:30,acc:a14,acc:a11,27511,UPI,yard cash pooling
+2026-05-29T21:00:00+05:30,acc:a06,acc:a02,64343,NEFT,packing credit
+2026-02-14T18:00:00+05:30,acc:a28,acc:a18,47538,UPI,personal transfer
+2026-06-07T23:00:00+05:30,acc:a02,acc:a04,62725,NEFT,packing credit
+2026-06-09T05:00:00+05:30,acc:a05,acc:a02,33373,NEFT,packing credit
+2026-04-29T00:00:00+05:30,acc:a14,acc:a12,70332,UPI,yard cash pooling
+2026-05-24T20:00:00+05:30,acc:a23,acc:a25,67206,UPI,personal transfer
+2026-02-28T20:00:00+05:30,acc:a26,acc:a28,40544,UPI,personal transfer
+2026-02-24T01:00:00+05:30,acc:a22,acc:a24,54449,UPI,personal transfer
+2026-04-23T20:00:00+05:30,acc:a04,acc:a02,1574,NEFT,packing credit
+2026-03-27T21:00:00+05:30,acc:a29,acc:a24,21059,UPI,personal transfer
+2026-02-28T17:00:00+05:30,acc:a12,acc:a11,37627,UPI,yard cash pooling
+2026-02-03T22:00:00+05:30,acc:a14,acc:a11,42421,UPI,yard cash pooling
+2026-03-15T02:00:00+05:30,acc:a18,acc:a25,57543,UPI,personal transfer
+2026-02-15T02:00:00+05:30,acc:a24,acc:a20,37136,UPI,personal transfer
+2026-05-21T16:00:00+05:30,acc:a02,acc:a06,27054,NEFT,packing credit
+2026-06-09T17:00:00+05:30,acc:a13,acc:a12,14832,UPI,yard cash pooling
+2026-05-13T03:00:00+05:30,acc:a26,acc:a23,62014,UPI,personal transfer
+2026-05-24T19:00:00+05:30,acc:a05,acc:a03,38908,NEFT,packing credit
+2026-03-26T00:00:00+05:30,acc:a14,acc:a15,18195,UPI,yard cash pooling
+2026-06-04T22:00:00+05:30,acc:a19,acc:a20,84528,UPI,personal transfer
+2026-03-28T00:00:00+05:30,acc:a05,acc:a07,7271,NEFT,packing credit
+2026-03-31T05:00:00+05:30,acc:a29,acc:a22,51907,UPI,personal transfer
+2026-05-05T00:00:00+05:30,acc:a19,acc:a26,59412,UPI,personal transfer
+2026-04-03T19:00:00+05:30,acc:a16,acc:a12,88818,UPI,yard cash pooling
+2026-03-29T17:00:00+05:30,acc:a14,acc:a11,10665,UPI,yard cash pooling
+2026-01-16T16:00:00+05:30,acc:a26,acc:a27,66848,UPI,personal transfer
+2026-02-20T20:00:00+05:30,acc:a03,acc:a06,10918,NEFT,packing credit
+2026-01-23T03:00:00+05:30,acc:a29,acc:a25,40337,UPI,personal transfer
+2026-03-04T00:00:00+05:30,acc:a12,acc:a13,79608,UPI,yard cash pooling
+2026-01-12T05:00:00+05:30,acc:a20,acc:a19,68835,UPI,personal transfer
+2026-02-01T02:00:00+05:30,acc:a26,acc:a29,14855,UPI,personal transfer
+2026-03-14T16:00:00+05:30,acc:a21,acc:a19,36285,UPI,personal transfer
+2026-03-18T20:00:00+05:30,acc:a28,acc:a22,76740,UPI,personal transfer
+2026-05-04T03:00:00+05:30,acc:a13,acc:a14,67225,UPI,yard cash pooling
+2026-02-22T22:00:00+05:30,acc:a21,acc:a26,81445,UPI,personal transfer
+2026-06-12T17:00:00+05:30,acc:a04,acc:a07,85265,NEFT,packing credit
+2026-06-08T03:00:00+05:30,acc:a02,acc:a08,9910,NEFT,packing credit
+2026-02-13T02:00:00+05:30,acc:a24,acc:a20,66247,UPI,personal transfer
+2026-04-13T18:00:00+05:30,acc:a28,acc:a20,53946,UPI,personal transfer
+2026-03-13T21:00:00+05:30,acc:a06,acc:a09,77173,NEFT,packing credit
+2026-03-03T17:00:00+05:30,acc:a21,acc:a26,3531,UPI,personal transfer
+2026-06-12T18:00:00+05:30,acc:a07,acc:a06,4092,NEFT,packing credit
+2026-02-07T16:00:00+05:30,acc:a12,acc:a16,47899,UPI,yard cash pooling
+2026-02-04T01:00:00+05:30,acc:a22,acc:a29,22694,UPI,personal transfer
+2026-04-11T21:00:00+05:30,acc:a04,acc:a08,46609,NEFT,packing credit
+2026-01-17T04:00:00+05:30,acc:a02,acc:a09,73393,NEFT,packing credit
+2026-02-25T04:00:00+05:30,acc:a15,acc:a12,75963,UPI,yard cash pooling
+2026-03-21T16:00:00+05:30,acc:a20,acc:a19,73913,UPI,personal transfer
+2026-06-11T20:00:00+05:30,acc:a23,acc:a20,27846,UPI,personal transfer
+2026-04-06T05:00:00+05:30,acc:a15,acc:a16,32938,UPI,yard cash pooling
+2026-02-28T23:00:00+05:30,acc:a05,acc:a03,62088,NEFT,packing credit
+2026-02-09T19:00:00+05:30,acc:a06,acc:a03,54773,NEFT,packing credit
+2026-02-27T00:00:00+05:30,acc:a16,acc:a12,38332,UPI,yard cash pooling
+2026-04-24T19:00:00+05:30,acc:a13,acc:a12,27143,UPI,yard cash pooling
+2026-05-18T19:00:00+05:30,acc:a25,acc:a29,54578,UPI,personal transfer
+2026-03-17T05:00:00+05:30,acc:a03,acc:a07,84212,NEFT,packing credit
+2026-03-12T17:00:00+05:30,acc:a09,acc:a03,87918,NEFT,packing credit
+2026-01-24T19:00:00+05:30,acc:a23,acc:a21,54053,UPI,personal transfer
+2026-06-09T22:00:00+05:30,acc:a29,acc:a18,55957,UPI,personal transfer
+2026-04-03T05:00:00+05:30,acc:a28,acc:a20,6416,UPI,personal transfer
+2026-05-24T01:00:00+05:30,acc:a16,acc:a17,55296,UPI,yard cash pooling
+2026-06-01T05:00:00+05:30,acc:a02,acc:a03,60824,NEFT,packing credit
+2026-03-12T04:00:00+05:30,acc:a17,acc:a14,1559,UPI,yard cash pooling
+2026-02-20T21:00:00+05:30,acc:a17,acc:a14,30211,UPI,yard cash pooling
+2026-05-13T17:00:00+05:30,acc:a05,acc:a02,6486,NEFT,packing credit
+2026-05-31T05:00:00+05:30,acc:a09,acc:a05,89102,NEFT,packing credit
+2026-04-24T17:00:00+05:30,acc:a17,acc:a12,86889,UPI,yard cash pooling
+2026-01-06T21:00:00+05:30,acc:a23,acc:a18,86197,UPI,personal transfer
+2026-04-09T21:00:00+05:30,acc:a19,acc:a24,82263,UPI,personal transfer
+2026-05-18T21:00:00+05:30,acc:a03,acc:a05,4723,NEFT,packing credit
+2026-04-04T19:00:00+05:30,acc:a02,acc:a06,51616,NEFT,packing credit
+2026-03-23T05:00:00+05:30,acc:a12,acc:a11,19264,UPI,yard cash pooling
+2026-03-22T16:00:00+05:30,acc:a07,acc:a05,20870,NEFT,packing credit
+2026-06-01T04:00:00+05:30,acc:a25,acc:a21,42343,UPI,personal transfer
+2026-04-19T23:00:00+05:30,acc:a03,acc:a07,54920,NEFT,packing credit
+2026-02-21T21:00:00+05:30,acc:a17,acc:a16,82820,UPI,yard cash pooling
+2026-06-13T22:00:00+05:30,acc:a28,acc:a26,23887,UPI,personal transfer
+2026-05-28T23:00:00+05:30,acc:a12,acc:a13,32824,UPI,yard cash pooling
+2026-02-07T22:00:00+05:30,acc:a29,acc:a28,72841,UPI,personal transfer
+2026-03-11T03:00:00+05:30,acc:a11,acc:a13,34619,UPI,yard cash pooling
+2026-03-17T01:00:00+05:30,acc:a04,acc:a06,51359,NEFT,packing credit
+2026-04-30T19:00:00+05:30,acc:a20,acc:a23,13318,UPI,personal transfer
+2026-05-22T05:00:00+05:30,acc:a14,acc:a17,77957,UPI,yard cash pooling
+2026-03-21T21:00:00+05:30,acc:a25,acc:a28,13405,UPI,personal transfer
+2026-03-25T00:00:00+05:30,acc:a20,acc:a24,51158,UPI,personal transfer
+2026-04-21T05:00:00+05:30,acc:a09,acc:a06,11560,NEFT,packing credit
+2026-05-29T05:00:00+05:30,acc:a19,acc:a29,48165,UPI,personal transfer
+2026-04-14T05:00:00+05:30,acc:a16,acc:a15,20003,UPI,yard cash pooling
+2026-06-04T21:00:00+05:30,acc:a25,acc:a27,32051,UPI,personal transfer
+2026-02-20T23:00:00+05:30,acc:a12,acc:a14,34544,UPI,yard cash pooling
+2026-02-24T17:00:00+05:30,acc:a17,acc:a14,56156,UPI,yard cash pooling
+2026-05-17T01:00:00+05:30,acc:a05,acc:a07,83138,NEFT,packing credit
+2026-02-20T17:00:00+05:30,acc:a07,acc:a04,39255,NEFT,packing credit
+2026-04-10T18:00:00+05:30,acc:a11,acc:a16,11895,UPI,yard cash pooling
+2026-05-25T23:00:00+05:30,acc:a03,acc:a06,86634,NEFT,packing credit
+2026-03-06T05:00:00+05:30,acc:a17,acc:a15,59783,UPI,yard cash pooling
+2026-05-06T23:00:00+05:30,acc:a04,acc:a02,81851,NEFT,packing credit
+2026-06-11T03:00:00+05:30,acc:a16,acc:a14,3600,UPI,yard cash pooling
+2026-04-07T23:00:00+05:30,acc:a21,acc:a26,11683,UPI,personal transfer
+2026-03-09T18:00:00+05:30,acc:a02,acc:a09,55788,NEFT,packing credit
+2026-05-21T21:00:00+05:30,acc:a22,acc:a24,11823,UPI,personal transfer
+2026-05-02T04:00:00+05:30,acc:a23,acc:a21,76611,UPI,personal transfer
+2026-01-23T02:00:00+05:30,acc:a06,acc:a04,35732,NEFT,packing credit
+2026-03-22T16:00:00+05:30,acc:a25,acc:a23,72137,UPI,personal transfer
+2026-05-02T00:00:00+05:30,acc:a23,acc:a24,5351,UPI,personal transfer
+2026-06-11T02:00:00+05:30,acc:a22,acc:a18,9660,UPI,personal transfer
+2026-03-17T17:00:00+05:30,acc:a17,acc:a13,85677,UPI,yard cash pooling
+2026-03-21T19:00:00+05:30,acc:a14,acc:a17,21118,UPI,yard cash pooling
+2026-01-11T05:00:00+05:30,acc:a04,acc:a05,26367,NEFT,packing credit
+2026-05-19T01:00:00+05:30,acc:a13,acc:a11,74680,UPI,yard cash pooling
+2026-01-28T03:00:00+05:30,acc:a27,acc:a22,32011,UPI,personal transfer
+2026-05-02T02:00:00+05:30,acc:a02,acc:a03,9667,NEFT,packing credit
+2026-01-29T05:00:00+05:30,acc:a07,acc:a02,32187,NEFT,packing credit
+2026-02-12T20:00:00+05:30,acc:a24,acc:a28,68539,UPI,personal transfer
+2026-02-24T23:00:00+05:30,acc:a19,acc:a22,24598,UPI,personal transfer
+2026-06-06T03:00:00+05:30,acc:a18,acc:a23,38725,UPI,personal transfer
+2026-05-09T20:00:00+05:30,acc:a11,acc:a17,83031,UPI,yard cash pooling
+2026-05-07T20:00:00+05:30,acc:a11,acc:a15,58204,UPI,yard cash pooling
+2026-02-20T18:00:00+05:30,acc:a22,acc:a20,17021,UPI,personal transfer
+2026-03-02T23:00:00+05:30,acc:a23,acc:a22,8811,UPI,personal transfer
+2026-01-23T01:00:00+05:30,acc:a29,acc:a20,14640,UPI,personal transfer
+2026-03-24T00:00:00+05:30,acc:a11,acc:a15,59468,UPI,yard cash pooling
+2026-01-13T16:00:00+05:30,acc:a25,acc:a19,15015,UPI,personal transfer
+2026-03-21T21:00:00+05:30,acc:a14,acc:a17,6859,UPI,yard cash pooling
+2026-05-09T16:00:00+05:30,acc:a08,acc:a03,18436,NEFT,packing credit
+2026-02-10T04:00:00+05:30,acc:a21,acc:a25,77113,UPI,personal transfer
+2026-05-19T22:00:00+05:30,acc:a02,acc:a03,61660,NEFT,packing credit
+2026-02-03T20:00:00+05:30,acc:a04,acc:a03,53614,NEFT,packing credit
+2026-02-23T20:00:00+05:30,acc:a02,acc:a05,50631,NEFT,packing credit
+2026-02-26T05:00:00+05:30,acc:a21,acc:a25,1513,UPI,personal transfer
+2026-03-13T04:00:00+05:30,acc:a23,acc:a24,60064,UPI,personal transfer
+2026-01-21T18:00:00+05:30,acc:a05,acc:a03,9377,NEFT,packing credit
+2026-02-28T21:00:00+05:30,acc:a25,acc:a21,45264,UPI,personal transfer
+2026-05-30T16:00:00+05:30,acc:a22,acc:a26,69497,UPI,personal transfer
+2026-03-11T03:00:00+05:30,acc:a22,acc:a23,78190,UPI,personal transfer
+2026-04-04T20:00:00+05:30,acc:a20,acc:a19,89662,UPI,personal transfer
+2026-03-08T00:00:00+05:30,acc:a02,acc:a05,25676,NEFT,packing credit
+2026-05-15T21:00:00+05:30,acc:a20,acc:a28,42462,UPI,personal transfer
+2026-06-11T21:00:00+05:30,acc:a21,acc:a25,59962,UPI,personal transfer
+2026-05-10T01:00:00+05:30,acc:a04,acc:a09,52204,NEFT,packing credit
+2026-02-25T19:00:00+05:30,acc:a20,acc:a26,33575,UPI,personal transfer
+2026-04-20T19:00:00+05:30,acc:a20,acc:a27,59780,UPI,personal transfer
+2026-02-26T23:00:00+05:30,acc:a09,acc:a04,52837,NEFT,packing credit
+2026-05-18T04:00:00+05:30,acc:a13,acc:a11,51937,UPI,yard cash pooling
+2026-03-07T17:00:00+05:30,acc:a16,acc:a12,83578,UPI,yard cash pooling
+2026-02-26T01:00:00+05:30,acc:a05,acc:a03,85974,NEFT,packing credit
+2026-06-09T21:00:00+05:30,acc:a19,acc:a21,61294,UPI,personal transfer
+2026-04-29T20:00:00+05:30,acc:a13,acc:a11,38677,UPI,yard cash pooling
+2026-05-01T23:00:00+05:30,acc:a14,acc:a12,18599,UPI,yard cash pooling
+2026-02-26T04:00:00+05:30,acc:a13,acc:a15,22041,UPI,yard cash pooling
+2026-02-26T04:00:00+05:30,acc:a20,acc:a19,5826,UPI,personal transfer
+2026-03-18T17:00:00+05:30,acc:a14,acc:a12,29491,UPI,yard cash pooling
+2026-05-07T17:00:00+05:30,acc:a06,acc:a07,84190,NEFT,packing credit
+2026-01-12T16:00:00+05:30,acc:a14,acc:a13,51185,UPI,yard cash pooling
+2026-05-22T23:00:00+05:30,acc:a07,acc:a02,50264,NEFT,packing credit
+2026-06-12T01:00:00+05:30,acc:a14,acc:a16,50523,UPI,yard cash pooling
+2026-02-23T16:00:00+05:30,acc:a04,acc:a06,27850,NEFT,packing credit
+2026-01-07T03:00:00+05:30,acc:a08,acc:a03,78679,NEFT,packing credit
+2026-03-17T17:00:00+05:30,acc:a11,acc:a13,28981,UPI,yard cash pooling
+2026-03-30T00:00:00+05:30,acc:a28,acc:a20,79553,UPI,personal transfer
+2026-05-04T01:00:00+05:30,acc:a15,acc:a14,21192,UPI,yard cash pooling
+2026-06-02T20:00:00+05:30,acc:a16,acc:a13,59621,UPI,yard cash pooling
+2026-03-27T05:00:00+05:30,acc:a04,acc:a03,59484,NEFT,packing credit
+2026-02-02T01:00:00+05:30,acc:a23,acc:a27,55692,UPI,personal transfer
+2026-03-30T02:00:00+05:30,acc:a07,acc:a02,88549,NEFT,packing credit
+2026-05-12T23:00:00+05:30,acc:a14,acc:a15,85399,UPI,yard cash pooling
+2026-03-18T00:00:00+05:30,acc:a23,acc:a29,78129,UPI,personal transfer
+2026-04-12T00:00:00+05:30,acc:a17,acc:a14,45763,UPI,yard cash pooling
+2026-04-26T05:00:00+05:30,acc:a24,acc:a27,38714,UPI,personal transfer
+2026-05-30T00:00:00+05:30,acc:a15,acc:a11,74765,UPI,yard cash pooling
+2026-06-06T04:00:00+05:30,acc:a16,acc:a15,66630,UPI,yard cash pooling
+2026-05-25T04:00:00+05:30,acc:a16,acc:a14,85210,UPI,yard cash pooling
+2026-04-28T18:00:00+05:30,acc:a02,acc:a08,46787,NEFT,packing credit
+2026-03-13T18:00:00+05:30,acc:a21,acc:a22,42646,UPI,personal transfer
+2026-03-23T21:00:00+05:30,acc:a14,acc:a17,74230,UPI,yard cash pooling
+2026-05-01T00:00:00+05:30,acc:a21,acc:a24,13282,UPI,personal transfer
+2026-01-05T16:00:00+05:30,acc:a13,acc:a16,81574,UPI,yard cash pooling
+2026-04-19T03:00:00+05:30,acc:a11,acc:a12,53547,UPI,yard cash pooling
+2026-03-12T00:00:00+05:30,acc:a11,acc:a16,13440,UPI,yard cash pooling
+2026-01-06T01:00:00+05:30,acc:a25,acc:a24,35384,UPI,personal transfer
+2026-06-10T17:00:00+05:30,acc:a23,acc:a25,13545,UPI,personal transfer
+2026-04-22T18:00:00+05:30,acc:a06,acc:a07,85095,NEFT,packing credit
+2026-06-02T19:00:00+05:30,acc:a07,acc:a03,39971,NEFT,packing credit
+2026-03-24T01:00:00+05:30,acc:a02,acc:a04,36354,NEFT,packing credit
+2026-05-26T03:00:00+05:30,acc:a09,acc:a06,66305,NEFT,packing credit
+2026-05-30T01:00:00+05:30,acc:a03,acc:a02,44941,NEFT,packing credit
+2026-03-07T22:00:00+05:30,acc:a12,acc:a14,70918,UPI,yard cash pooling
+2026-02-03T05:00:00+05:30,acc:a02,acc:a03,52958,NEFT,packing credit
+2026-02-16T22:00:00+05:30,acc:a15,acc:a11,77288,UPI,yard cash pooling
+2026-02-10T23:00:00+05:30,acc:a09,acc:a02,38788,NEFT,packing credit
+2026-05-09T20:00:00+05:30,acc:a19,acc:a22,36299,UPI,personal transfer
+2026-05-24T03:00:00+05:30,acc:a17,acc:a15,1706,UPI,yard cash pooling
+2026-02-04T19:00:00+05:30,acc:a20,acc:a23,31298,UPI,personal transfer
+2026-01-11T17:00:00+05:30,acc:a28,acc:a21,73392,UPI,personal transfer
+2026-02-06T18:00:00+05:30,acc:a05,acc:a07,89831,NEFT,packing credit
+2026-03-20T17:00:00+05:30,acc:a22,acc:a20,87218,UPI,personal transfer
+2026-02-09T23:00:00+05:30,acc:a17,acc:a12,40686,UPI,yard cash pooling
+2026-04-09T16:00:00+05:30,acc:a09,acc:a07,86814,NEFT,packing credit
+2026-05-02T20:00:00+05:30,acc:a25,acc:a23,59579,UPI,personal transfer
+2026-01-12T17:00:00+05:30,acc:a06,acc:a02,55370,NEFT,packing credit
+2026-02-24T23:00:00+05:30,acc:a13,acc:a17,42370,UPI,yard cash pooling
+2026-02-26T21:00:00+05:30,acc:a27,acc:a23,34696,UPI,personal transfer
+2026-02-01T22:00:00+05:30,acc:a17,acc:a14,4045,UPI,yard cash pooling
+2026-01-20T23:00:00+05:30,acc:a15,acc:a13,35273,UPI,yard cash pooling
+2026-02-05T01:00:00+05:30,acc:a13,acc:a14,78521,UPI,yard cash pooling
+2026-05-18T02:00:00+05:30,acc:a16,acc:a15,43495,UPI,yard cash pooling
+2026-06-09T16:00:00+05:30,acc:a28,acc:a27,20811,UPI,personal transfer
+2026-02-12T05:00:00+05:30,acc:a20,acc:a24,20332,UPI,personal transfer
+2026-02-08T20:00:00+05:30,acc:a11,acc:a13,11396,UPI,yard cash pooling
+2026-01-07T17:00:00+05:30,acc:a07,acc:a09,12473,NEFT,packing credit
+2026-04-24T18:00:00+05:30,acc:a09,acc:a03,79860,NEFT,packing credit
+2026-03-11T18:00:00+05:30,acc:a11,acc:a14,84525,UPI,yard cash pooling
+2026-01-24T01:00:00+05:30,acc:a07,acc:a03,33068,NEFT,packing credit
+2026-05-07T23:00:00+05:30,acc:a29,acc:a20,47544,UPI,personal transfer
+2026-05-27T05:00:00+05:30,acc:a07,acc:a09,25694,NEFT,packing credit
+2026-02-16T23:00:00+05:30,acc:a19,acc:a18,65304,UPI,personal transfer
+2026-01-13T20:00:00+05:30,acc:a27,acc:a24,75587,UPI,personal transfer
+2026-02-27T03:00:00+05:30,acc:a14,acc:a17,82225,UPI,yard cash pooling
+2026-01-27T01:00:00+05:30,acc:a03,acc:a07,23268,NEFT,packing credit
+2026-02-26T04:00:00+05:30,acc:a28,acc:a22,41965,UPI,personal transfer
+2026-04-14T04:00:00+05:30,acc:a13,acc:a14,75704,UPI,yard cash pooling
+2026-03-10T21:00:00+05:30,acc:a02,acc:a09,55164,NEFT,packing credit
+2026-03-06T17:00:00+05:30,acc:a12,acc:a16,13503,UPI,yard cash pooling
+2026-02-21T23:00:00+05:30,acc:a04,acc:a06,73563,NEFT,packing credit
+2026-04-24T22:00:00+05:30,acc:a16,acc:a17,53034,UPI,yard cash pooling
+2026-05-01T23:00:00+05:30,acc:a02,acc:a08,70300,NEFT,packing credit
+2026-02-09T04:00:00+05:30,acc:a06,acc:a03,83763,NEFT,packing credit
+2026-04-07T02:00:00+05:30,acc:a05,acc:a06,84072,NEFT,packing credit
+2026-01-10T04:00:00+05:30,acc:a05,acc:a07,1826,NEFT,packing credit
+2026-06-12T21:00:00+05:30,acc:a16,acc:a11,49172,UPI,yard cash pooling
+2026-06-14T03:00:00+05:30,acc:a15,acc:a16,66195,UPI,yard cash pooling
+2026-04-23T23:00:00+05:30,acc:a20,acc:a21,19284,UPI,personal transfer
+2026-05-17T23:00:00+05:30,acc:a15,acc:a13,67166,UPI,yard cash pooling
+2026-05-28T22:00:00+05:30,acc:a27,acc:a23,61038,UPI,personal transfer
+2026-04-07T22:00:00+05:30,acc:a09,acc:a07,18253,NEFT,packing credit
+2026-03-06T20:00:00+05:30,acc:a05,acc:a03,74609,NEFT,packing credit
+2026-03-06T20:00:00+05:30,acc:a06,acc:a02,45479,NEFT,packing credit
+2026-03-27T05:00:00+05:30,acc:a08,acc:a06,22818,NEFT,packing credit
+2026-04-14T03:00:00+05:30,acc:a24,acc:a26,35677,UPI,personal transfer
+2026-05-08T00:00:00+05:30,acc:a07,acc:a06,7865,NEFT,packing credit
+2026-05-26T00:00:00+05:30,acc:a21,acc:a19,70073,UPI,personal transfer
+2026-01-23T01:00:00+05:30,acc:a26,acc:a21,85932,UPI,personal transfer
+2026-03-07T23:00:00+05:30,acc:a02,acc:a07,24629,NEFT,packing credit
+2026-02-04T23:00:00+05:30,acc:a06,acc:a09,85992,NEFT,packing credit
+2026-06-15T01:00:00+05:30,acc:a22,acc:a27,86161,UPI,personal transfer
+2026-03-17T22:00:00+05:30,acc:a09,acc:a03,16061,NEFT,packing credit
+2026-05-28T00:00:00+05:30,acc:a25,acc:a28,76590,UPI,personal transfer
+2026-03-18T22:00:00+05:30,acc:a23,acc:a21,46428,UPI,personal transfer
+2026-02-06T17:00:00+05:30,acc:a21,acc:a20,34841,UPI,personal transfer
+2026-05-27T23:00:00+05:30,acc:a26,acc:a22,28493,UPI,personal transfer
+2026-05-05T21:00:00+05:30,acc:a24,acc:a21,15957,UPI,personal transfer
+2026-03-04T03:00:00+05:30,acc:a16,acc:a15,21625,UPI,yard cash pooling
+2026-03-12T19:00:00+05:30,acc:a07,acc:a04,47545,NEFT,packing credit
+2026-02-02T17:00:00+05:30,acc:a22,acc:a28,86521,UPI,personal transfer
+2026-02-03T03:00:00+05:30,acc:a21,acc:a26,34928,UPI,personal transfer
+2026-01-25T17:00:00+05:30,acc:a03,acc:a09,30056,NEFT,packing credit
+2026-01-31T19:00:00+05:30,acc:a08,acc:a09,63445,NEFT,packing credit
+2026-04-28T21:00:00+05:30,acc:a17,acc:a12,50322,UPI,yard cash pooling
+2026-06-04T23:00:00+05:30,acc:a11,acc:a14,50017,UPI,yard cash pooling
+2026-04-17T01:00:00+05:30,acc:a07,acc:a08,59206,NEFT,packing credit
+2026-01-30T23:00:00+05:30,acc:a16,acc:a15,86584,UPI,yard cash pooling
+2026-01-06T22:00:00+05:30,acc:a23,acc:a27,42984,UPI,personal transfer
+2026-02-22T00:00:00+05:30,acc:a17,acc:a16,45560,UPI,yard cash pooling
+2026-01-24T05:00:00+05:30,acc:a27,acc:a29,35310,UPI,personal transfer
+2026-04-11T05:00:00+05:30,acc:a28,acc:a27,72042,UPI,personal transfer
+2026-06-10T18:00:00+05:30,acc:a27,acc:a18,66251,UPI,personal transfer
+2026-04-30T00:00:00+05:30,acc:a22,acc:a28,23269,UPI,personal transfer
+2026-04-04T22:00:00+05:30,acc:a15,acc:a11,86708,UPI,yard cash pooling
+2026-05-23T16:00:00+05:30,acc:a24,acc:a28,15416,UPI,personal transfer
+2026-06-09T17:00:00+05:30,acc:a13,acc:a16,2424,UPI,yard cash pooling
+2026-01-30T23:00:00+05:30,acc:a26,acc:a25,39839,UPI,personal transfer
+2026-03-04T19:00:00+05:30,acc:a11,acc:a12,1608,UPI,yard cash pooling
+2026-06-06T17:00:00+05:30,acc:a14,acc:a15,29358,UPI,yard cash pooling
+2026-02-04T22:00:00+05:30,acc:a16,acc:a14,89400,UPI,yard cash pooling
+2026-02-18T04:00:00+05:30,acc:a17,acc:a15,24302,UPI,yard cash pooling
+2026-03-23T04:00:00+05:30,acc:a15,acc:a11,77182,UPI,yard cash pooling
+2026-02-26T03:00:00+05:30,acc:a16,acc:a11,76365,UPI,yard cash pooling
+2026-06-06T20:00:00+05:30,acc:a19,acc:a27,16072,UPI,personal transfer
+2026-03-18T05:00:00+05:30,acc:a03,acc:a05,48311,NEFT,packing credit
+2026-06-15T03:00:00+05:30,acc:a17,acc:a13,2856,UPI,yard cash pooling
+2026-02-13T16:00:00+05:30,acc:a09,acc:a02,83753,NEFT,packing credit
+2026-01-25T03:00:00+05:30,acc:a04,acc:a03,64663,NEFT,packing credit
+2026-04-16T20:00:00+05:30,acc:a02,acc:a06,15002,NEFT,packing credit
+2026-04-26T21:00:00+05:30,acc:a26,acc:a23,78143,UPI,personal transfer
+2026-03-25T23:00:00+05:30,acc:a08,acc:a05,39639,NEFT,packing credit
+2026-05-04T21:00:00+05:30,acc:a18,acc:a25,51551,UPI,personal transfer
+2026-02-16T04:00:00+05:30,acc:a14,acc:a13,65917,UPI,yard cash pooling
+2026-04-20T05:00:00+05:30,acc:a29,acc:a28,36822,UPI,personal transfer
+2026-02-09T23:00:00+05:30,acc:a12,acc:a15,6962,UPI,yard cash pooling
+2026-03-24T00:00:00+05:30,acc:a11,acc:a14,32487,UPI,yard cash pooling
+2026-01-27T18:00:00+05:30,acc:a17,acc:a16,33564,UPI,yard cash pooling
+2026-06-06T18:00:00+05:30,acc:a16,acc:a17,61195,UPI,yard cash pooling
+2026-04-16T16:00:00+05:30,acc:a08,acc:a03,55892,NEFT,packing credit
+2026-03-18T17:00:00+05:30,acc:a15,acc:a16,50433,UPI,yard cash pooling
+2026-01-13T05:00:00+05:30,acc:a29,acc:a22,62474,UPI,personal transfer
+2026-03-02T04:00:00+05:30,acc:a03,acc:a06,71980,NEFT,packing credit
+2026-01-06T23:00:00+05:30,acc:a03,acc:a05,81578,NEFT,packing credit
+2026-05-02T20:00:00+05:30,acc:a27,acc:a23,11934,UPI,personal transfer
+2026-01-10T05:00:00+05:30,acc:a13,acc:a11,44674,UPI,yard cash pooling

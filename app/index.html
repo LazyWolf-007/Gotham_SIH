@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/apple-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v0 IRL — Prompt to Production | NYC February 5th, 2026</title>
+    <meta name="description" content="v0 is launching its biggest product update yet. Join us for v0 IRL events around the world. One week. Global hackathons. Real apps, real work." />
+    <!-- Tailwind CSS CDN with full color mappings -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              background: 'var(--background)',
+              foreground: 'var(--foreground)',
+              card: 'var(--card)',
+              'card-foreground': 'var(--card-foreground)',
+              popover: 'var(--popover)',
+              'popover-foreground': 'var(--popover-foreground)',
+              primary: 'var(--primary)',
+              'primary-foreground': 'var(--primary-foreground)',
+              secondary: 'var(--secondary)',
+              'secondary-foreground': 'var(--secondary-foreground)',
+              muted: 'var(--muted)',
+              'muted-foreground': 'var(--muted-foreground)',
+              accent: 'var(--accent)',
+              'accent-foreground': 'var(--accent-foreground)',
+              destructive: 'var(--destructive)',
+              'destructive-foreground': 'var(--destructive-foreground)',
+              border: 'var(--border)',
+              input: 'var(--input)',
+              ring: 'var(--ring)',
+            },
+            fontFamily: {
+              sans: ['Geist', 'Inter', 'system-ui', 'sans-serif'],
+              mono: ['Geist Mono', 'JetBrains Mono', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-black text-white antialiased">
+    <div id="root" class="w-full min-h-screen"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

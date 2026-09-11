@@ -1,0 +1,3879 @@
+{
+  "case": "Operation Grey Ledger",
+  "problem": "SIH26189",
+  "generated_once": true,
+  "seed": 26189,
+  "gold": {
+    "accountant_id": "person:naveen_bhatia",
+    "kingpin_id": "person:vikram_haleja",
+    "mandi_location_id": "loc:azadpur_mandi",
+    "mule_account_ids": [
+      "acc:a02",
+      "acc:a03",
+      "acc:a04",
+      "acc:a05",
+      "acc:a06",
+      "acc:a07"
+    ],
+    "residual_phone_ids": [
+      "phone:ph02",
+      "phone:ph03"
+    ],
+    "hawala_cycle_account_ids": [
+      "acc:a02",
+      "acc:a03",
+      "acc:a08",
+      "acc:a09"
+    ],
+    "mule_burst_phone_id": "phone:ph03",
+    "mule_burst_fir_id": "FIR-2026-014",
+    "mule_burst_after": "2026-04-12T11:40:00+05:30",
+    "front_org_ids": [
+      "org:silver_lotus_traders",
+      "org:kailash_agro",
+      "org:mehra_logistics",
+      "org:narmada_exports",
+      "org:orbit_packers"
+    ],
+    "mandi_person_ids": [
+      "person:harish_tandel",
+      "person:imtiaz_qureshi",
+      "person:kavita_nadkarni",
+      "person:p23",
+      "person:p24",
+      "person:p25",
+      "person:p26",
+      "person:rakesh_mundhe"
+    ],
+    "residual_path": [
+      "person:rakesh_mundhe",
+      "phone:ph02",
+      "phone:ph03",
+      "person:farhan_lodhi",
+      "acc:a02"
+    ],
+    "accountant_degree": 6
+  },
+  "objects": {
+    "Person": [
+      {
+        "id": "person:naveen_bhatia",
+        "name": "Naveen Bhatia"
+      },
+      {
+        "id": "person:vikram_haleja",
+        "name": "Vikram Haleja"
+      },
+      {
+        "id": "person:imtiaz_qureshi",
+        "name": "Imtiaz Qureshi"
+      },
+      {
+        "id": "person:rakesh_mundhe",
+        "name": "Rakesh Mundhe"
+      },
+      {
+        "id": "person:farhan_lodhi",
+        "name": "Farhan Lodhi"
+      },
+      {
+        "id": "person:roshni_talreja",
+        "name": "Roshni Talreja"
+      },
+      {
+        "id": "person:sushil_ambwani",
+        "name": "Sushil Ambwani"
+      },
+      {
+        "id": "person:meenal_chitnis",
+        "name": "Meenal Chitnis"
+      },
+      {
+        "id": "person:parvinder_makhija",
+        "name": "Parvinder Makhija"
+      },
+      {
+        "id": "person:gulshan_khatri",
+        "name": "Gulshan Khatri"
+      },
+      {
+        "id": "person:kavita_nadkarni",
+        "name": "Kavita Nadkarni"
+      },
+      {
+        "id": "person:harish_tandel",
+        "name": "Harish Tandel"
+      },
+      {
+        "id": "person:p12",
+        "name": "Nilofer Divekar"
+      },
+      {
+        "id": "person:p13",
+        "name": "Nitin Tawde"
+      },
+      {
+        "id": "person:p14",
+        "name": "Yasmin Makhija"
+      },
+      {
+        "id": "person:p15",
+        "name": "Uday Padhye"
+      },
+      {
+        "id": "person:p16",
+        "name": "Naseem Haleja"
+      },
+      {
+        "id": "person:p17",
+        "name": "Vinod Memon"
+      },
+      {
+        "id": "person:p18",
+        "name": "Sagar Bhosale"
+      },
+      {
+        "id": "person:p19",
+        "name": "Tamanna Lodhi"
+      },
+      {
+        "id": "person:p20",
+        "name": "Ketan Lakhani"
+      },
+      {
+        "id": "person:p21",
+        "name": "Nargis Contractor"
+      },
+      {
+        "id": "person:p22",
+        "name": "Hemant Ambwani"
+      },
+      {
+        "id": "person:p23",
+        "name": "Mehrun Bhandare"
+      },
+      {
+        "id": "person:p24",
+        "name": "Rohan Mhapankar"
+      },
+      {
+        "id": "person:p25",
+        "name": "Salma Nadkarni"
+      },
+      {
+        "id": "person:p26",
+        "name": "Pravin Sawant"
+      },
+      {
+        "id": "person:p27",
+        "name": "Vikram Qureshi"
+      },
+      {
+        "id": "person:p28",
+        "name": "Farhan Pingle"
+      },
+      {
+        "id": "person:p29",
+        "name": "Sushil Merchant"
+      },
+      {
+        "id": "person:p30",
+        "name": "Kavita Mundhe"
+      },
+      {
+        "id": "person:p31",
+        "name": "Pallavi Upasani"
+      },
+      {
+        "id": "person:p32",
+        "name": "Manoj Ambavne"
+      },
+      {
+        "id": "person:p33",
+        "name": "Yogesh Chitnis"
+      },
+      {
+        "id": "person:p34",
+        "name": "Bhavesh Rangnekar"
+      },
+      {
+        "id": "person:p35",
+        "name": "Pradeep Bhatia"
+      },
+      {
+        "id": "person:p36",
+        "name": "Firoz Tandel"
+      },
+      {
+        "id": "person:p37",
+        "name": "Hina Kazi"
+      },
+      {
+        "id": "person:p38",
+        "name": "Asma Talreja"
+      },
+      {
+        "id": "person:p39",
+        "name": "Rajan Barot"
+      },
+      {
+        "id": "person:p40",
+        "name": "Samina Qazi"
+      },
+      {
+        "id": "person:p41",
+        "name": "Kishore Khatri"
+      },
+      {
+        "id": "person:p42",
+        "name": "Rukhsana Divekar"
+      },
+      {
+        "id": "person:p43",
+        "name": "Farida Tawde"
+      },
+      {
+        "id": "person:p44",
+        "name": "Bhaskar Makhija"
+      },
+      {
+        "id": "person:p45",
+        "name": "Rukhsar Padhye"
+      },
+      {
+        "id": "person:p46",
+        "name": "Nilesh Haleja"
+      },
+      {
+        "id": "person:p47",
+        "name": "Shabina Memon"
+      },
+      {
+        "id": "person:p48",
+        "name": "Pranav Bhosale"
+      },
+      {
+        "id": "person:p49",
+        "name": "Sultana Lodhi"
+      },
+      {
+        "id": "person:p50",
+        "name": "Atul Lakhani"
+      },
+      {
+        "id": "person:p51",
+        "name": "Kulsum Contractor"
+      },
+      {
+        "id": "person:p52",
+        "name": "Nagesh Ambwani"
+      },
+      {
+        "id": "person:p53",
+        "name": "Najma Bhandare"
+      },
+      {
+        "id": "person:p54",
+        "name": "Imtiaz Mhapankar"
+      },
+      {
+        "id": "person:p55",
+        "name": "Rakesh Nadkarni"
+      },
+      {
+        "id": "person:p56",
+        "name": "Parvinder Sawant"
+      },
+      {
+        "id": "person:p57",
+        "name": "Harish Qureshi"
+      },
+      {
+        "id": "person:p58",
+        "name": "Dinesh Pingle"
+      },
+      {
+        "id": "person:p59",
+        "name": "Iqbal Merchant"
+      },
+      {
+        "id": "person:p60",
+        "name": "Rafiq Mundhe"
+      },
+      {
+        "id": "person:p61",
+        "name": "Saira Upasani"
+      },
+      {
+        "id": "person:p62",
+        "name": "Nasreen Ambavne"
+      },
+      {
+        "id": "person:p63",
+        "name": "Swati Chitnis"
+      },
+      {
+        "id": "person:p64",
+        "name": "Rehana Rangnekar"
+      },
+      {
+        "id": "person:p65",
+        "name": "Gopal Bhatia"
+      },
+      {
+        "id": "person:p66",
+        "name": "Bushra Tandel"
+      },
+      {
+        "id": "person:p67",
+        "name": "Paresh Kazi"
+      },
+      {
+        "id": "person:p68",
+        "name": "Afroz Talreja"
+      },
+      {
+        "id": "person:p69",
+        "name": "Jatin Barot"
+      },
+      {
+        "id": "person:p70",
+        "name": "Shireen Qazi"
+      },
+      {
+        "id": "person:p71",
+        "name": "Heena Khatri"
+      },
+      {
+        "id": "person:p72",
+        "name": "Milind Divekar"
+      },
+      {
+        "id": "person:p73",
+        "name": "Parveen Tawde"
+      },
+      {
+        "id": "person:p74",
+        "name": "Alok Makhija"
+      },
+      {
+        "id": "person:p75",
+        "name": "Zarina Padhye"
+      },
+      {
+        "id": "person:p76",
+        "name": "Chirag Haleja"
+      },
+      {
+        "id": "person:p77",
+        "name": "Deepak Bhosale"
+      },
+      {
+        "id": "person:p78",
+        "name": "Razia Lodhi"
+      },
+      {
+        "id": "person:p79",
+        "name": "Naveen Lakhani"
+      }
+    ],
+    "Phone": [
+      {
+        "id": "phone:ph00",
+        "msisdn": "9810000096",
+        "imei": "35670000026189",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph01",
+        "msisdn": "9810000269",
+        "imei": "35670100026202",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph02",
+        "msisdn": "9810000442",
+        "imei": "35670200026215",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph03",
+        "msisdn": "9810000615",
+        "imei": "35670300026228",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph04",
+        "msisdn": "9810000788",
+        "imei": "35670400026241",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph05",
+        "msisdn": "9810000961",
+        "imei": "35670500026254",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph06",
+        "msisdn": "9810001134",
+        "imei": "35670600026267",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph07",
+        "msisdn": "9810001307",
+        "imei": "35670700026280",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph08",
+        "msisdn": "9810001480",
+        "imei": "35670800026293",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph09",
+        "msisdn": "9810001653",
+        "imei": "35670900026306",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph10",
+        "msisdn": "9810001826",
+        "imei": "35671000026319",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph11",
+        "msisdn": "9810001999",
+        "imei": "35671100026332",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph12",
+        "msisdn": "9810002172",
+        "imei": "35671200026345",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph13",
+        "msisdn": "9810002345",
+        "imei": "35671300026358",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph14",
+        "msisdn": "9810002518",
+        "imei": "35671400026371",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph15",
+        "msisdn": "9810002691",
+        "imei": "35671500026384",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph16",
+        "msisdn": "9810002864",
+        "imei": "35671600026397",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph17",
+        "msisdn": "9810003037",
+        "imei": "35671700026410",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph18",
+        "msisdn": "9810003210",
+        "imei": "35671800026423",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph19",
+        "msisdn": "9810003383",
+        "imei": "35671900026436",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph20",
+        "msisdn": "9810003556",
+        "imei": "35672000026449",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph21",
+        "msisdn": "9810003729",
+        "imei": "35672100026462",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph22",
+        "msisdn": "9810003902",
+        "imei": "35672200026475",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph23",
+        "msisdn": "9810004075",
+        "imei": "35672300026488",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph24",
+        "msisdn": "9810004248",
+        "imei": "35672400026501",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph25",
+        "msisdn": "9810004421",
+        "imei": "35672500026514",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph26",
+        "msisdn": "9810004594",
+        "imei": "35672600026527",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph27",
+        "msisdn": "9810004767",
+        "imei": "35672700026540",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph28",
+        "msisdn": "9810004940",
+        "imei": "35672800026553",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph29",
+        "msisdn": "9810005113",
+        "imei": "35672900026566",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph30",
+        "msisdn": "9810005286",
+        "imei": "35673000026579",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph31",
+        "msisdn": "9810005459",
+        "imei": "35673100026592",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph32",
+        "msisdn": "9810005632",
+        "imei": "35673200026605",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph33",
+        "msisdn": "9810005805",
+        "imei": "35673300026618",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph34",
+        "msisdn": "9810005978",
+        "imei": "35673400026631",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph35",
+        "msisdn": "9810006151",
+        "imei": "35673500026644",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph36",
+        "msisdn": "9810006324",
+        "imei": "35673600026657",
+        "prepaid": false
+      },
+      {
+        "id": "phone:ph37",
+        "msisdn": "9810006497",
+        "imei": "35673700026670",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph38",
+        "msisdn": "9810006670",
+        "imei": "35673800026683",
+        "prepaid": true
+      },
+      {
+        "id": "phone:ph39",
+        "msisdn": "9810006843",
+        "imei": "35673900026696",
+        "prepaid": false
+      }
+    ],
+    "Account": [
+      {
+        "id": "acc:a00",
+        "number": "HDF100026189",
+        "bank": "HDFC"
+      },
+      {
+        "id": "acc:a01",
+        "number": "ICI100030288",
+        "bank": "ICICI"
+      },
+      {
+        "id": "acc:a02",
+        "number": "SBI100034387",
+        "bank": "SBI"
+      },
+      {
+        "id": "acc:a03",
+        "number": "AXI100038486",
+        "bank": "AXIS"
+      },
+      {
+        "id": "acc:a04",
+        "number": "PNB100042585",
+        "bank": "PNB"
+      },
+      {
+        "id": "acc:a05",
+        "number": "BOB100046684",
+        "bank": "BOB"
+      },
+      {
+        "id": "acc:a06",
+        "number": "HDF100050783",
+        "bank": "HDFC"
+      },
+      {
+        "id": "acc:a07",
+        "number": "ICI100054882",
+        "bank": "ICICI"
+      },
+      {
+        "id": "acc:a08",
+        "number": "SBI100058981",
+        "bank": "SBI"
+      },
+      {
+        "id": "acc:a09",
+        "number": "AXI100063080",
+        "bank": "AXIS"
+      },
+      {
+        "id": "acc:a10",
+        "number": "PNB100067179",
+        "bank": "PNB"
+      },
+      {
+        "id": "acc:a11",
+        "number": "BOB100071278",
+        "bank": "BOB"
+      },
+      {
+        "id": "acc:a12",
+        "number": "HDF100075377",
+        "bank": "HDFC"
+      },
+      {
+        "id": "acc:a13",
+        "number": "ICI100079476",
+        "bank": "ICICI"
+      },
+      {
+        "id": "acc:a14",
+        "number": "SBI100083575",
+        "bank": "SBI"
+      },
+      {
+        "id": "acc:a15",
+        "number": "AXI100087674",
+        "bank": "AXIS"
+      },
+      {
+        "id": "acc:a16",
+        "number": "PNB100091773",
+        "bank": "PNB"
+      },
+      {
+        "id": "acc:a17",
+        "number": "BOB100095872",
+        "bank": "BOB"
+      },
+      {
+        "id": "acc:a18",
+        "number": "HDF100099971",
+        "bank": "HDFC"
+      },
+      {
+        "id": "acc:a19",
+        "number": "ICI100104070",
+        "bank": "ICICI"
+      },
+      {
+        "id": "acc:a20",
+        "number": "SBI100108169",
+        "bank": "SBI"
+      },
+      {
+        "id": "acc:a21",
+        "number": "AXI100112268",
+        "bank": "AXIS"
+      },
+      {
+        "id": "acc:a22",
+        "number": "PNB100116367",
+        "bank": "PNB"
+      },
+      {
+        "id": "acc:a23",
+        "number": "BOB100120466",
+        "bank": "BOB"
+      },
+      {
+        "id": "acc:a24",
+        "number": "HDF100124565",
+        "bank": "HDFC"
+      },
+      {
+        "id": "acc:a25",
+        "number": "ICI100128664",
+        "bank": "ICICI"
+      },
+      {
+        "id": "acc:a26",
+        "number": "SBI100132763",
+        "bank": "SBI"
+      },
+      {
+        "id": "acc:a27",
+        "number": "AXI100136862",
+        "bank": "AXIS"
+      },
+      {
+        "id": "acc:a28",
+        "number": "PNB100140961",
+        "bank": "PNB"
+      },
+      {
+        "id": "acc:a29",
+        "number": "BOB100145060",
+        "bank": "BOB"
+      }
+    ],
+    "Organization": [
+      {
+        "id": "org:qadir_cold_store",
+        "name": "Qadir Cold Store"
+      },
+      {
+        "id": "org:panchsheel_spices",
+        "name": "Panchsheel Spices"
+      },
+      {
+        "id": "org:jamuna_transport",
+        "name": "Jamuna Transport Co"
+      },
+      {
+        "id": "org:haleja_holdings",
+        "name": "Haleja Holdings LLP"
+      },
+      {
+        "id": "org:bhatia_associates",
+        "name": "Bhatia Associates"
+      },
+      {
+        "id": "org:silver_lotus_traders",
+        "name": "Silver Lotus Traders Pvt Ltd"
+      },
+      {
+        "id": "org:kailash_agro",
+        "name": "Kailash Agro Pvt Ltd"
+      },
+      {
+        "id": "org:mehra_logistics",
+        "name": "Mehra Logistics"
+      },
+      {
+        "id": "org:narmada_exports",
+        "name": "Narmada Exports"
+      },
+      {
+        "id": "org:orbit_packers",
+        "name": "Orbit Packers"
+      }
+    ],
+    "Location": [
+      {
+        "id": "loc:azadpur_mandi",
+        "name": "Azadpur Sabzi Mandi",
+        "area": "North Delhi"
+      },
+      {
+        "id": "loc:okhla_industrial",
+        "name": "Okhla Industrial Area Phase II",
+        "area": "South Delhi"
+      },
+      {
+        "id": "loc:noida_sec63",
+        "name": "Noida Sector 63",
+        "area": "Gautam Buddha Nagar"
+      },
+      {
+        "id": "loc:sadar_bazar",
+        "name": "Sadar Bazar",
+        "area": "Central Delhi"
+      },
+      {
+        "id": "loc:dwarka_sec21",
+        "name": "Dwarka Sector 21",
+        "area": "South West Delhi"
+      },
+      {
+        "id": "loc:ghazipur_yard",
+        "name": "Ghazipur Fruit Market",
+        "area": "East Delhi"
+      },
+      {
+        "id": "loc:karol_bagh",
+        "name": "Karol Bagh",
+        "area": "Central Delhi"
+      },
+      {
+        "id": "loc:udyog_vihar",
+        "name": "Udyog Vihar",
+        "area": "Gurugram"
+      }
+    ],
+    "Camera": [
+      {
+        "id": "cam:azadpur_gate",
+        "code": "CCTV-AZD-01",
+        "location_id": "loc:azadpur_mandi"
+      },
+      {
+        "id": "cam:azadpur_yard",
+        "code": "CCTV-AZD-07",
+        "location_id": "loc:azadpur_mandi"
+      },
+      {
+        "id": "cam:okhla_shed",
+        "code": "CCTV-OKH-03",
+        "location_id": "loc:okhla_industrial"
+      },
+      {
+        "id": "cam:noida_lobby",
+        "code": "CCTV-NOI-11",
+        "location_id": "loc:noida_sec63"
+      },
+      {
+        "id": "cam:karol_lane",
+        "code": "CCTV-KRB-02",
+        "location_id": "loc:karol_bagh"
+      },
+      {
+        "id": "cam:udyog_bay",
+        "code": "CCTV-UDY-04",
+        "location_id": "loc:udyog_vihar"
+      }
+    ],
+    "Vehicle": [
+      {
+        "id": "veh:v00",
+        "plate": "DL1CA1000",
+        "kind": "motorcycle",
+        "color": "white"
+      },
+      {
+        "id": "veh:v01",
+        "plate": "DL3CB1017",
+        "kind": "tempo",
+        "color": "silver"
+      },
+      {
+        "id": "veh:v02",
+        "plate": "DL4SC1034",
+        "kind": "car",
+        "color": "blue"
+      },
+      {
+        "id": "veh:v03",
+        "plate": "HR26D1051",
+        "kind": "pickup",
+        "color": "grey"
+      },
+      {
+        "id": "veh:v04",
+        "plate": "UP16E1068",
+        "kind": "motorcycle",
+        "color": "white"
+      },
+      {
+        "id": "veh:v05",
+        "plate": "DL8CF1085",
+        "kind": "tempo",
+        "color": "silver"
+      },
+      {
+        "id": "veh:v06",
+        "plate": "DL1CG1102",
+        "kind": "car",
+        "color": "blue"
+      },
+      {
+        "id": "veh:v07",
+        "plate": "DL3CH1119",
+        "kind": "pickup",
+        "color": "grey"
+      },
+      {
+        "id": "veh:v08",
+        "plate": "DL4SI1136",
+        "kind": "motorcycle",
+        "color": "white"
+      },
+      {
+        "id": "veh:v09",
+        "plate": "HR26J1153",
+        "kind": "tempo",
+        "color": "silver"
+      },
+      {
+        "id": "veh:v10",
+        "plate": "UP16K1170",
+        "kind": "car",
+        "color": "blue"
+      },
+      {
+        "id": "veh:v11",
+        "plate": "DL8CL1187",
+        "kind": "pickup",
+        "color": "grey"
+      },
+      {
+        "id": "veh:v12",
+        "plate": "DL1CM1204",
+        "kind": "motorcycle",
+        "color": "white"
+      },
+      {
+        "id": "veh:v13",
+        "plate": "DL3CN1221",
+        "kind": "tempo",
+        "color": "silver"
+      },
+      {
+        "id": "veh:v14",
+        "plate": "DL4SO1238",
+        "kind": "car",
+        "color": "blue"
+      },
+      {
+        "id": "veh:v15",
+        "plate": "HR26P1255",
+        "kind": "pickup",
+        "color": "grey"
+      },
+      {
+        "id": "veh:v16",
+        "plate": "UP16Q1272",
+        "kind": "motorcycle",
+        "color": "white"
+      },
+      {
+        "id": "veh:v17",
+        "plate": "DL8CR1289",
+        "kind": "tempo",
+        "color": "silver"
+      },
+      {
+        "id": "veh:v18",
+        "plate": "DL1CS1306",
+        "kind": "car",
+        "color": "blue"
+      },
+      {
+        "id": "veh:v19",
+        "plate": "DL3CT1323",
+        "kind": "pickup",
+        "color": "grey"
+      },
+      {
+        "id": "veh:v20",
+        "plate": "DL4SU1340",
+        "kind": "motorcycle",
+        "color": "white"
+      },
+      {
+        "id": "veh:v21",
+        "plate": "HR26V1357",
+        "kind": "tempo",
+        "color": "silver"
+      },
+      {
+        "id": "veh:v22",
+        "plate": "UP16W1374",
+        "kind": "car",
+        "color": "blue"
+      },
+      {
+        "id": "veh:v23",
+        "plate": "DL8CX1391",
+        "kind": "pickup",
+        "color": "grey"
+      },
+      {
+        "id": "veh:v24",
+        "plate": "DL1CY1408",
+        "kind": "motorcycle",
+        "color": "white"
+      }
+    ],
+    "FIR": [
+      {
+        "id": "FIR-2026-001",
+        "station": "Azadpur PS",
+        "offence": "Cheating and criminal conspiracy",
+        "filed_at": "2026-01-05T17:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-002",
+        "station": "Okhla PS",
+        "offence": "Criminal breach of trust",
+        "filed_at": "2026-01-07T18:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-003",
+        "station": "Noida Sec 63 PS",
+        "offence": "Theft of goods",
+        "filed_at": "2026-01-09T19:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-004",
+        "station": "Sadar Bazar PS",
+        "offence": "Receiving stolen property",
+        "filed_at": "2026-01-11T20:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-005",
+        "station": "Dwarka PS",
+        "offence": "Forgery for purpose of cheating",
+        "filed_at": "2026-01-13T21:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-006",
+        "station": "Ghazipur PS",
+        "offence": "Criminal intimidation",
+        "filed_at": "2026-01-15T22:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-007",
+        "station": "Karol Bagh PS",
+        "offence": "Voluntarily causing hurt",
+        "filed_at": "2026-01-17T23:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-008",
+        "station": "Udyog Vihar PS",
+        "offence": "Mischief",
+        "filed_at": "2026-01-20T00:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-009",
+        "station": "Azadpur PS",
+        "offence": "Cheating and criminal conspiracy",
+        "filed_at": "2026-01-21T17:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-010",
+        "station": "Okhla PS",
+        "offence": "Criminal breach of trust",
+        "filed_at": "2026-01-23T18:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-011",
+        "station": "Noida Sec 63 PS",
+        "offence": "Theft of goods",
+        "filed_at": "2026-01-25T19:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-012",
+        "station": "Sadar Bazar PS",
+        "offence": "Receiving stolen property",
+        "filed_at": "2026-01-27T20:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-013",
+        "station": "Dwarka PS",
+        "offence": "Forgery for purpose of cheating",
+        "filed_at": "2026-01-29T21:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-014",
+        "station": "Azadpur PS",
+        "offence": "Cheating and criminal conspiracy",
+        "filed_at": "2026-04-12T11:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-015",
+        "station": "Karol Bagh PS",
+        "offence": "Voluntarily causing hurt",
+        "filed_at": "2026-02-02T23:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-016",
+        "station": "Udyog Vihar PS",
+        "offence": "Mischief",
+        "filed_at": "2026-02-05T00:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-017",
+        "station": "Azadpur PS",
+        "offence": "Cheating and criminal conspiracy",
+        "filed_at": "2026-02-06T17:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-018",
+        "station": "Okhla PS",
+        "offence": "Criminal breach of trust",
+        "filed_at": "2026-02-08T18:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-019",
+        "station": "Noida Sec 63 PS",
+        "offence": "Theft of goods",
+        "filed_at": "2026-02-10T19:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-020",
+        "station": "Sadar Bazar PS",
+        "offence": "Receiving stolen property",
+        "filed_at": "2026-02-12T20:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-021",
+        "station": "Dwarka PS",
+        "offence": "Forgery for purpose of cheating",
+        "filed_at": "2026-02-14T21:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-022",
+        "station": "Ghazipur PS",
+        "offence": "Criminal intimidation",
+        "filed_at": "2026-02-16T22:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-023",
+        "station": "Karol Bagh PS",
+        "offence": "Voluntarily causing hurt",
+        "filed_at": "2026-02-18T23:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-024",
+        "station": "Udyog Vihar PS",
+        "offence": "Mischief",
+        "filed_at": "2026-02-21T00:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-025",
+        "station": "Azadpur PS",
+        "offence": "Cheating and criminal conspiracy",
+        "filed_at": "2026-02-22T17:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-026",
+        "station": "Okhla PS",
+        "offence": "Criminal breach of trust",
+        "filed_at": "2026-02-24T18:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-027",
+        "station": "Noida Sec 63 PS",
+        "offence": "Theft of goods",
+        "filed_at": "2026-02-26T19:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-028",
+        "station": "Sadar Bazar PS",
+        "offence": "Receiving stolen property",
+        "filed_at": "2026-02-28T20:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-029",
+        "station": "Dwarka PS",
+        "offence": "Forgery for purpose of cheating",
+        "filed_at": "2026-03-02T21:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-030",
+        "station": "Ghazipur PS",
+        "offence": "Criminal intimidation",
+        "filed_at": "2026-03-04T22:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-031",
+        "station": "Karol Bagh PS",
+        "offence": "Voluntarily causing hurt",
+        "filed_at": "2026-03-06T23:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-032",
+        "station": "Udyog Vihar PS",
+        "offence": "Mischief",
+        "filed_at": "2026-03-09T00:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-033",
+        "station": "Azadpur PS",
+        "offence": "Cheating and criminal conspiracy",
+        "filed_at": "2026-03-10T17:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-034",
+        "station": "Okhla PS",
+        "offence": "Criminal breach of trust",
+        "filed_at": "2026-03-12T18:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-035",
+        "station": "Noida Sec 63 PS",
+        "offence": "Theft of goods",
+        "filed_at": "2026-03-14T19:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-036",
+        "station": "Sadar Bazar PS",
+        "offence": "Receiving stolen property",
+        "filed_at": "2026-03-16T20:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-037",
+        "station": "Dwarka PS",
+        "offence": "Forgery for purpose of cheating",
+        "filed_at": "2026-03-18T21:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-038",
+        "station": "Ghazipur PS",
+        "offence": "Criminal intimidation",
+        "filed_at": "2026-03-20T22:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-039",
+        "station": "Karol Bagh PS",
+        "offence": "Voluntarily causing hurt",
+        "filed_at": "2026-03-22T23:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-040",
+        "station": "Udyog Vihar PS",
+        "offence": "Mischief",
+        "filed_at": "2026-03-25T00:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-041",
+        "station": "Azadpur PS",
+        "offence": "Cheating and criminal conspiracy",
+        "filed_at": "2026-03-26T17:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-042",
+        "station": "Okhla PS",
+        "offence": "Criminal breach of trust",
+        "filed_at": "2026-03-28T18:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-043",
+        "station": "Noida Sec 63 PS",
+        "offence": "Theft of goods",
+        "filed_at": "2026-03-30T19:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-044",
+        "station": "Sadar Bazar PS",
+        "offence": "Receiving stolen property",
+        "filed_at": "2026-04-01T20:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-045",
+        "station": "Dwarka PS",
+        "offence": "Forgery for purpose of cheating",
+        "filed_at": "2026-04-03T21:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-046",
+        "station": "Ghazipur PS",
+        "offence": "Criminal intimidation",
+        "filed_at": "2026-04-05T22:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-047",
+        "station": "Karol Bagh PS",
+        "offence": "Voluntarily causing hurt",
+        "filed_at": "2026-04-07T23:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-048",
+        "station": "Udyog Vihar PS",
+        "offence": "Mischief",
+        "filed_at": "2026-04-10T00:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-049",
+        "station": "Azadpur PS",
+        "offence": "Cheating and criminal conspiracy",
+        "filed_at": "2026-04-11T17:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-050",
+        "station": "Okhla PS",
+        "offence": "Criminal breach of trust",
+        "filed_at": "2026-04-13T18:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-051",
+        "station": "Noida Sec 63 PS",
+        "offence": "Theft of goods",
+        "filed_at": "2026-04-15T19:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-052",
+        "station": "Sadar Bazar PS",
+        "offence": "Receiving stolen property",
+        "filed_at": "2026-04-17T20:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-053",
+        "station": "Dwarka PS",
+        "offence": "Forgery for purpose of cheating",
+        "filed_at": "2026-04-19T21:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-054",
+        "station": "Ghazipur PS",
+        "offence": "Criminal intimidation",
+        "filed_at": "2026-04-21T22:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-055",
+        "station": "Karol Bagh PS",
+        "offence": "Voluntarily causing hurt",
+        "filed_at": "2026-04-23T23:40:00+05:30"
+      },
+      {
+        "id": "FIR-2026-056",
+        "station": "Udyog Vihar PS",
+        "offence": "Mischief",
+        "filed_at": "2026-04-26T00:00:00+05:30"
+      },
+      {
+        "id": "FIR-2026-057",
+        "station": "Azadpur PS",
+        "offence": "Cheating and criminal conspiracy",
+        "filed_at": "2026-04-27T17:10:00+05:30"
+      },
+      {
+        "id": "FIR-2026-058",
+        "station": "Okhla PS",
+        "offence": "Criminal breach of trust",
+        "filed_at": "2026-04-29T18:20:00+05:30"
+      },
+      {
+        "id": "FIR-2026-059",
+        "station": "Noida Sec 63 PS",
+        "offence": "Theft of goods",
+        "filed_at": "2026-05-01T19:30:00+05:30"
+      },
+      {
+        "id": "FIR-2026-060",
+        "station": "Sadar Bazar PS",
+        "offence": "Receiving stolen property",
+        "filed_at": "2026-05-03T20:40:00+05:30"
+      }
+    ]
+  },
+  "links": [
+    {
+      "type": "OWNS",
+      "source": "person:naveen_bhatia",
+      "target": "phone:ph00",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-acc-phone",
+        "snippet": "SIM registered to Naveen Bhatia"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:naveen_bhatia",
+      "target": "acc:a00",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-acc-in",
+        "snippet": "HDFC inbound ledger of Bhatia Associates"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:naveen_bhatia",
+      "target": "acc:a01",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-acc-out",
+        "snippet": "ICICI outbound ledger of Bhatia Associates"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:naveen_bhatia",
+      "target": "org:bhatia_associates",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-bhatia",
+        "snippet": "proprietor",
+        "role": "proprietor"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:vikram_haleja",
+      "target": "phone:ph01",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-king-phone",
+        "snippet": "prepaid in Haleja name"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:vikram_haleja",
+      "target": "acc:a10",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-king-acc",
+        "snippet": "Haleja Holdings current account"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:vikram_haleja",
+      "target": "org:haleja_holdings",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-haleja",
+        "snippet": "designated partner",
+        "role": "designated_partner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:rakesh_mundhe",
+      "target": "phone:ph02",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-res1",
+        "snippet": "Mundhe personal handset"
+      }
+    },
+    {
+      "type": "USES",
+      "source": "person:farhan_lodhi",
+      "target": "phone:ph03",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "uses-res2",
+        "snippet": "Lodhi using prepaid burner",
+        "at": "2026-03-23T11:40:00+05:30"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:farhan_lodhi",
+      "target": "acc:a02",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-mule0",
+        "snippet": "Lodhi is signatory on first mule account"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:farhan_lodhi",
+      "target": "phone:ph05",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-runner-personal",
+        "snippet": "Lodhi personal"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:imtiaz_qureshi",
+      "target": "phone:ph04",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-handler-ph",
+        "snippet": "Qureshi mandi phone"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:imtiaz_qureshi",
+      "target": "acc:a11",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-handler-acc",
+        "snippet": "Qadir Cold Store collections"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:imtiaz_qureshi",
+      "target": "org:qadir_cold_store",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-qadir",
+        "snippet": "manager",
+        "role": "manager"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:rakesh_mundhe",
+      "target": "org:panchsheel_spices",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-lookout",
+        "snippet": "yard supervisor",
+        "role": "yard_supervisor"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:farhan_lodhi",
+      "target": "org:orbit_packers",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-runner-front",
+        "snippet": "dispatch clerk on paper",
+        "role": "dispatch_clerk"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:harish_tandel",
+      "target": "org:jamuna_transport",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-jamuna",
+        "snippet": "owner",
+        "role": "owner"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:kavita_nadkarni",
+      "target": "org:panchsheel_spices",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-panch",
+        "snippet": "partner",
+        "role": "partner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:roshni_talreja",
+      "target": "phone:ph06",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-dir-ph-0",
+        "snippet": "director handset"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:roshni_talreja",
+      "target": "acc:a08",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-dir-acc-0",
+        "snippet": "director signatory"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:roshni_talreja",
+      "target": "org:silver_lotus_traders",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-dir-0",
+        "snippet": "director",
+        "role": "director"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:sushil_ambwani",
+      "target": "phone:ph07",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-dir-ph-1",
+        "snippet": "director handset"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:sushil_ambwani",
+      "target": "acc:a09",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-dir-acc-1",
+        "snippet": "director signatory"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:sushil_ambwani",
+      "target": "org:kailash_agro",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-dir-1",
+        "snippet": "director",
+        "role": "director"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:meenal_chitnis",
+      "target": "phone:ph08",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-dir-ph-2",
+        "snippet": "director handset"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:meenal_chitnis",
+      "target": "acc:a03",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-dir-acc-2",
+        "snippet": "director signatory"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:meenal_chitnis",
+      "target": "org:narmada_exports",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-dir-2",
+        "snippet": "director",
+        "role": "director"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:parvinder_makhija",
+      "target": "phone:ph09",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-dir-ph-3",
+        "snippet": "director handset"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:parvinder_makhija",
+      "target": "acc:a04",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-dir-acc-3",
+        "snippet": "director signatory"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:parvinder_makhija",
+      "target": "org:orbit_packers",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-dir-3",
+        "snippet": "director",
+        "role": "director"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:gulshan_khatri",
+      "target": "phone:ph10",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-dir-ph-4",
+        "snippet": "director handset"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:gulshan_khatri",
+      "target": "acc:a05",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-dir-acc-4",
+        "snippet": "director signatory"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:gulshan_khatri",
+      "target": "org:mehra_logistics",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-dir-4",
+        "snippet": "director",
+        "role": "director"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p12",
+      "target": "acc:a06",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-mule-4",
+        "snippet": "paper signatory"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:p12",
+      "target": "org:silver_lotus_traders",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-mule-0",
+        "snippet": "nominee",
+        "role": "nominee"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p13",
+      "target": "acc:a07",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-mule-5",
+        "snippet": "paper signatory"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:p13",
+      "target": "org:kailash_agro",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-mule-1",
+        "snippet": "nominee",
+        "role": "nominee"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:kavita_nadkarni",
+      "target": "acc:a12",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-mandi-acc-1",
+        "snippet": "mandi collections"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:harish_tandel",
+      "target": "acc:a13",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-mandi-acc-2",
+        "snippet": "mandi collections"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p23",
+      "target": "acc:a14",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-mandi-acc-3",
+        "snippet": "mandi collections"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:p23",
+      "target": "org:panchsheel_spices",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-mandi-3",
+        "snippet": "trader",
+        "role": "trader"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p24",
+      "target": "acc:a15",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-mandi-acc-4",
+        "snippet": "mandi collections"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:p24",
+      "target": "org:qadir_cold_store",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-mandi-4",
+        "snippet": "trader",
+        "role": "trader"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p25",
+      "target": "acc:a16",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-mandi-acc-5",
+        "snippet": "mandi collections"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:p25",
+      "target": "org:jamuna_transport",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-mandi-5",
+        "snippet": "trader",
+        "role": "trader"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p26",
+      "target": "acc:a17",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-mandi-acc-6",
+        "snippet": "mandi collections"
+      }
+    },
+    {
+      "type": "MEMBER_OF",
+      "source": "person:p26",
+      "target": "org:panchsheel_spices",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "mem-mandi-6",
+        "snippet": "trader",
+        "role": "trader"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p30",
+      "target": "phone:ph11",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-30",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p31",
+      "target": "phone:ph12",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-31",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p32",
+      "target": "phone:ph13",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-32",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p33",
+      "target": "phone:ph14",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-33",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p34",
+      "target": "phone:ph15",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-34",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p35",
+      "target": "phone:ph16",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-35",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p36",
+      "target": "phone:ph17",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-36",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p37",
+      "target": "phone:ph18",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-37",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p38",
+      "target": "phone:ph19",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-38",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p39",
+      "target": "phone:ph20",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-39",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p40",
+      "target": "phone:ph21",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-40",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p41",
+      "target": "phone:ph22",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-41",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p42",
+      "target": "phone:ph23",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-42",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p43",
+      "target": "phone:ph24",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-43",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p44",
+      "target": "phone:ph25",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-44",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p45",
+      "target": "phone:ph26",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-45",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p46",
+      "target": "phone:ph27",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-46",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p47",
+      "target": "phone:ph28",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-47",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p48",
+      "target": "phone:ph29",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-48",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p49",
+      "target": "phone:ph30",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-49",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p50",
+      "target": "phone:ph31",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-50",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p51",
+      "target": "phone:ph32",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-51",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p52",
+      "target": "phone:ph33",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-52",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p53",
+      "target": "phone:ph34",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-53",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p54",
+      "target": "phone:ph35",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-54",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p55",
+      "target": "phone:ph36",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-55",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p56",
+      "target": "phone:ph37",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-56",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p57",
+      "target": "phone:ph38",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-57",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p58",
+      "target": "phone:ph39",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-ph-58",
+        "snippet": "subscriber KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p59",
+      "target": "acc:a18",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-59",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p60",
+      "target": "acc:a19",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-60",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p61",
+      "target": "acc:a20",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-61",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p62",
+      "target": "acc:a21",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-62",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p63",
+      "target": "acc:a22",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-63",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p64",
+      "target": "acc:a23",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-64",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p65",
+      "target": "acc:a24",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-65",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p66",
+      "target": "acc:a25",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-66",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p67",
+      "target": "acc:a26",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-67",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p68",
+      "target": "acc:a27",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-68",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p69",
+      "target": "acc:a28",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-69",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p70",
+      "target": "acc:a29",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-civ-acc-70",
+        "snippet": "savings KYC"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:imtiaz_qureshi",
+      "target": "veh:v00",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v00",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:rakesh_mundhe",
+      "target": "veh:v01",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v01",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p40",
+      "target": "veh:v02",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v02",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p41",
+      "target": "veh:v03",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v03",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:farhan_lodhi",
+      "target": "veh:v04",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v04",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p42",
+      "target": "veh:v05",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v05",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p43",
+      "target": "veh:v06",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v06",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p44",
+      "target": "veh:v07",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v07",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p45",
+      "target": "veh:v08",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v08",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p46",
+      "target": "veh:v09",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v09",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:parvinder_makhija",
+      "target": "veh:v10",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v10",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p47",
+      "target": "veh:v11",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v11",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:roshni_talreja",
+      "target": "veh:v12",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v12",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p48",
+      "target": "veh:v13",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v13",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p49",
+      "target": "veh:v14",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v14",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p50",
+      "target": "veh:v15",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v15",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p51",
+      "target": "veh:v16",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v16",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p52",
+      "target": "veh:v17",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v17",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p53",
+      "target": "veh:v18",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v18",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p54",
+      "target": "veh:v19",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v19",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p55",
+      "target": "veh:v20",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v20",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p56",
+      "target": "veh:v21",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v21",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p57",
+      "target": "veh:v22",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v22",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p58",
+      "target": "veh:v23",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v23",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "OWNS",
+      "source": "person:p59",
+      "target": "veh:v24",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "owns-veh:v24",
+        "snippet": "RC owner"
+      }
+    },
+    {
+      "type": "USES",
+      "source": "person:imtiaz_qureshi",
+      "target": "veh:v00",
+      "attributes": {
+        "source_type": "universe",
+        "source_id": "uses-tempo",
+        "snippet": "Qureshi using Jamuna tempo",
+        "at": "2026-01-25T08:00:00+05:30"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p30",
+      "target": "FIR-2026-001",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-001",
+        "snippet": "On 05.01.2026 at about 1700 hours, complainant Kavita Mundhe r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and c",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p40",
+      "target": "FIR-2026-001",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-001",
+        "snippet": "On 05.01.2026 at about 1700 hours, complainant Kavita Mundhe r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and c",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p31",
+      "target": "FIR-2026-002",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-002",
+        "snippet": "On 07.01.2026 at about 1810 hours, complainant Pallavi Upasani r/o the local area stated that the accused persons cheated him in the matter of criminal breach of trust. Statement r",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p32",
+      "target": "FIR-2026-003",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-003",
+        "snippet": "On 09.01.2026 at about 1920 hours, complainant Manoj Ambavne r/o the local area stated that the accused persons cheated him in the matter of theft of goods. Statement recorded. Cas",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p33",
+      "target": "FIR-2026-004",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-004",
+        "snippet": "On 11.01.2026 at about 2030 hours, complainant Yogesh Chitnis r/o the local area stated that the accused persons cheated him in the matter of receiving stolen property. Statement r",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p34",
+      "target": "FIR-2026-005",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-005",
+        "snippet": "On 13.01.2026 at about 2140 hours, complainant Bhavesh Rangnekar r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. St",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p44",
+      "target": "FIR-2026-005",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-005",
+        "snippet": "On 13.01.2026 at about 2140 hours, complainant Bhavesh Rangnekar r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. St",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p35",
+      "target": "FIR-2026-006",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-006",
+        "snippet": "On 15.01.2026 at about 2200 hours, complainant Pradeep Bhatia r/o the local area stated that the accused persons cheated him in the matter of criminal intimidation. Statement recor",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p36",
+      "target": "FIR-2026-007",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-007",
+        "snippet": "On 17.01.2026 at about 2310 hours, complainant Firoz Tandel r/o the local area stated that the accused persons cheated him in the matter of voluntarily causing hurt. Statement reco",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p37",
+      "target": "FIR-2026-008",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-008",
+        "snippet": "On 20.01.2026 at about 0020 hours, complainant Hina Kazi r/o the local area stated that the accused persons cheated him in the matter of mischief. Statement recorded. Case register",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p38",
+      "target": "FIR-2026-009",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-009",
+        "snippet": "On 21.01.2026 at about 1730 hours, complainant Asma Talreja r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and ch",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p48",
+      "target": "FIR-2026-009",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-009",
+        "snippet": "On 21.01.2026 at about 1730 hours, complainant Asma Talreja r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and ch",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:rakesh_mundhe",
+      "target": "FIR-2026-009",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-009",
+        "snippet": "On 21.01.2026 at about 1730 hours, complainant Asma Talreja r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and ch",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p39",
+      "target": "FIR-2026-010",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-010",
+        "snippet": "On 23.01.2026 at about 1840 hours, complainant Rajan Barot r/o the local area stated that the accused persons cheated him in the matter of criminal breach of trust. Statement recor",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p40",
+      "target": "FIR-2026-011",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-011",
+        "snippet": "On 25.01.2026 at about 1900 hours, complainant Samina Qazi r/o the local area stated that the accused persons cheated him in the matter of theft of goods. Statement recorded. Case ",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p41",
+      "target": "FIR-2026-012",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-012",
+        "snippet": "On 27.01.2026 at about 2010 hours, complainant Kishore Khatri r/o the local area stated that the accused persons cheated him in the matter of receiving stolen property. Statement r",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p42",
+      "target": "FIR-2026-013",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-013",
+        "snippet": "On 29.01.2026 at about 2120 hours, complainant Rukhsana Divekar r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Sta",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p52",
+      "target": "FIR-2026-013",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-013",
+        "snippet": "On 29.01.2026 at about 2120 hours, complainant Rukhsana Divekar r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Sta",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p43",
+      "target": "FIR-2026-014",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-014",
+        "snippet": "On 12.04.2026 at about 1140 hours, complainant Farida Tawde r/o Timarpur stated that traders at Azadpur Sabzi Mandi are being induced to transfer produce-sale proceeds to unknown '",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:rakesh_mundhe",
+      "target": "FIR-2026-014",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-014",
+        "snippet": "On 12.04.2026 at about 1140 hours, complainant Farida Tawde r/o Timarpur stated that traders at Azadpur Sabzi Mandi are being induced to transfer produce-sale proceeds to unknown '",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:imtiaz_qureshi",
+      "target": "FIR-2026-014",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-014",
+        "snippet": "On 12.04.2026 at about 1140 hours, complainant Farida Tawde r/o Timarpur stated that traders at Azadpur Sabzi Mandi are being induced to transfer produce-sale proceeds to unknown '",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p44",
+      "target": "FIR-2026-015",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-015",
+        "snippet": "On 02.02.2026 at about 2340 hours, complainant Bhaskar Makhija r/o the local area stated that the accused persons cheated him in the matter of voluntarily causing hurt. Statement r",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p45",
+      "target": "FIR-2026-016",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-016",
+        "snippet": "On 05.02.2026 at about 0000 hours, complainant Rukhsar Padhye r/o the local area stated that the accused persons cheated him in the matter of mischief. Statement recorded. Case reg",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p46",
+      "target": "FIR-2026-017",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-017",
+        "snippet": "On 06.02.2026 at about 1710 hours, complainant Nilesh Haleja r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and c",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p56",
+      "target": "FIR-2026-017",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-017",
+        "snippet": "On 06.02.2026 at about 1710 hours, complainant Nilesh Haleja r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and c",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p47",
+      "target": "FIR-2026-018",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-018",
+        "snippet": "On 08.02.2026 at about 1820 hours, complainant Shabina Memon r/o the local area stated that the accused persons cheated him in the matter of criminal breach of trust. Statement rec",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p48",
+      "target": "FIR-2026-019",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-019",
+        "snippet": "On 10.02.2026 at about 1930 hours, complainant Pranav Bhosale r/o the local area stated that the accused persons cheated him in the matter of theft of goods. Statement recorded. Ca",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p49",
+      "target": "FIR-2026-020",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-020",
+        "snippet": "On 12.02.2026 at about 2040 hours, complainant Sultana Lodhi r/o the local area stated that the accused persons cheated him in the matter of receiving stolen property. Statement re",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p50",
+      "target": "FIR-2026-021",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-021",
+        "snippet": "On 14.02.2026 at about 2100 hours, complainant Atul Lakhani r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Stateme",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p60",
+      "target": "FIR-2026-021",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-021",
+        "snippet": "On 14.02.2026 at about 2100 hours, complainant Atul Lakhani r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Stateme",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p51",
+      "target": "FIR-2026-022",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-022",
+        "snippet": "On 16.02.2026 at about 2210 hours, complainant Kulsum Contractor r/o the local area stated that the accused persons cheated him in the matter of criminal intimidation. Statement re",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:rakesh_mundhe",
+      "target": "FIR-2026-022",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-022",
+        "snippet": "On 16.02.2026 at about 2210 hours, complainant Kulsum Contractor r/o the local area stated that the accused persons cheated him in the matter of criminal intimidation. Statement re",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p52",
+      "target": "FIR-2026-023",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-023",
+        "snippet": "On 18.02.2026 at about 2320 hours, complainant Nagesh Ambwani r/o the local area stated that the accused persons cheated him in the matter of voluntarily causing hurt. Statement re",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p53",
+      "target": "FIR-2026-024",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-024",
+        "snippet": "On 21.02.2026 at about 0030 hours, complainant Najma Bhandare r/o the local area stated that the accused persons cheated him in the matter of mischief. Statement recorded. Case reg",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p54",
+      "target": "FIR-2026-025",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-025",
+        "snippet": "On 22.02.2026 at about 1740 hours, complainant Imtiaz Mhapankar r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi an",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p64",
+      "target": "FIR-2026-025",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-025",
+        "snippet": "On 22.02.2026 at about 1740 hours, complainant Imtiaz Mhapankar r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi an",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p55",
+      "target": "FIR-2026-026",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-026",
+        "snippet": "On 24.02.2026 at about 1800 hours, complainant Rakesh Nadkarni r/o the local area stated that the accused persons cheated him in the matter of criminal breach of trust. Statement r",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p56",
+      "target": "FIR-2026-027",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-027",
+        "snippet": "On 26.02.2026 at about 1910 hours, complainant Parvinder Sawant r/o the local area stated that the accused persons cheated him in the matter of theft of goods. Statement recorded. ",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p57",
+      "target": "FIR-2026-028",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-028",
+        "snippet": "On 28.02.2026 at about 2020 hours, complainant Harish Qureshi r/o the local area stated that the accused persons cheated him in the matter of receiving stolen property. Statement r",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p58",
+      "target": "FIR-2026-029",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-029",
+        "snippet": "On 02.03.2026 at about 2130 hours, complainant Dinesh Pingle r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Statem",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p68",
+      "target": "FIR-2026-029",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-029",
+        "snippet": "On 02.03.2026 at about 2130 hours, complainant Dinesh Pingle r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Statem",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p59",
+      "target": "FIR-2026-030",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-030",
+        "snippet": "On 04.03.2026 at about 2240 hours, complainant Iqbal Merchant r/o the local area stated that the accused persons cheated him in the matter of criminal intimidation. Statement recor",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p60",
+      "target": "FIR-2026-031",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-031",
+        "snippet": "On 06.03.2026 at about 2300 hours, complainant Rafiq Mundhe r/o the local area stated that the accused persons cheated him in the matter of voluntarily causing hurt. Statement reco",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:imtiaz_qureshi",
+      "target": "FIR-2026-031",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-031",
+        "snippet": "On 06.03.2026 at about 2300 hours, complainant Rafiq Mundhe r/o the local area stated that the accused persons cheated him in the matter of voluntarily causing hurt. Statement reco",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p61",
+      "target": "FIR-2026-032",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-032",
+        "snippet": "On 09.03.2026 at about 0010 hours, complainant Saira Upasani r/o the local area stated that the accused persons cheated him in the matter of mischief. Statement recorded. Case regi",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p62",
+      "target": "FIR-2026-033",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-033",
+        "snippet": "On 10.03.2026 at about 1720 hours, complainant Nasreen Ambavne r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p42",
+      "target": "FIR-2026-033",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-033",
+        "snippet": "On 10.03.2026 at about 1720 hours, complainant Nasreen Ambavne r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p63",
+      "target": "FIR-2026-034",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-034",
+        "snippet": "On 12.03.2026 at about 1830 hours, complainant Swati Chitnis r/o the local area stated that the accused persons cheated him in the matter of criminal breach of trust. Statement rec",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p64",
+      "target": "FIR-2026-035",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-035",
+        "snippet": "On 14.03.2026 at about 1940 hours, complainant Rehana Rangnekar r/o the local area stated that the accused persons cheated him in the matter of theft of goods. Statement recorded. ",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p65",
+      "target": "FIR-2026-036",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-036",
+        "snippet": "On 16.03.2026 at about 2000 hours, complainant Gopal Bhatia r/o the local area stated that the accused persons cheated him in the matter of receiving stolen property. Statement rec",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p66",
+      "target": "FIR-2026-037",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-037",
+        "snippet": "On 18.03.2026 at about 2110 hours, complainant Bushra Tandel r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Statem",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p46",
+      "target": "FIR-2026-037",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-037",
+        "snippet": "On 18.03.2026 at about 2110 hours, complainant Bushra Tandel r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Statem",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p67",
+      "target": "FIR-2026-038",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-038",
+        "snippet": "On 20.03.2026 at about 2220 hours, complainant Paresh Kazi r/o the local area stated that the accused persons cheated him in the matter of criminal intimidation. Statement recorded",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p68",
+      "target": "FIR-2026-039",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-039",
+        "snippet": "On 22.03.2026 at about 2330 hours, complainant Afroz Talreja r/o the local area stated that the accused persons cheated him in the matter of voluntarily causing hurt. Statement rec",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p69",
+      "target": "FIR-2026-040",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-040",
+        "snippet": "On 25.03.2026 at about 0040 hours, complainant Jatin Barot r/o the local area stated that the accused persons cheated him in the matter of mischief. Statement recorded. Case regist",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p70",
+      "target": "FIR-2026-041",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-041",
+        "snippet": "On 26.03.2026 at about 1700 hours, complainant Shireen Qazi r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and ch",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p50",
+      "target": "FIR-2026-041",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-041",
+        "snippet": "On 26.03.2026 at about 1700 hours, complainant Shireen Qazi r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and ch",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p71",
+      "target": "FIR-2026-042",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-042",
+        "snippet": "On 28.03.2026 at about 1810 hours, complainant Heena Khatri r/o the local area stated that the accused persons cheated him in the matter of criminal breach of trust. Statement reco",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p72",
+      "target": "FIR-2026-043",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-043",
+        "snippet": "On 30.03.2026 at about 1920 hours, complainant Milind Divekar r/o the local area stated that the accused persons cheated him in the matter of theft of goods. Statement recorded. Ca",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p73",
+      "target": "FIR-2026-044",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-044",
+        "snippet": "On 01.04.2026 at about 2030 hours, complainant Parveen Tawde r/o the local area stated that the accused persons cheated him in the matter of receiving stolen property. Statement re",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p74",
+      "target": "FIR-2026-045",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-045",
+        "snippet": "On 03.04.2026 at about 2140 hours, complainant Alok Makhija r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Stateme",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p54",
+      "target": "FIR-2026-045",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-045",
+        "snippet": "On 03.04.2026 at about 2140 hours, complainant Alok Makhija r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Stateme",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p75",
+      "target": "FIR-2026-046",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-046",
+        "snippet": "On 05.04.2026 at about 2200 hours, complainant Zarina Padhye r/o the local area stated that the accused persons cheated him in the matter of criminal intimidation. Statement record",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p76",
+      "target": "FIR-2026-047",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-047",
+        "snippet": "On 07.04.2026 at about 2310 hours, complainant Chirag Haleja r/o the local area stated that the accused persons cheated him in the matter of voluntarily causing hurt. Statement rec",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p77",
+      "target": "FIR-2026-048",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-048",
+        "snippet": "On 10.04.2026 at about 0020 hours, complainant Deepak Bhosale r/o the local area stated that the accused persons cheated him in the matter of mischief. Statement recorded. Case reg",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p78",
+      "target": "FIR-2026-049",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-049",
+        "snippet": "On 11.04.2026 at about 1730 hours, complainant Razia Lodhi r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and che",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p58",
+      "target": "FIR-2026-049",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-049",
+        "snippet": "On 11.04.2026 at about 1730 hours, complainant Razia Lodhi r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and che",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p79",
+      "target": "FIR-2026-050",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-050",
+        "snippet": "On 13.04.2026 at about 1840 hours, complainant Naveen Lakhani r/o the local area stated that the accused persons cheated him in the matter of criminal breach of trust. Statement re",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p30",
+      "target": "FIR-2026-051",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-051",
+        "snippet": "On 15.04.2026 at about 1900 hours, complainant Kavita Mundhe r/o the local area stated that the accused persons cheated him in the matter of theft of goods. Statement recorded. Cas",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p31",
+      "target": "FIR-2026-052",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-052",
+        "snippet": "On 17.04.2026 at about 2010 hours, complainant Pallavi Upasani r/o the local area stated that the accused persons cheated him in the matter of receiving stolen property. Statement ",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p32",
+      "target": "FIR-2026-053",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-053",
+        "snippet": "On 19.04.2026 at about 2120 hours, complainant Manoj Ambavne r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Statem",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p62",
+      "target": "FIR-2026-053",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-053",
+        "snippet": "On 19.04.2026 at about 2120 hours, complainant Manoj Ambavne r/o the local area stated that the accused persons cheated him in the matter of forgery for purpose of cheating. Statem",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p33",
+      "target": "FIR-2026-054",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-054",
+        "snippet": "On 21.04.2026 at about 2230 hours, complainant Yogesh Chitnis r/o the local area stated that the accused persons cheated him in the matter of criminal intimidation. Statement recor",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p34",
+      "target": "FIR-2026-055",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-055",
+        "snippet": "On 23.04.2026 at about 2340 hours, complainant Bhavesh Rangnekar r/o the local area stated that the accused persons cheated him in the matter of voluntarily causing hurt. Statement",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p35",
+      "target": "FIR-2026-056",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-056",
+        "snippet": "On 26.04.2026 at about 0000 hours, complainant Pradeep Bhatia r/o the local area stated that the accused persons cheated him in the matter of mischief. Statement recorded. Case reg",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p36",
+      "target": "FIR-2026-057",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-057",
+        "snippet": "On 27.04.2026 at about 1710 hours, complainant Firoz Tandel r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and ch",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p66",
+      "target": "FIR-2026-057",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-057",
+        "snippet": "On 27.04.2026 at about 1710 hours, complainant Firoz Tandel r/o Azadpur village attended PS and stated that unknown persons came on a motorcycle near Gate No. 2 of the mandi and ch",
+        "role": "mentioned"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p37",
+      "target": "FIR-2026-058",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-058",
+        "snippet": "On 29.04.2026 at about 1820 hours, complainant Hina Kazi r/o the local area stated that the accused persons cheated him in the matter of criminal breach of trust. Statement recorde",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p38",
+      "target": "FIR-2026-059",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-059",
+        "snippet": "On 01.05.2026 at about 1930 hours, complainant Asma Talreja r/o the local area stated that the accused persons cheated him in the matter of theft of goods. Statement recorded. Case",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "MENTIONED_IN",
+      "source": "person:p39",
+      "target": "FIR-2026-060",
+      "attributes": {
+        "source_type": "fir",
+        "source_id": "FIR-2026-060",
+        "snippet": "On 03.05.2026 at about 2040 hours, complainant Rajan Barot r/o the local area stated that the accused persons cheated him in the matter of receiving stolen property. Statement reco",
+        "role": "complainant"
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:rakesh_mundhe",
+      "target": "cam:azadpur_gate",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "face match person:rakesh_mundhe",
+        "at": "2026-02-25T02:10:00+05:30",
+        "confidence": 0.86
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:rakesh_mundhe",
+      "target": "loc:azadpur_mandi",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "at loc:azadpur_mandi",
+        "at": "2026-02-25T02:10:00+05:30",
+        "confidence": 0.86
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "veh:v01",
+      "target": "cam:azadpur_gate",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "plate DL3CB1017",
+        "at": "2026-02-25T02:10:00+05:30",
+        "confidence": 0.86
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:imtiaz_qureshi",
+      "target": "cam:azadpur_yard",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_yard",
+        "snippet": "face match person:imtiaz_qureshi",
+        "at": "2026-02-25T02:25:00+05:30",
+        "confidence": 0.84
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:imtiaz_qureshi",
+      "target": "loc:azadpur_mandi",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_yard",
+        "snippet": "at loc:azadpur_mandi",
+        "at": "2026-02-25T02:25:00+05:30",
+        "confidence": 0.84
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "veh:v00",
+      "target": "cam:azadpur_yard",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_yard",
+        "snippet": "plate DL1CA1000",
+        "at": "2026-02-25T02:25:00+05:30",
+        "confidence": 0.84
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:rakesh_mundhe",
+      "target": "cam:azadpur_gate",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "face match person:rakesh_mundhe",
+        "at": "2026-04-12T14:40:00+05:30",
+        "confidence": 0.9
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:rakesh_mundhe",
+      "target": "loc:azadpur_mandi",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "at loc:azadpur_mandi",
+        "at": "2026-04-12T14:40:00+05:30",
+        "confidence": 0.9
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:farhan_lodhi",
+      "target": "cam:okhla_shed",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:okhla_shed",
+        "snippet": "face match person:farhan_lodhi",
+        "at": "2026-04-12T15:40:00+05:30",
+        "confidence": 0.77
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:farhan_lodhi",
+      "target": "loc:okhla_industrial",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:okhla_shed",
+        "snippet": "at loc:okhla_industrial",
+        "at": "2026-04-12T15:40:00+05:30",
+        "confidence": 0.77
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "veh:v04",
+      "target": "cam:okhla_shed",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:okhla_shed",
+        "snippet": "plate UP16E1068",
+        "at": "2026-04-12T15:40:00+05:30",
+        "confidence": 0.77
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:naveen_bhatia",
+      "target": "cam:karol_lane",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:karol_lane",
+        "snippet": "face match person:naveen_bhatia",
+        "at": "2026-03-16T19:00:00+05:30",
+        "confidence": 0.72
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:naveen_bhatia",
+      "target": "loc:karol_bagh",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:karol_lane",
+        "snippet": "at loc:karol_bagh",
+        "at": "2026-03-16T19:00:00+05:30",
+        "confidence": 0.72
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:imtiaz_qureshi",
+      "target": "cam:azadpur_gate",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "face match person:imtiaz_qureshi",
+        "at": "2026-02-08T00:00:00+05:30",
+        "confidence": 0.88
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:imtiaz_qureshi",
+      "target": "loc:azadpur_mandi",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "at loc:azadpur_mandi",
+        "at": "2026-02-08T00:00:00+05:30",
+        "confidence": 0.88
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "veh:v00",
+      "target": "cam:azadpur_gate",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "plate DL1CA1000",
+        "at": "2026-02-08T00:00:00+05:30",
+        "confidence": 0.88
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:roshni_talreja",
+      "target": "cam:noida_lobby",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:noida_lobby",
+        "snippet": "face match person:roshni_talreja",
+        "at": "2026-04-05T17:00:00+05:30",
+        "confidence": 0.69
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:roshni_talreja",
+      "target": "loc:noida_sec63",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:noida_lobby",
+        "snippet": "at loc:noida_sec63",
+        "at": "2026-04-05T17:00:00+05:30",
+        "confidence": 0.69
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:parvinder_makhija",
+      "target": "cam:udyog_bay",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:udyog_bay",
+        "snippet": "face match person:parvinder_makhija",
+        "at": "2026-04-06T17:00:00+05:30",
+        "confidence": 0.74
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:parvinder_makhija",
+      "target": "loc:udyog_vihar",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:udyog_bay",
+        "snippet": "at loc:udyog_vihar",
+        "at": "2026-04-06T17:00:00+05:30",
+        "confidence": 0.74
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "veh:v10",
+      "target": "cam:udyog_bay",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:udyog_bay",
+        "snippet": "plate UP16K1170",
+        "at": "2026-04-06T17:00:00+05:30",
+        "confidence": 0.74
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:rakesh_mundhe",
+      "target": "cam:azadpur_yard",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_yard",
+        "snippet": "face match person:rakesh_mundhe",
+        "at": "2026-02-16T04:00:00+05:30",
+        "confidence": 0.8
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:rakesh_mundhe",
+      "target": "loc:azadpur_mandi",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_yard",
+        "snippet": "at loc:azadpur_mandi",
+        "at": "2026-02-16T04:00:00+05:30",
+        "confidence": 0.8
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:farhan_lodhi",
+      "target": "cam:okhla_shed",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:okhla_shed",
+        "snippet": "face match person:farhan_lodhi",
+        "at": "2026-03-01T15:00:00+05:30",
+        "confidence": 0.6
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:farhan_lodhi",
+      "target": "loc:okhla_industrial",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:okhla_shed",
+        "snippet": "at loc:okhla_industrial",
+        "at": "2026-03-01T15:00:00+05:30",
+        "confidence": 0.6
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:kavita_nadkarni",
+      "target": "cam:azadpur_gate",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "face match person:kavita_nadkarni",
+        "at": "2026-03-13T05:00:00+05:30",
+        "confidence": 0.64
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:kavita_nadkarni",
+      "target": "loc:azadpur_mandi",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "at loc:azadpur_mandi",
+        "at": "2026-03-13T05:00:00+05:30",
+        "confidence": 0.64
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "veh:v08",
+      "target": "cam:azadpur_gate",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_gate",
+        "snippet": "plate DL4SI1136",
+        "at": "2026-03-13T05:00:00+05:30",
+        "confidence": 0.64
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:sushil_ambwani",
+      "target": "cam:noida_lobby",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:noida_lobby",
+        "snippet": "face match person:sushil_ambwani",
+        "at": "2026-03-23T21:00:00+05:30",
+        "confidence": 0.58
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:sushil_ambwani",
+      "target": "loc:noida_sec63",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:noida_lobby",
+        "snippet": "at loc:noida_sec63",
+        "at": "2026-03-23T21:00:00+05:30",
+        "confidence": 0.58
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "veh:v12",
+      "target": "cam:udyog_bay",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:udyog_bay",
+        "snippet": "plate DL1CM1204",
+        "at": "2026-03-27T01:00:00+05:30",
+        "confidence": 0.71
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:p50",
+      "target": "cam:karol_lane",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:karol_lane",
+        "snippet": "face match person:p50",
+        "at": "2026-04-15T18:00:00+05:30",
+        "confidence": 0.55
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:p50",
+      "target": "loc:karol_bagh",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:karol_lane",
+        "snippet": "at loc:karol_bagh",
+        "at": "2026-04-15T18:00:00+05:30",
+        "confidence": 0.55
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:rakesh_mundhe",
+      "target": "cam:azadpur_yard",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_yard",
+        "snippet": "face match person:rakesh_mundhe",
+        "at": "2026-04-26T03:00:00+05:30",
+        "confidence": 0.83
+      }
+    },
+    {
+      "type": "SEEN_AT",
+      "source": "person:rakesh_mundhe",
+      "target": "loc:azadpur_mandi",
+      "attributes": {
+        "source_type": "surv",
+        "source_id": "cam:azadpur_yard",
+        "snippet": "at loc:azadpur_mandi",
+        "at": "2026-04-26T03:00:00+05:30",
+        "confidence": 0.83
+      }
+    }
+  ],
+  "counts": {
+    "persons": 80,
+    "phones": 40,
+    "orgs": 10,
+    "accounts": 30,
+    "vehicles": 25,
+    "locations": 8,
+    "firs": 60,
+    "cdrs": 3000,
+    "payments": 800,
+    "surveillance": 15
+  }
+}

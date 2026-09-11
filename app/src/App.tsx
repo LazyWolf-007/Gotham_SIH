@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { GraphKernel, GraphNode, GraphEdge, FilterState, CutResult, PatternHit, ObjectType, LinkType, OBJECT_TYPES, LINK_TYPES } from "./types";
+import { GraphKernel, GraphEdge, FilterState, CutResult, ObjectType, LinkType, OBJECT_TYPES, LINK_TYPES } from "./types";
 import { fetchGraphKernel, runCutSimulation } from "./lib/api";
 import LandingPage from "./landing/LandingPage";
 import { Header } from "./components/Header";
@@ -10,24 +10,25 @@ import { FilterToolbar } from "./canvas/FilterToolbar";
 import { DossierPanel } from "./dossier/DossierPanel";
 import { TimelinePanel } from "./timeline/TimelinePanel";
 import { CopilotPanel } from "./copilot/CopilotPanel";
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import { CaseProvider, useCase } from "./context/CaseContext";
+import { LoginScreen } from "./components/auth/LoginScreen";
+import { AdminUserModal } from "./components/admin/AdminUserModal";
 import { Shield, RefreshCw, AlertCircle } from "lucide-react";
 
-export function App() {
-  // Page Routing State: "landing" | "workbench"
-  const [currentPage, setCurrentPage] = useState<"landing" | "workbench">(() => {
-    if (typeof window !== "undefined") {
-      const path = window.location.pathname;
-      const hash = window.location.hash;
-      if (path === "/workbench" || hash === "#workbench") {
-        return "workbench";
-      }
-    }
-    return "landing";
-  });
+function WorkbenchContent() {
+  const { user, token, loading: authLoading } = useAuth();
+  const { activeCase } = useCase();
+
+  // Page Routing State: Always default to "landing" Home Page upon initial login
+  const [currentPage, setCurrentPage] = useState<"landing" | "workbench">("landing");
 
   const [kernel, setKernel] = useState<GraphKernel | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Admin User Modal State
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
   // Active UI Panel Tab in Workbench
   const [activeTab, setActiveTab] = useState<"dossier" | "timeline" | "copilot">("dossier");
@@ -89,41 +90,35 @@ export function App() {
     }
   };
 
-  // Load Graph Kernel on Mount
+  // Load Graph Kernel on Mount or Case Change
   useEffect(() => {
     async function init() {
+      if (!user) return;
       try {
         setLoading(true);
-        const data = await fetchGraphKernel();
+        const data = await fetchGraphKernel(token);
         setKernel(data);
         if (data.cut) {
           setArrestCutResult(data.cut);
         }
+        setError(null);
       } catch (err: any) {
-        setError(err.message || "Failed to load graph data");
+        console.error("Failed to load kernel:", err);
+        setError(err?.message || "Failed to load investigation graph kernel.");
       } finally {
         setLoading(false);
       }
     }
     init();
-  }, []);
+  }, [user, token, activeCase.id]);
 
-  // Map of nodes for quick lookup
-  const nodesMap = useMemo(() => {
-    const map = new Map<string, GraphNode>();
-    if (kernel) {
-      kernel.nodes.forEach((n) => map.set(n.id, n));
-    }
-    return map;
-  }, [kernel]);
-
-  // Selected node object
+  // Selected Node data accessor
   const selectedNode = useMemo(() => {
-    if (!selectedNodeId) return null;
-    return nodesMap.get(selectedNodeId) || null;
-  }, [selectedNodeId, nodesMap]);
+    if (!kernel || !selectedNodeId) return null;
+    return kernel.nodes.find((n) => n.id === selectedNodeId) || null;
+  }, [kernel, selectedNodeId]);
 
-  // Incident edges of the selected node
+  // Incident Edges accessor
   const incidentEdges = useMemo(() => {
     if (!kernel || !selectedNodeId) return [];
     return kernel.edges.filter(
@@ -131,86 +126,33 @@ export function App() {
     );
   }, [kernel, selectedNodeId]);
 
-  // Handle Demo Script Steps (Sacred Demo Script)
-  const handleDemoStepChange = async (stepId: number) => {
-    setDemoStep(stepId);
-
-    if (stepId === 1) {
-      // Step 1: Total Hairball
-      setColorByCommunity(false);
-      setActivePattern(null);
-      setArrestTarget(null);
-      setLayoutName("cose");
-      setSelectedNodeId(null);
-      setHighlightedNodeIds([]);
-      setFilterState((prev) => ({
-        ...prev,
-        selectedObjectTypes: new Set<ObjectType>(OBJECT_TYPES as any),
-        selectedLinkTypes: new Set<LinkType>(LINK_TYPES as any),
-        searchQuery: "",
-        minBetweenness: 0,
-        communityFilter: "all",
-      }));
-    } else if (stepId === 2) {
-      // Step 2: Community Partition
-      setColorByCommunity(true);
-      setActivePattern(null);
-      setArrestTarget(null);
-      setLayoutName("cose");
-    } else if (stepId === 3) {
-      // Step 3: Accountant Identification
-      setColorByCommunity(false);
-      setActivePattern("accountant_cutpoint");
-      setArrestTarget(null);
-      setSelectedNodeId("person:naveen_bhatia");
-      setActiveTab("dossier");
-      setLayoutName("concentric");
-    } else if (stepId === 4) {
-      // Step 4: Hawala Cycle
-      setColorByCommunity(false);
-      setActivePattern("hawala_cycle");
-      setArrestTarget(null);
-      setSelectedNodeId("acc:a02");
-      setActiveTab("dossier");
-    } else if (stepId === 5) {
-      // Step 5: Counterfactual Arrest Simulation
-      setActivePattern(null);
-      setArrestTarget("person:naveen_bhatia");
-      const cutRes = await runCutSimulation("person:naveen_bhatia");
-      setArrestCutResult(cutRes.result);
-      setSelectedNodeId("person:naveen_bhatia");
-      setActiveTab("dossier");
-    } else if (stepId === 6) {
-      // Step 6: Copilot RAG
-      setSelectedNodeId("person:naveen_bhatia");
-      setActiveTab("copilot");
+  // Handle Counterfactual Arrest Simulation
+  const handleRunArrestSimulation = async (targetId: string) => {
+    setArrestTarget(targetId);
+    try {
+      const res = await runCutSimulation(targetId, undefined, undefined, token);
+      if (res && res.result) {
+        setArrestCutResult(res.result);
+      }
+    } catch (err) {
+      console.error("Arrest simulation error:", err);
     }
   };
 
-  // Run Arrest Cut Simulation on any selected node
-  const handleRunArrestSimulation = async (targetId: string) => {
-    setArrestTarget(targetId);
-    const cutRes = await runCutSimulation(targetId);
-    setArrestCutResult(cutRes.result);
-  };
-
-  // Isolate Neighborhood
-  const handleIsolateNeighborhood = (seedId: string) => {
-    setSelectedNodeId(seedId);
+  const handleIsolateNeighborhood = (seedId: string, hops: number = 2) => {
     setFilterState((prev) => ({
       ...prev,
-      isolatedSeedId: prev.isolatedSeedId === seedId ? null : seedId,
+      isolatedSeedId: seedId,
+      isolateHops: hops,
     }));
   };
 
-  // Ask Copilot about entity
   const handleAskCopilot = (seedId: string) => {
     setSelectedNodeId(seedId);
     setActiveTab("copilot");
   };
 
-  // Reset Filters
-  const handleResetFilters = () => {
+  const resetFilters = () => {
     setFilterState({
       searchQuery: "",
       selectedObjectTypes: new Set<ObjectType>(OBJECT_TYPES as any),
@@ -224,84 +166,86 @@ export function App() {
       isolatedSeedId: null,
       isolateHops: 2,
     });
-    setColorByCommunity(false);
-    setActivePattern(null);
-    setArrestTarget(null);
-    setHighlightedNodeIds([]);
   };
 
-  // If on Landing Page, render Landing Page
-  if (currentPage === "landing") {
-    return <LandingPage onLaunchWorkbench={() => navigateTo("workbench")} />;
-  }
-
-  // If loading workbench kernel
-  if (loading) {
+  if (authLoading) {
     return (
-      <div className="h-screen w-screen bg-[#070b13] flex flex-col items-center justify-center text-slate-300 space-y-4">
-        <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-sky-600/20 border border-sky-500/40 animate-pulse">
-          <Shield className="w-8 h-8 text-sky-400" />
-        </div>
-        <div className="text-center space-y-1">
-          <h2 className="text-base font-bold text-slate-100 tracking-tight font-mono">
-            GOTHAM_SIH INVESTIGATION WORKBENCH
-          </h2>
-          <p className="text-xs text-slate-400 font-mono">
-            Loading Operation Grey Ledger graph kernel (3.8k links, 80 persons)...
-          </p>
-        </div>
-        <RefreshCw className="w-5 h-5 text-sky-400 animate-spin" />
+      <div className="w-screen h-screen bg-[#070a11] flex flex-col items-center justify-center text-slate-300">
+        <Shield className="w-10 h-10 text-emerald-400 animate-pulse mb-3" />
+        <span className="text-sm font-mono tracking-widest text-emerald-400">AUTHENTICATING ACCESS...</span>
       </div>
     );
   }
 
-  // If error loading kernel
+  // Enforce Login Protection
+  if (!user) {
+    return <LoginScreen />;
+  }
+
+  // Render Home Page (Landing Page with 3D Lanyard, Case Briefing, Features & Access Desk CTA)
+  if (currentPage === "landing") {
+    return <LandingPage onLaunchWorkbench={() => navigateTo("workbench")} />;
+  }
+
+  if (loading) {
+    return (
+      <div className="w-screen h-screen bg-[#070a11] flex flex-col items-center justify-center text-slate-300">
+        <RefreshCw className="w-10 h-10 text-emerald-400 animate-spin mb-4" />
+        <h2 className="text-lg font-bold text-slate-100">Loading {activeCase.name}...</h2>
+        <p className="text-xs text-slate-500 font-mono mt-1">Initializing graph kernel & centrality metrics</p>
+      </div>
+    );
+  }
+
   if (error || !kernel) {
     return (
-      <div className="h-screen w-screen bg-[#070b13] flex flex-col items-center justify-center text-slate-300 p-6">
+      <div className="w-screen h-screen bg-[#070a11] flex flex-col items-center justify-center text-slate-300 p-4">
         <AlertCircle className="w-12 h-12 text-rose-500 mb-3" />
-        <h2 className="text-base font-bold text-slate-100">Failed to load graph kernel</h2>
-        <p className="text-xs text-rose-400 mt-1 max-w-md text-center">{error}</p>
+        <h2 className="text-xl font-bold text-rose-400 mb-1">Graph Initialization Failed</h2>
+        <p className="text-sm text-slate-400 max-w-md text-center mb-4">{error}</p>
         <button
-          onClick={() => navigateTo("landing")}
-          className="mt-4 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs rounded-xl border border-slate-700"
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-lg border border-slate-700 transition-all"
         >
-          Return to Landing
+          Retry Connection
         </button>
       </div>
     );
   }
 
-  // Render Full Investigation Workbench
   return (
-    <div className="h-screen w-screen flex flex-col bg-[#070b13] text-slate-200 overflow-hidden font-sans">
-      {/* Top Header with Back to Landing */}
+    <div className="w-screen h-screen bg-[#070a11] flex flex-col overflow-hidden text-slate-100 font-sans select-none">
+      {/* Header */}
       <Header
         kernel={kernel}
         activeTab={activeTab}
         onTabChange={(tab) => setActiveTab(tab)}
         onBackToLanding={() => navigateTo("landing")}
+        onOpenAdminModal={() => setIsAdminModalOpen(true)}
       />
 
-      {/* Sacred Demo Script Tour Bar */}
-      <DemoScriptTour
-        currentStep={demoStep}
-        onSelectStep={handleDemoStepChange}
-      />
-
-      {/* Main Workspace Body */}
+      {/* Main Content Area */}
       <div className="flex-1 flex overflow-hidden relative">
-        {/* Left / Center: Graph Canvas Area */}
-        <div className="flex-1 relative h-full">
+        {/* Left Filter Toolbar */}
+        <FilterToolbar
+          filterState={filterState}
+          onChange={(next) => setFilterState(next)}
+          onReset={resetFilters}
+          totalNodes={kernel.nodes.length}
+          totalEdges={kernel.edges.length}
+        />
+
+        {/* Center Cytoscape Canvas */}
+        <div className="flex-1 h-full relative bg-[#070a11]">
           <GraphCanvas
             nodes={kernel.nodes}
             edges={kernel.edges}
             selectedNodeId={selectedNodeId}
-            onSelectNode={(nodeId) => {
-              setSelectedNodeId(nodeId);
+            onSelectNode={(nid) => {
+              setSelectedNodeId(nid);
               setSelectedEdge(null);
             }}
-            selectedEdgeId={selectedEdge?.id || null}
+            selectedEdgeId={selectedEdge ? `${selectedEdge.source}-${selectedEdge.target}-${selectedEdge.type}` : null}
             onSelectEdge={(edge) => {
               setSelectedEdge(edge);
               setSelectedNodeId(null);
@@ -314,31 +258,31 @@ export function App() {
             arrestCutResult={arrestCutResult}
             highlightedNodeIds={highlightedNodeIds}
             layoutName={layoutName}
-            onLayoutChange={(l) => setLayoutName(l)}
+            onLayoutChange={(layout) => setLayoutName(layout)}
             showLabels={showLabels}
           />
 
-          {/* Floating Controls */}
+          {/* Canvas Floating Controls */}
           <CanvasControls
             layoutName={layoutName}
-            onLayoutChange={(l) => setLayoutName(l)}
+            onLayoutChange={(layout) => setLayoutName(layout)}
             colorByCommunity={colorByCommunity}
             onToggleCommunity={() => setColorByCommunity((prev) => !prev)}
             showLabels={showLabels}
             onToggleLabels={() => setShowLabels((prev) => !prev)}
-            onFit={() => setLayoutName((prev) => prev)}
-            onReset={handleResetFilters}
+            onFit={() => {}}
+            onReset={resetFilters}
             activePattern={activePattern}
-            onSelectPattern={(pat) => setActivePattern(pat)}
+            onSelectPattern={(pat) => {
+              setActivePattern(pat);
+              setFilterState((prev) => ({ ...prev, activePattern: pat }));
+            }}
           />
 
-          {/* Bottom Filter Toolbar */}
-          <FilterToolbar
-            filterState={filterState}
-            onChange={(next) => setFilterState(next)}
-            onReset={handleResetFilters}
-            totalNodes={kernel.nodes.length}
-            totalEdges={kernel.edges.length}
+          {/* Sacred Demo Tour Guide Floating Overlay */}
+          <DemoScriptTour
+            currentStep={demoStep}
+            onSelectStep={(step) => setDemoStep(step)}
           />
         </div>
 
@@ -393,6 +337,23 @@ export function App() {
           )}
         </div>
       </div>
+
+      {/* Admin Investigator Provisioning Modal */}
+      <AdminUserModal
+        isOpen={isAdminModalOpen}
+        onClose={() => setIsAdminModalOpen(false)}
+      />
     </div>
   );
 }
+
+export function App() {
+  return (
+    <AuthProvider>
+      <CaseProvider>
+        <WorkbenchContent />
+      </CaseProvider>
+    </AuthProvider>
+  );
+}
+export default App;

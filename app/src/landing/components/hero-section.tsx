@@ -32,17 +32,16 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
   return (
     <section id="home" className="relative min-h-screen w-full bg-black text-white flex flex-col justify-between overflow-hidden pt-20 md:pt-24 select-none">
       {/* Background Tactical Image with Dark Vignette */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <img
           src="/jaal-bg.jpg"
           alt="JAAL War Room Intelligence Map"
-          className="w-full h-full object-cover object-center filter brightness-[0.7] contrast-[1.25] saturate-[1.1]"
+          className="w-full h-full object-cover object-center transform scale-100 filter brightness-[0.82] contrast-[1.12]"
+          style={{ imageRendering: 'auto' }}
         />
-        {/* Gradients to blend seamless dark look */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/80" />
-        {/* Subtle grid pattern overlay */}
-        <div className="absolute inset-0 bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:24px_24px] opacity-40" />
+        {/* Subtle vignette and left gradient for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/50 to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/70" />
       </div>
 
       {/* Main Center Container */}

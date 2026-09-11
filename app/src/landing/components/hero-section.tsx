@@ -131,10 +131,10 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
           </div>
 
           {/* Right Side: Interactive 3D Lanyard ID Card */}
-          <div className="lg:col-span-5 relative h-[480px] sm:h-[550px] lg:h-[620px] w-full flex items-center justify-center">
-            <div className="absolute inset-0 flex items-center justify-center">
+          <div className="lg:col-span-5 relative h-[520px] sm:h-[600px] lg:h-[660px] w-full flex items-center justify-center lg:justify-end lg:translate-x-6 xl:translate-x-12">
+            <div className="absolute inset-0 flex items-center justify-center lg:justify-end">
               <LanyardWithControls
-                position={[0, 0, 19]}
+                position={[0.5, 0, 18]}
                 containerClassName="relative w-full h-full select-none"
                 defaultName="OFFICER-01"
               />

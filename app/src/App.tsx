@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Analytics } from "./analytics/Analytics";
 import { Canvas, type CanvasHandle } from "./canvas/Canvas";
 import { Dossier } from "./dossier/Dossier";
 import { fetchGraph } from "./lib/api";
@@ -6,11 +7,24 @@ import {
   type FocusKind,
   type ViewMode,
   findNodeByQuery,
+  hingePerson,
   neighborsOf,
   provenanceFor,
   sumCounts,
 } from "./lib/graphView";
+import {
+  KERNEL_OFFLINE,
+  type AnalyticsPayload,
+  type AskPayload,
+  type CutPayload,
+  fetchAnalytics,
+  fetchAsk,
+  fetchCut,
+  kernelMessage,
+} from "./lib/kernel";
 import type { GraphPayload } from "./lib/types";
+
+type DeskTab = "map" | "analytics";
 
 export default function App() {
   const [graph, setGraph] = useState<GraphPayload | null>(null);
@@ -22,8 +36,20 @@ export default function App() {
   const [focusSeq, setFocusSeq] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [jumpToNodeId, setJumpToNodeId] = useState<string | null>(null);
+  const [highlightIds, setHighlightIds] = useState<string[] | null>(null);
+  const [tab, setTab] = useState<DeskTab>("map");
+  const [askQuery, setAskQuery] = useState("");
+  const [arrest, setArrest] = useState<CutPayload | null>(null);
+  const [ask, setAsk] = useState<AskPayload | null>(null);
+  const [analytics, setAnalytics] = useState<AnalyticsPayload | null>(null);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
+  const [kernelMsg, setKernelMsg] = useState<string | null>(null);
+  const [kernelAction, setKernelAction] = useState<"arrest" | "ask" | "analytics" | null>(
+    null,
+  );
   const canvasRef = useRef<CanvasHandle>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const askRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -81,6 +107,7 @@ export default function App() {
 
   const resetView = useCallback(() => {
     setJumpToNodeId(null);
+    setHighlightIds(null);
     setViewMode("all");
     setFocusKind("fit-all");
     setFocusSeq((s) => s + 1);
@@ -92,7 +119,74 @@ export default function App() {
     if (!match) return;
     setSelectedId(match.id);
     setJumpToNodeId(match.id);
+    setTab("map");
   }, [graph, searchQuery]);
+
+  const offlineLabel = (action: "arrest" | "ask" | "analytics", live: string) =>
+    kernelMsg === KERNEL_OFFLINE && kernelAction === action ? KERNEL_OFFLINE : live;
+
+  const runArrest = useCallback(async () => {
+    if (!graph) return;
+    const id = selectedId || hingePerson(graph);
+    if (!id) return;
+    setKernelAction("arrest");
+    setKernelMsg(null);
+    try {
+      const cut = await fetchCut(id);
+      setArrest(cut);
+      setAsk(null);
+      setSelectedId(cut.node_id || id);
+      setHighlightIds(cut.residual_path || []);
+      setTab("map");
+      setJumpToNodeId(null);
+    } catch (err) {
+      setArrest(null);
+      setKernelMsg(kernelMessage(err));
+    }
+  }, [graph, selectedId]);
+
+  const runAsk = useCallback(async () => {
+    const question = askQuery.trim();
+    if (!question) return;
+    setKernelAction("ask");
+    setKernelMsg(null);
+    try {
+      const result = await fetchAsk(question);
+      setAsk(result);
+      setHighlightIds(result.highlight_node_ids || []);
+      setTab("map");
+    } catch (err) {
+      setAsk(null);
+      setKernelMsg(kernelMessage(err));
+    }
+  }, [askQuery]);
+
+  const openAnalytics = useCallback(async () => {
+    setTab("analytics");
+    setKernelAction("analytics");
+    setKernelMsg(null);
+    setAnalyticsLoading(true);
+    try {
+      const payload = await fetchAnalytics();
+      if (payload.error) {
+        setAnalytics(null);
+        setKernelMsg(String(payload.error));
+      } else {
+        setAnalytics(payload);
+      }
+    } catch (err) {
+      setAnalytics(null);
+      setKernelMsg(kernelMessage(err));
+    } finally {
+      setAnalyticsLoading(false);
+    }
+  }, []);
+
+  const selectOnMap = useCallback((id: string) => {
+    setSelectedId(id);
+    setJumpToNodeId(id);
+    setTab("map");
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -186,6 +280,39 @@ export default function App() {
           <button type="button" className="tool-btn" onClick={resetView}>
             Reset
           </button>
+          <span className="toolbar-sep" aria-hidden="true" />
+          <button type="button" className="tool-btn" onClick={runArrest}>
+            {offlineLabel("arrest", "Arrest selected")}
+          </button>
+          <label className="search-box">
+            <span className="sr-only">Ask the kernel</span>
+            <input
+              ref={askRef}
+              type="search"
+              className="search-input ask-input"
+              placeholder={offlineLabel("ask", "Ask…")}
+              value={askQuery}
+              onChange={(e) => setAskQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") runAsk();
+              }}
+            />
+          </label>
+          <span className="toolbar-sep" aria-hidden="true" />
+          <button
+            type="button"
+            className={`tool-btn${tab === "map" ? " active" : ""}`}
+            onClick={() => setTab("map")}
+          >
+            Map
+          </button>
+          <button
+            type="button"
+            className={`tool-btn${tab === "analytics" ? " active" : ""}`}
+            onClick={openAnalytics}
+          >
+            {offlineLabel("analytics", "Analytics")}
+          </button>
         </nav>
         <div className="counts">
           {loading ? (
@@ -200,24 +327,37 @@ export default function App() {
         </div>
       </header>
       <div className="workspace">
-        <Canvas
-          ref={canvasRef}
-          graph={graph}
-          loading={loading}
-          error={error}
-          viewMode={viewMode}
-          focusKind={focusKind}
-          focusSeq={focusSeq}
-          jumpToNodeId={jumpToNodeId}
-          onSelect={setSelectedId}
-          onJumpComplete={() => setJumpToNodeId(null)}
-        />
+        {tab === "analytics" ? (
+          <Analytics
+            data={analytics}
+            error={kernelAction === "analytics" ? kernelMsg : null}
+            loading={analyticsLoading}
+            onSelectId={selectOnMap}
+          />
+        ) : (
+          <Canvas
+            ref={canvasRef}
+            graph={graph}
+            loading={loading}
+            error={error}
+            viewMode={viewMode}
+            focusKind={focusKind}
+            focusSeq={focusSeq}
+            jumpToNodeId={jumpToNodeId}
+            highlightIds={highlightIds}
+            onSelect={setSelectedId}
+            onJumpComplete={() => setJumpToNodeId(null)}
+          />
+        )}
         <Dossier
           node={selected}
           neighbors={neighbors}
           provenance={provenance}
+          arrest={arrest}
+          ask={ask}
           onSelectNeighbor={(id) => {
             setSelectedId(id);
+            setTab("map");
             canvasRef.current?.focusNode(id);
           }}
         />

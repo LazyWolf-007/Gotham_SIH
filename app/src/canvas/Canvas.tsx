@@ -7,10 +7,13 @@ import {
 } from "react";
 import cytoscape, { type Core, type EventObject } from "cytoscape";
 import {
+  EDGE_COLORS,
   NAVEEN_ID,
   PAID_CYCLE_IDS,
   TYPE_COLORS,
+  betweennessRange,
   filterGraph,
+  nodeSize,
   splitLinked,
   toElements,
   topBetweennessIds,
@@ -23,6 +26,7 @@ import { canvasStylesheet } from "./stylesheet";
 export type CanvasHandle = {
   selectNode: (id: string) => void;
   focusNode: (id: string) => boolean;
+  highlightIds: (ids: string[]) => void;
 };
 
 type Props = {
@@ -33,6 +37,7 @@ type Props = {
   focusKind: FocusKind;
   focusSeq: number;
   jumpToNodeId: string | null;
+  highlightIds?: string[] | null;
   onSelect: (id: string | null) => void;
   onJumpComplete: () => void;
 };
@@ -112,6 +117,104 @@ function focusPaidCycle(
   return true;
 }
 
+function highlightPath(cy: Core, graph: GraphPayload, ids: string[]) {
+  const want = ids.filter(Boolean);
+  if (want.length === 0) return;
+  const { min, max } = betweennessRange(graph.nodes);
+  const added = new Set<string>();
+  const byId = new Map(graph.nodes.map((n) => [n.id, n]));
+
+  for (const id of want) {
+    if (!cy.getElementById(id).empty()) continue;
+    const n = byId.get(id);
+    if (!n) continue;
+    cy.add({
+      data: {
+        id: n.id,
+        label: n.label,
+        type: n.type,
+        color: TYPE_COLORS[n.type] ?? "#8A8F98",
+        size: nodeSize(n.metrics, min, max),
+        showLabel: true,
+      },
+    });
+    added.add(id);
+  }
+
+  for (let i = 0; i < want.length - 1; i += 1) {
+    const a = want[i];
+    const b = want[i + 1];
+    const already = cy.edges().filter((e) => {
+      const s = e.source().id();
+      const t = e.target().id();
+      return (s === a && t === b) || (s === b && t === a);
+    });
+    if (!already.empty()) continue;
+    const edge = graph.edges.find(
+      (e) =>
+        (e.source === a && e.target === b) || (e.source === b && e.target === a),
+    );
+    if (!edge) continue;
+    if (!cy.getElementById(edge.id).empty()) continue;
+    cy.add({
+      data: {
+        id: edge.id,
+        source: edge.source,
+        target: edge.target,
+        type: edge.type,
+        color: EDGE_COLORS[edge.type] ?? "#4A5A6C",
+        weight: 1,
+      },
+    });
+  }
+
+  for (let i = 0; i < want.length; i += 1) {
+    if (!added.has(want[i])) continue;
+    const node = cy.getElementById(want[i]);
+    if (node.empty()) continue;
+    let lo = i - 1;
+    while (lo >= 0 && added.has(want[lo])) lo -= 1;
+    let hi = i + 1;
+    while (hi < want.length && added.has(want[hi])) hi += 1;
+    const a = lo >= 0 ? cy.getElementById(want[lo]) : null;
+    const b = hi < want.length ? cy.getElementById(want[hi]) : null;
+    const ap = a && !a.empty() ? a.position() : null;
+    const bp = b && !b.empty() ? b.position() : null;
+    if (ap && bp) {
+      const t = (i - lo) / Math.max(hi - lo, 1);
+      node.position({ x: ap.x + (bp.x - ap.x) * t, y: ap.y + (bp.y - ap.y) * t });
+    } else if (ap) {
+      node.position({ x: ap.x + 48 * (i - lo), y: ap.y });
+    } else if (bp) {
+      node.position({ x: bp.x - 48 * (hi - i), y: bp.y });
+    }
+  }
+
+  cy.elements().removeClass("ego-off faded neighbor focused");
+  const keep = cy.collection();
+  for (const id of want) {
+    const node = cy.getElementById(id);
+    if (!node.empty()) keep.merge(node);
+  }
+  for (let i = 0; i < want.length - 1; i += 1) {
+    const a = want[i];
+    const b = want[i + 1];
+    keep.merge(
+      cy.edges().filter((e) => {
+        const s = e.source().id();
+        const t = e.target().id();
+        return (s === a && t === b) || (s === b && t === a);
+      }),
+    );
+  }
+  if (keep.empty()) return;
+  cy.elements().difference(keep).addClass("faded");
+  keep.nodes().addClass("focused").select();
+  keep.edges().addClass("neighbor");
+  applyLabelVisibility(cy);
+  cy.fit(keep, 72);
+}
+
 function applyFocus(
   cy: Core,
   kind: FocusKind,
@@ -156,6 +259,7 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
     focusKind,
     focusSeq,
     jumpToNodeId,
+    highlightIds,
     onSelect,
     onJumpComplete,
   },
@@ -167,12 +271,16 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
   const onJumpCompleteRef = useRef(onJumpComplete);
   const focusKindRef = useRef(focusKind);
   const jumpToNodeIdRef = useRef(jumpToNodeId);
+  const graphRef = useRef(graph);
+  const highlightIdsRef = useRef(highlightIds);
   const [unlinkedOpen, setUnlinkedOpen] = useState(false);
   const [unlinkedQuery, setUnlinkedQuery] = useState("");
   onSelectRef.current = onSelect;
   onJumpCompleteRef.current = onJumpComplete;
   focusKindRef.current = focusKind;
   jumpToNodeIdRef.current = jumpToNodeId;
+  graphRef.current = graph;
+  highlightIdsRef.current = highlightIds;
 
   useImperativeHandle(ref, () => ({
     selectNode: (id: string) => {
@@ -187,6 +295,12 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
       const cy = cyRef.current;
       if (!cy) return false;
       return focusNode(cy, id, onSelectRef.current);
+    },
+    highlightIds: (ids: string[]) => {
+      const cy = cyRef.current;
+      const g = graphRef.current;
+      if (!cy || cy.destroyed() || !g) return;
+      highlightPath(cy, g, ids);
     },
   }));
 
@@ -266,6 +380,11 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
         onJumpCompleteRef.current();
         return;
       }
+      const path = highlightIdsRef.current;
+      if (path && path.length > 0) {
+        highlightPath(cy, graph, path);
+        return;
+      }
       applyFocus(cy, focusKindRef.current, graph, onSelectRef.current);
     };
     cy.one("layoutstop", onLayoutStop);
@@ -313,6 +432,18 @@ export const Canvas = forwardRef<CanvasHandle, Props>(function Canvas(
     cy.one("layoutstop", jump);
     window.setTimeout(jump, 0);
   }, [jumpToNodeId, graph, viewMode]);
+
+  useEffect(() => {
+    if (!highlightIds?.length || !graph) return;
+    const cy = cyRef.current;
+    if (!cy || cy.destroyed()) return;
+    const run = () => {
+      if (cy.destroyed()) return;
+      highlightPath(cy, graph, highlightIds);
+    };
+    cy.one("layoutstop", run);
+    window.setTimeout(run, 0);
+  }, [highlightIds, graph, viewMode]);
 
   const filtered = graph ? filterGraph(graph, viewMode) : null;
   const partitioned = filtered

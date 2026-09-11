@@ -185,6 +185,39 @@ export function splitLinked(
   };
 }
 
+function rowLess(
+  a: [number, number, number, string],
+  b: [number, number, number, string],
+): boolean {
+  for (let i = 0; i < 3; i += 1) {
+    if (a[i] !== b[i]) return a[i] < b[i];
+  }
+  return a[3] < b[3];
+}
+
+/** Person with highest betweenness among low-degree candidates. Matches engine hinge. */
+export function hingePerson(
+  graph: GraphPayload,
+  rankTop = 3,
+  degreeMax = 15,
+): string {
+  let best: [number, number, number, string] | null = null;
+  let fallback: [number, number, number, string] | null = null;
+  for (const n of graph.nodes) {
+    if (n.type !== "Person") continue;
+    const rank = n.metrics?.betweenness_rank_persons ?? 1e9;
+    const deg = n.metrics?.degree ?? 1e9;
+    const btw = n.metrics?.betweenness ?? 0;
+    const row: [number, number, number, string] = [rank, deg, -btw, n.id];
+    if (!fallback || rowLess(row, fallback)) fallback = row;
+    if (rank <= rankTop && deg <= degreeMax) {
+      if (!best || rowLess(row, best)) best = row;
+    }
+  }
+  if (best) return best[3];
+  return fallback ? fallback[3] : "";
+}
+
 export function topBetweennessIds(nodes: GraphNode[], limit = 12): Set<string> {
   const ranked = [...nodes].sort(
     (a, b) => (b.metrics?.betweenness ?? 0) - (a.metrics?.betweenness ?? 0),

@@ -1,3 +1,4 @@
+import type { AskPayload, CutPayload } from "../lib/kernel";
 import { TYPE_COLORS } from "../lib/graphView";
 import type { GraphNode, NeighborHit, ProvenanceHit } from "../lib/types";
 
@@ -5,6 +6,8 @@ type Props = {
   node: GraphNode | null;
   neighbors: NeighborHit[];
   provenance: ProvenanceHit[];
+  arrest: CutPayload | null;
+  ask: AskPayload | null;
   onSelectNeighbor: (id: string) => void;
 };
 
@@ -13,11 +16,102 @@ function fmtBetweenness(value: number | undefined): string {
   return value.toFixed(3);
 }
 
-export function Dossier({ node, neighbors, provenance, onSelectNeighbor }: Props) {
+function ArrestBlock({
+  arrest,
+  onSelectNeighbor,
+}: {
+  arrest: CutPayload;
+  onSelectNeighbor: (id: string) => void;
+}) {
+  const path = arrest.residual_path || [];
+  return (
+    <>
+      <h3 className="dossier-sub">
+        Arrest
+        <span>{arrest.node_id}</span>
+      </h3>
+      <dl className="facts">
+        <div>
+          <dt>pairs before</dt>
+          <dd>{arrest.pairs_before ?? "—"}</dd>
+        </div>
+        <div>
+          <dt>pairs after</dt>
+          <dd>{arrest.pairs_after ?? "—"}</dd>
+        </div>
+      </dl>
+      <h3 className="dossier-sub">
+        Residual path
+        <span>{path.length}</span>
+      </h3>
+      {path.length === 0 ? (
+        <p className="muted">No residual path.</p>
+      ) : (
+        <ol className="path-list">
+          {path.map((id) => (
+            <li key={id}>
+              <button type="button" onClick={() => onSelectNeighbor(id)}>
+                <span className="mono">{id}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      )}
+    </>
+  );
+}
+
+function AskBlock({ ask }: { ask: AskPayload }) {
+  const citations = ask.citations || [];
+  return (
+    <>
+      <h3 className="dossier-sub">Ask</h3>
+      <p className="ask-answer">{ask.answer}</p>
+      {citations.length > 0 && (
+        <>
+          <h3 className="dossier-sub">
+            Citations
+            <span>{citations.length}</span>
+          </h3>
+          <ul className="provenance-list">
+            {citations.map((hit, i) => (
+              <li key={`${hit.source_id}-${i}`}>
+                <p className="provenance-snippet">{hit.snippet || ""}</p>
+                <p className="provenance-meta">
+                  {hit.source_type || "cite"}
+                  {hit.source_id ? ` · ${hit.source_id}` : ""}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </>
+  );
+}
+
+export function Dossier({
+  node,
+  neighbors,
+  provenance,
+  arrest,
+  ask,
+  onSelectNeighbor,
+}: Props) {
   if (!node) {
     return (
       <aside className="dossier" aria-label="Dossier">
-        <p className="dossier-empty">Select an object.</p>
+        {arrest || ask ? (
+          <>
+            <div className="dossier-kicker">Dossier</div>
+            {arrest && (
+              <ArrestBlock arrest={arrest} onSelectNeighbor={onSelectNeighbor} />
+            )}
+            {ask && <AskBlock ask={ask} />}
+          </>
+        ) : (
+          <p className="dossier-empty">Select an object.</p>
+        )}
       </aside>
     );
   }
@@ -56,6 +150,11 @@ export function Dossier({ node, neighbors, provenance, onSelectNeighbor }: Props
           <dd>{fmtBetweenness(node.metrics?.betweenness)}</dd>
         </div>
       </dl>
+
+      {arrest && (
+        <ArrestBlock arrest={arrest} onSelectNeighbor={onSelectNeighbor} />
+      )}
+      {ask && <AskBlock ask={ask} />}
 
       {provenance.length > 0 && (
         <>

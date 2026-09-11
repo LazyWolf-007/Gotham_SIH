@@ -20,6 +20,7 @@ from engine.paths import INSIGHTS, KERNEL
 from engine.rag import ask
 
 CORS_ORIGIN = "http://localhost:5173"
+CORS_ORIGINS = ("http://localhost:5173", "http://127.0.0.1:5173")
 HOST = os.environ.get("GOTHAM_HOST", "127.0.0.1")
 PORT = int(os.environ.get("GOTHAM_PORT", "8000"))
 
@@ -40,7 +41,9 @@ class Handler(BaseHTTPRequestHandler):
         sys.stderr.write("%s - %s\n" % (self.address_string(), fmt % args))
 
     def _cors(self) -> None:
-        self.send_header("Access-Control-Allow-Origin", CORS_ORIGIN)
+        origin = (self.headers.get("Origin") or "").strip()
+        allow = origin if origin in CORS_ORIGINS else CORS_ORIGIN
+        self.send_header("Access-Control-Allow-Origin", allow)
         self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Access-Control-Max-Age", "600")

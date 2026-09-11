@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { GraphKernel, TimelineEvent, GraphEdge } from "../../types";
 import { useCase } from "../../context/CaseContext";
+import { useToast } from "../../context/ToastContext";
+import { ProvenanceBadge } from "../ProvenanceBadge";
 import {
   Clock,
   PhoneCall,
@@ -15,6 +17,7 @@ import {
   BookmarkPlus,
   BookmarkCheck,
   CheckCircle2,
+  AlertCircle,
 } from "lucide-react";
 
 interface TimelineViewProps {
@@ -31,6 +34,8 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   onOpenEvidence,
 }) => {
   const { activeCase, addToDossier, isInDossier } = useCase();
+  const { showToast } = useToast();
+
   const [selectedCategory, setSelectedCategory] = useState<TimelineCategory>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSubject, setSelectedSubject] = useState<string>("ALL");
@@ -185,17 +190,16 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#20252A] shrink-0">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[10px] font-mono tracking-[0.2em] text-[#E21B23] uppercase font-bold">
               {activeCase.id}
             </span>
             <span className="text-zinc-600">•</span>
-            <span className="text-[10px] font-mono tracking-wider text-[#858B92] uppercase">
-              INVESTIGATION TIMELINE
-            </span>
+            <ProvenanceBadge type="TIMELINE EVENT" />
+            <ProvenanceBadge type="BACKEND DATA" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-white mt-1">
-            Chronological Activity
+            Chronological Activity Timeline
           </h1>
         </div>
 
@@ -245,7 +249,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
 
         {/* Subject Filter */}
         <div className="flex items-center gap-2">
-          <span className="text-[#858B92] text-[10px] uppercase">Subject:</span>
+          <span className="text-[#858B92] text-[10px] uppercase">Subject Filter:</span>
           <select
             value={selectedSubject}
             onChange={(e) => setSelectedSubject(e.target.value)}
@@ -261,80 +265,62 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
         </div>
       </div>
 
-      {/* 2-Column: Timeline Stream (7 Cols) + Event Detail (5 Cols) */}
+      {/* Main 2-Column: Event Stream (7 Cols) + Detailed Event Inspector (5 Cols) */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-0 overflow-hidden">
-        {/* Left: Chronological Timeline Stream (7 Cols) */}
-        <div className="lg:col-span-7 overflow-y-auto pr-3 space-y-4 relative">
-          {/* Vertical Timeline Guide Line */}
-          <div className="absolute left-6 top-3 bottom-3 w-[2px] bg-[#20252A]" />
-
+        {/* Left: Event Stream (7 Cols) */}
+        <div className="lg:col-span-7 overflow-y-auto space-y-3 pr-2">
           {filteredEvents.length === 0 ? (
-            <div className="p-8 rounded-xl bg-[#0A0D10] border border-[#20252A] text-center text-xs text-[#858B92] font-mono">
-              NO TIMELINE EVENTS FOUND MATCHING CRITERIA
+            <div className="p-8 rounded-xl bg-[#0A0D10] border border-[#20252A] text-center text-xs text-[#858B92] font-mono flex flex-col items-center justify-center gap-2">
+              <Clock className="w-8 h-8 text-zinc-600" />
+              <div className="text-white font-bold text-sm">NO CHRONOLOGICAL EVENTS MATCH FILTER</div>
+              <p className="text-zinc-500 text-[11px]">Adjust your search query or reset active timeline filters.</p>
             </div>
           ) : (
-            filteredEvents.map((item, idx) => {
+            filteredEvents.map((item) => {
               const isSelected = activeEvent?.id === item.id;
-              const inDossier = isInDossier(item.id);
 
               return (
                 <div
                   key={item.id}
                   onClick={() => setSelectedEventId(item.id)}
-                  className={`relative pl-12 transition-all cursor-pointer group`}
+                  className={`p-4 rounded-xl border transition-all cursor-pointer relative ${
+                    isSelected
+                      ? "bg-[#0E1216] border-[#E21B23] shadow-md shadow-[#E21B23]/10"
+                      : "bg-[#0A0D10] border-[#20252A] hover:border-[#384048] hover:bg-[#0E1216]"
+                  }`}
                 >
-                  {/* Timeline Pin Node */}
-                  <div
-                    className={`absolute left-[19px] top-4 w-3.5 h-3.5 rounded-full border-2 transition-all z-10 ${
-                      item.isMilestone
-                        ? "bg-[#FF3038] border-white shadow-[0_0_10px_#FF3038]"
-                        : isSelected
-                        ? "bg-[#E21B23] border-[#FF3038]"
-                        : "bg-[#0E1216] border-[#475569] group-hover:border-white"
-                    }`}
-                  />
-
-                  {/* Card Container */}
-                  <div
-                    className={`p-4 rounded-xl border transition-all ${
-                      isSelected
-                        ? "bg-[#0E1216] border-[#E21B23] shadow-md shadow-[#E21B23]/10"
-                        : "bg-[#0A0D10] border-[#20252A] hover:border-[#384048] hover:bg-[#0E1216]"
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-[11px] font-mono font-bold text-[#E21B23]">
-                            {item.timestamp}
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-[11px] font-mono font-bold text-[#E21B23]">
+                          {item.timestamp}
+                        </span>
+                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#20252A] text-zinc-300 border border-[#384048] uppercase">
+                          {item.type}
+                        </span>
+                        {item.isMilestone && (
+                          <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#E21B23]/20 border border-[#E21B23]/40 text-[#FF3038] font-bold">
+                            KEY MILESTONE
                           </span>
-                          <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#20252A] text-zinc-300 border border-[#384048] uppercase">
-                            {item.type}
-                          </span>
-                          {item.isMilestone && (
-                            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#E21B23]/20 border border-[#E21B23]/40 text-[#FF3038] font-bold">
-                              KEY MILESTONE
-                            </span>
-                          )}
-                        </div>
-                        <h4 className="text-sm font-bold text-white mt-1">{item.title}</h4>
+                        )}
                       </div>
-
-                      <span className="text-[10px] font-mono text-[#858B92] shrink-0">
-                        {item.category}
-                      </span>
+                      <h4 className="text-sm font-bold text-white mt-1">{item.title}</h4>
                     </div>
 
-                    <p className="text-xs text-[#858B92] mt-2 line-clamp-2 leading-relaxed font-sans">
-                      {item.description}
-                    </p>
+                    <span className="text-[10px] font-mono text-[#858B92] shrink-0">
+                      {item.category}
+                    </span>
+                  </div>
 
-                    <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-[#20252A] text-[11px] font-mono text-[#858B92]">
-                      <span>Subject: <strong className="text-slate-200">{item.relatedSubject}</strong></span>
-                      {item.evidenceId && (
-                        <span className="text-zinc-400">{item.evidenceId}</span>
-                      )}
-                    </div>
+                  <p className="text-xs text-[#858B92] mt-2 line-clamp-2 leading-relaxed font-sans">
+                    {item.description}
+                  </p>
+
+                  <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-[#20252A] text-[11px] font-mono text-[#858B92]">
+                    <span>Subject: <strong className="text-slate-200">{item.relatedSubject}</strong></span>
+                    {item.evidenceId && (
+                      <span className="text-zinc-400">{item.evidenceId}</span>
+                    )}
                   </div>
                 </div>
               );
@@ -347,15 +333,13 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
           {activeEvent ? (
             <>
               <div className="pb-3 border-b border-[#20252A]">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-wrap gap-2">
                   <span className="text-xs font-mono font-bold text-[#E21B23]">
                     {activeEvent.timestamp}
                   </span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#20252A] text-zinc-300 uppercase">
-                    {activeEvent.category}
-                  </span>
+                  <ProvenanceBadge type="TIMELINE EVENT" />
                 </div>
-                <h3 className="text-base font-bold text-white mt-1">{activeEvent.title}</h3>
+                <h3 className="text-base font-bold text-white mt-1.5">{activeEvent.title}</h3>
                 <div className="text-[11px] font-mono text-[#858B92] mt-1">{activeEvent.subtitle}</div>
               </div>
 
@@ -405,7 +389,7 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                 <div className="grid grid-cols-2 gap-2">
                   {/* Action 1: Add to Dossier */}
                   <button
-                    onClick={() =>
+                    onClick={() => {
                       addToDossier({
                         id: activeEvent.id,
                         type: "EVIDENCE",
@@ -413,8 +397,9 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
                         subtitle: `${activeEvent.timestamp} • ${activeEvent.relatedSubject}`,
                         category: activeEvent.category,
                         targetEntityId: activeEvent.sourceNodeId,
-                      })
-                    }
+                      });
+                      showToast(`Added timeline event to dossier`, "success");
+                    }}
                     className="py-2 px-3 rounded-xl bg-[#0A0D10] hover:bg-[#20252A] border border-[#20252A] text-slate-200 text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <BookmarkPlus className="w-3.5 h-3.5 text-[#858B92]" />
@@ -444,8 +429,8 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
               </div>
             </>
           ) : (
-            <div className="m-auto text-center text-xs text-[#858B92] font-mono p-6">
-              <Clock className="w-8 h-8 text-[#555C63] mx-auto mb-2" />
+            <div className="m-auto text-center text-xs text-[#858B92] font-mono p-6 border border-dashed border-[#20252A] rounded-xl flex flex-col items-center justify-center gap-2">
+              <Clock className="w-8 h-8 text-zinc-600" />
               <span>SELECT A TIMELINE EVENT TO INSPECT DETAILS</span>
             </div>
           )}

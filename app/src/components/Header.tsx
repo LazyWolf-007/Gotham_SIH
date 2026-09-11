@@ -12,6 +12,8 @@ import {
   Building,
   MapPin,
   Car,
+  Sun,
+  Moon,
   X,
   ArrowRight,
 } from "lucide-react";
@@ -23,6 +25,8 @@ interface HeaderProps {
   onSelectEntity?: (entityId: string) => void;
   onBackToLanding?: () => void;
   onUploadClick?: () => void;
+  theme?: "dark" | "light";
+  onToggleTheme?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -32,6 +36,8 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectEntity,
   onBackToLanding,
   onUploadClick,
+  theme = "dark",
+  onToggleTheme,
 }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
@@ -61,8 +67,10 @@ export const Header: React.FC<HeaderProps> = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const isLight = theme === "light";
+
   return (
-    <header className="h-16 bg-[#050607] border-b border-[#20252A] px-4 flex items-center justify-between select-none z-40 shrink-0 gap-4">
+    <header className={`h-16 border-b px-4 flex items-center justify-between select-none z-40 shrink-0 gap-4 transition-colors duration-200 ${isLight ? "bg-white border-slate-200 text-slate-900" : "bg-[#050607] border-[#20252A] text-white"}`}>
       {/* Left: Ashoka Emblem + JAAL Branding + Case Selector */}
       <div className="flex items-center gap-4 shrink-0">
         <div
@@ -76,10 +84,10 @@ export const Header: React.FC<HeaderProps> = ({
             className="w-8 h-9 object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover:scale-105 transition-transform"
           />
           <div className="flex flex-col justify-center">
-            <span className="font-sans font-black text-xl tracking-[0.1em] text-white leading-none group-hover:text-[#FF3038] transition-colors">
+            <span className={`font-sans font-black text-xl tracking-[0.1em] leading-none group-hover:text-[#FF3038] transition-colors ${isLight ? "text-slate-900" : "text-white"}`}>
               JAAL
             </span>
-            <span className="text-[10px] tracking-[0.2em] text-[#858B92] font-mono font-medium uppercase mt-0.5">
+            <span className={`text-[10px] tracking-[0.2em] font-mono font-medium uppercase mt-0.5 ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
               OPERATION GREY LEDGER
             </span>
           </div>
@@ -94,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Center: Global Entity Search Bar with Quick Results */}
       <div className="flex-1 max-w-xl hidden md:block relative" ref={searchRef}>
         <div className="relative w-full">
-          <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#858B92]">
+          <div className={`absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none ${isLight ? "text-slate-400" : "text-[#858B92]"}`}>
             <Search className="w-4 h-4" />
           </div>
           <input
@@ -106,12 +114,12 @@ export const Header: React.FC<HeaderProps> = ({
               setIsSearchOpen(true);
             }}
             placeholder="Search people, phones, accounts, organizations..."
-            className="w-full bg-[#0E1216] border border-[#20252A] rounded-xl pl-10 pr-9 py-2 text-xs text-white placeholder-[#858B92] focus:outline-none focus:border-[#E21B23] focus:ring-1 focus:ring-[#E21B23]/50 transition-all font-sans"
+            className={`w-full border rounded-xl pl-10 pr-9 py-2 text-xs focus:outline-none focus:border-[#E21B23] focus:ring-1 focus:ring-[#E21B23]/50 transition-all font-sans ${isLight ? "bg-slate-100 border-slate-300 text-slate-900 placeholder-slate-400" : "bg-[#0E1216] border-[#20252A] text-white placeholder-[#858B92]"}`}
           />
           {searchQuery && (
             <button
               onClick={() => onSearchChange && onSearchChange("")}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#858B92] hover:text-white"
+              className={`absolute inset-y-0 right-0 pr-3 flex items-center ${isLight ? "text-slate-400 hover:text-slate-700" : "text-[#858B92] hover:text-white"}`}
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -120,8 +128,8 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Live Search Suggestions Dropdown */}
         {isSearchOpen && searchResults.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-1.5 bg-[#0E1216] border border-[#20252A] rounded-xl shadow-2xl p-2 z-50 space-y-1">
-            <div className="text-[10px] font-mono text-[#858B92] uppercase px-2 py-1 flex items-center justify-between border-b border-[#20252A] mb-1">
+          <div className={`absolute top-full left-0 right-0 mt-1.5 border rounded-xl shadow-2xl p-2 z-50 space-y-1 ${isLight ? "bg-white border-slate-200 text-slate-900" : "bg-[#0E1216] border-[#20252A] text-white"}`}>
+            <div className={`text-[10px] font-mono uppercase px-2 py-1 flex items-center justify-between border-b mb-1 ${isLight ? "text-slate-400 border-slate-200" : "text-[#858B92] border-[#20252A]"}`}>
               <span>MATCHED ENTITIES ({searchResults.length})</span>
               <span>CLICK TO FOCUS CANVAS</span>
             </div>
@@ -132,17 +140,17 @@ export const Header: React.FC<HeaderProps> = ({
                   if (onSelectEntity) onSelectEntity(res.id);
                   setIsSearchOpen(false);
                 }}
-                className="p-2 rounded-lg hover:bg-[#20252A] transition-colors flex items-center justify-between cursor-pointer group"
+                className={`p-2 rounded-lg transition-colors flex items-center justify-between cursor-pointer group ${isLight ? "hover:bg-slate-100" : "hover:bg-[#20252A]"}`}
               >
                 <div>
-                  <div className="text-xs font-bold text-white group-hover:text-[#FF3038] transition-colors">
+                  <div className={`text-xs font-bold group-hover:text-[#FF3038] transition-colors ${isLight ? "text-slate-900" : "text-white"}`}>
                     {res.label}
                   </div>
-                  <div className="text-[10px] font-mono text-[#858B92]">
+                  <div className={`text-[10px] font-mono ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
                     {res.id} • {res.type}
                   </div>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-[#555C63] group-hover:text-white transition-colors" />
+                <ArrowRight className={`w-3.5 h-3.5 transition-colors ${isLight ? "text-slate-400 group-hover:text-slate-900" : "text-[#555C63] group-hover:text-white"}`} />
               </div>
             ))}
           </div>
@@ -154,25 +162,25 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Stat Pills */}
         <div className="hidden lg:flex items-center gap-2">
           {/* Persons */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0E1216] border border-[#20252A] text-slate-200 text-xs font-mono shadow-sm">
+          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono shadow-sm ${isLight ? "bg-slate-100 border-slate-200 text-slate-700" : "bg-[#0E1216] border-[#20252A] text-slate-200"}`}>
             <User className="w-3.5 h-3.5 text-[#E21B23]" />
             <span>{personCount} Persons</span>
           </div>
 
           {/* Phones */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0E1216] border border-[#20252A] text-slate-200 text-xs font-mono shadow-sm">
+          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono shadow-sm ${isLight ? "bg-slate-100 border-slate-200 text-slate-700" : "bg-[#0E1216] border-[#20252A] text-slate-200"}`}>
             <Phone className="w-3.5 h-3.5 text-slate-400" />
             <span>{phoneCount} Phones</span>
           </div>
 
           {/* Accounts */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0E1216] border border-[#20252A] text-slate-200 text-xs font-mono shadow-sm">
+          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono shadow-sm ${isLight ? "bg-slate-100 border-slate-200 text-slate-700" : "bg-[#0E1216] border-[#20252A] text-slate-200"}`}>
             <Landmark className="w-3.5 h-3.5 text-emerald-400" />
             <span>{accCount} Accounts</span>
           </div>
 
           {/* FIRs */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0E1216] border border-[#20252A] text-slate-200 text-xs font-mono shadow-sm">
+          <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono shadow-sm ${isLight ? "bg-slate-100 border-slate-200 text-slate-700" : "bg-[#0E1216] border-[#20252A] text-slate-200"}`}>
             <FileText className="w-3.5 h-3.5 text-[#FF3038]" />
             <span>{firCount} FIRs</span>
           </div>
@@ -181,10 +189,31 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Live Surveillance Radar Indicator */}
         <div
           title="Live Tactical Surveillance Feed Active"
-          className="w-8 h-8 rounded-xl bg-[#0E1216] border border-[#20252A] flex items-center justify-center text-[#E21B23] shadow-sm cursor-pointer hover:border-[#E21B23]/50 transition-colors"
+          className={`w-8 h-8 rounded-xl border flex items-center justify-center text-[#E21B23] shadow-sm cursor-pointer hover:border-[#E21B23]/50 transition-colors ${isLight ? "bg-slate-100 border-slate-200" : "bg-[#0E1216] border-[#20252A]"}`}
         >
           <Radio className="w-4 h-4 animate-pulse" />
         </div>
+
+        {/* Theme Toggle Button */}
+        {onToggleTheme && (
+          <button
+            onClick={onToggleTheme}
+            title={isLight ? "Switch to Tactical Dark Mode" : "Switch to Tactical Light Mode"}
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-mono transition-all shadow-sm cursor-pointer border ${isLight ? "bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300 font-bold" : "bg-[#0E1216] hover:bg-[#20252A] text-slate-200 border-[#20252A]"}`}
+          >
+            {isLight ? (
+              <>
+                <Moon className="w-3.5 h-3.5 text-indigo-600" />
+                <span className="hidden sm:inline">Dark</span>
+              </>
+            ) : (
+              <>
+                <Sun className="w-3.5 h-3.5 text-amber-400" />
+                <span className="hidden sm:inline">Light</span>
+              </>
+            )}
+          </button>
+        )}
 
         {/* Upload Data Button */}
         <button

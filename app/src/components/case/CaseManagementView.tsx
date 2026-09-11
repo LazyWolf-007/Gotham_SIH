@@ -5,6 +5,8 @@ import {
   CaseStatus,
   CasePriority,
 } from "../../context/CaseContext";
+import { useToast } from "../../context/ToastContext";
+import { ProvenanceBadge } from "../ProvenanceBadge";
 import { GraphKernel } from "../../types";
 import {
   FolderGit2,
@@ -66,6 +68,7 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
     deleteNote,
     activities,
   } = useCase();
+  const { showToast } = useToast();
 
   const [selectedCaseDetail, setSelectedCaseDetail] = useState<InvestigationCase>(activeCase);
   const [searchQuery, setSearchQuery] = useState("");
@@ -129,6 +132,8 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
       setCreateError("Case ID already exists in local registry. Please use a unique identifier.");
       return;
     }
+
+    showToast(`New case record created: ${newCaseName.trim()} (LOCAL PROTOTYPE)`, "success");
 
     // Reset and close
     setNewCaseId("");
@@ -330,11 +335,7 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
                         <span className="text-xs font-mono font-bold text-[#E21B23]">
                           {c.id}
                         </span>
-                        {c.isPrototypeRecord && (
-                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-400">
-                            LOCAL PROTOTYPE
-                          </span>
-                        )}
+                        <ProvenanceBadge type={c.isPrototypeRecord ? "LOCAL PROTOTYPE" : "BACKEND DATA"} />
                         {isActiveWorkspace && (
                           <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#E21B23]/20 border border-[#E21B23]/40 text-[#FF3038] uppercase">
                             ACTIVE

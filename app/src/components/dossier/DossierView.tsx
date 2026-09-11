@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useCase, DossierItem } from "../../context/CaseContext";
+import { useToast } from "../../context/ToastContext";
+import { ProvenanceBadge } from "../ProvenanceBadge";
 import { GraphKernel } from "../../types";
 import {
   FolderGit2,
@@ -23,6 +25,7 @@ import {
   Share2,
   Download,
   Printer,
+  FileQuestion,
 } from "lucide-react";
 
 import { InvestigationReportModal } from "./InvestigationReportModal";
@@ -52,6 +55,8 @@ export const DossierView: React.FC<DossierViewProps> = ({
     deleteNote,
   } = useCase();
 
+  const { showToast } = useToast();
+
   const [activeDossierTab, setActiveDossierTab] = useState<
     "ALL" | "SUBJECTS" | "EVIDENCE" | "PATTERNS" | "NOTES"
   >("ALL");
@@ -75,6 +80,26 @@ export const DossierView: React.FC<DossierViewProps> = ({
     return true;
   });
 
+  const handleAddNoteSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newNoteContent.trim()) return;
+    addNote(newNoteTitle, newNoteContent, newNoteIsKeyFinding);
+    showToast("Investigator note saved to dossier (LOCAL PROTOTYPE)", "success");
+    setNewNoteTitle("");
+    setNewNoteContent("");
+    setNewNoteIsKeyFinding(false);
+  };
+
+  const handleRemoveDossierItem = (id: string, title: string) => {
+    removeFromDossier(id);
+    showToast(`Removed "${title}" from dossier`, "info");
+  };
+
+  const handleToggleFinding = (id: string) => {
+    toggleKeyFinding(id);
+    showToast("Key finding status updated", "info");
+  };
+
   return (
     <div className="flex-1 h-full flex flex-col bg-[#050607] text-[#F2F2F2] overflow-y-auto select-none font-sans p-6 gap-6">
       {/* Investigation Report Modal */}
@@ -87,17 +112,15 @@ export const DossierView: React.FC<DossierViewProps> = ({
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#20252A] shrink-0">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[10px] font-mono tracking-[0.2em] text-[#E21B23] uppercase font-bold">
               {activeCase.id}
             </span>
             <span className="text-zinc-600">•</span>
-            <span className="text-[10px] font-mono tracking-wider text-[#858B92] uppercase">
-              CASE WORKSPACE
-            </span>
+            <ProvenanceBadge type={activeCase.isPrototypeRecord ? "LOCAL PROTOTYPE" : "BACKEND DATA"} />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-white mt-1">
-            Investigation Dossier
+            Investigation Case Dossier
           </h1>
         </div>
 
@@ -108,13 +131,13 @@ export const DossierView: React.FC<DossierViewProps> = ({
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#0E1216] hover:bg-[#20252A] border border-[#20252A] text-slate-200 hover:text-white text-xs font-mono font-bold transition-all cursor-pointer shadow-sm"
           >
             <Printer className="w-3.5 h-3.5 text-[#E21B23]" />
-            <span>Export Investigation Report</span>
+            <span>Export Official Report</span>
           </button>
           <button
             onClick={() => onOpenCaseNetwork(activeCase.id)}
             className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#E21B23] hover:bg-[#FF3038] text-white text-xs font-bold font-mono transition-all shadow-md shadow-[#E21B23]/25 cursor-pointer"
           >
-            <span>Open Case Graph</span>
+            <span>Open Graph Canvas</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -123,7 +146,7 @@ export const DossierView: React.FC<DossierViewProps> = ({
       {/* Case Header Briefing Banner */}
       <div className="p-4 rounded-xl bg-[#0E1216] border border-[#20252A] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 font-mono text-xs text-[#858B92]">
+          <div className="flex items-center gap-2 font-mono text-xs text-[#858B92] flex-wrap">
             <span className="text-[#FF3038] font-bold">{activeCase.name}</span>
             <span>•</span>
             <span>{activeCase.agency}</span>
@@ -174,8 +197,10 @@ export const DossierView: React.FC<DossierViewProps> = ({
           </div>
 
           {filteredItems.length === 0 ? (
-            <div className="p-8 rounded-xl bg-[#0A0D10] border border-[#20252A] text-center text-xs text-[#858B92] font-mono">
-              NO DOSSIER ITEMS COLLECTED IN THIS CATEGORY YET.
+            <div className="p-8 rounded-xl bg-[#0A0D10] border border-[#20252A] text-center text-xs text-[#858B92] font-mono flex flex-col items-center justify-center gap-2">
+              <FileQuestion className="w-8 h-8 text-zinc-600" />
+              <span>NO DOSSIER ITEMS COLLECTED IN THIS CATEGORY YET.</span>
+              <p className="text-zinc-500 text-[11px]">Bookmark subjects or evidence items from the Graph Canvas or Evidence Repository.</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -190,7 +215,7 @@ export const DossierView: React.FC<DossierViewProps> = ({
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-sm font-bold text-white">{item.title}</span>
                         <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[#20252A] text-zinc-300 uppercase">
                           {item.type}
@@ -200,6 +225,7 @@ export const DossierView: React.FC<DossierViewProps> = ({
                             KEY FINDING
                           </span>
                         )}
+                        <ProvenanceBadge type={item.type === "EVIDENCE" ? "EVIDENCE RECORD" : "GRAPH ANALYSIS"} />
                       </div>
                       <div className="text-xs text-slate-300 mt-1 leading-relaxed">
                         {item.subtitle}
@@ -211,7 +237,7 @@ export const DossierView: React.FC<DossierViewProps> = ({
 
                     <div className="flex items-center gap-2 shrink-0">
                       <button
-                        onClick={() => toggleKeyFinding(item.id)}
+                        onClick={() => handleToggleFinding(item.id)}
                         className="p-1.5 rounded-lg text-[#858B92] hover:text-[#FF3038] hover:bg-[#20252A] transition-colors cursor-pointer"
                         title="Toggle Key Finding"
                       >
@@ -232,7 +258,7 @@ export const DossierView: React.FC<DossierViewProps> = ({
                       )}
 
                       <button
-                        onClick={() => removeFromDossier(item.id)}
+                        onClick={() => handleRemoveDossierItem(item.id, item.title)}
                         className="p-1.5 rounded-lg text-[#858B92] hover:text-red-400 hover:bg-[#20252A] transition-colors cursor-pointer"
                         title="Remove from Dossier"
                       >
@@ -250,30 +276,26 @@ export const DossierView: React.FC<DossierViewProps> = ({
         <div className="lg:col-span-5 bg-[#0E1216] border border-[#20252A] rounded-2xl p-5 space-y-4">
           <div className="flex items-center justify-between pb-3 border-b border-[#20252A]">
             <div>
-              <span className="text-[10px] font-mono text-[#E21B23] uppercase font-bold tracking-wider">
-                INTELLIGENCE LOG
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono text-[#E21B23] uppercase font-bold tracking-wider">
+                  INTELLIGENCE LOG
+                </span>
+                <ProvenanceBadge type="LOCAL PROTOTYPE" />
+              </div>
               <h3 className="text-base font-bold text-white mt-0.5">Investigator Notes ({notes.length})</h3>
             </div>
           </div>
 
           {/* Add Note Form */}
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (!newNoteContent.trim()) return;
-              addNote(newNoteTitle, newNoteContent, newNoteIsKeyFinding);
-              setNewNoteTitle("");
-              setNewNoteContent("");
-              setNewNoteIsKeyFinding(false);
-            }}
+            onSubmit={handleAddNoteSubmit}
             className="p-3.5 rounded-xl bg-[#0A0D10] border border-[#20252A] space-y-2.5 text-xs font-sans"
           >
             <input
               type="text"
               value={newNoteTitle}
               onChange={(e) => setNewNoteTitle(e.target.value)}
-              placeholder="Note Heading / Hypothesis..."
+              placeholder="Note Heading / Rationale..."
               className="w-full bg-[#050607] border border-[#20252A] rounded-lg px-3 py-1.5 text-xs text-white placeholder-[#858B92] focus:outline-none focus:border-[#E21B23]"
             />
             <textarea
@@ -304,42 +326,52 @@ export const DossierView: React.FC<DossierViewProps> = ({
 
           {/* Notes Stream */}
           <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
-            {notes.map((n) => (
-              <div
-                key={n.id}
-                className={`p-3.5 rounded-xl border relative ${
-                  n.isKeyFinding
-                    ? "bg-[#0A0D10] border-[#E21B23]/70 shadow-sm"
-                    : "bg-[#0A0D10] border-[#20252A]"
-                }`}
-              >
-                <div className="flex items-start justify-between gap-2">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-white text-sm">{n.title}</span>
-                      {n.isKeyFinding && (
-                        <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[#E21B23]/20 text-[#FF3038] font-bold">
-                          KEY FINDING
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-[10px] font-mono text-[#858B92] mt-0.5">
-                      {n.author} • {n.timestamp}
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => deleteNote(n.id)}
-                    className="text-[#858B92] hover:text-red-400 p-1"
-                    title="Delete Note"
-                  >
-                    <Trash2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed font-sans">
-                  {n.content}
-                </p>
+            {notes.length === 0 ? (
+              <div className="p-6 rounded-xl bg-[#050607] border border-dashed border-[#20252A] text-center text-xs text-[#858B92] font-mono">
+                No investigator notes logged yet. Use the form above to log observations.
               </div>
-            ))}
+            ) : (
+              notes.map((n) => (
+                <div
+                  key={n.id}
+                  className={`p-3.5 rounded-xl border relative ${
+                    n.isKeyFinding
+                      ? "bg-[#0A0D10] border-[#E21B23]/70 shadow-sm"
+                      : "bg-[#0A0D10] border-[#20252A]"
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-bold text-white text-sm">{n.title}</span>
+                        {n.isKeyFinding && (
+                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-[#E21B23]/20 text-[#FF3038] font-bold">
+                            KEY FINDING
+                          </span>
+                        )}
+                        <ProvenanceBadge type="LOCAL PROTOTYPE" />
+                      </div>
+                      <div className="text-[10px] font-mono text-[#858B92] mt-0.5">
+                        {n.author} • {n.timestamp}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        deleteNote(n.id);
+                        showToast("Note deleted", "info");
+                      }}
+                      className="text-[#858B92] hover:text-red-400 p-1"
+                      title="Delete Note"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                  <p className="text-xs text-slate-300 mt-2 leading-relaxed font-sans">
+                    {n.content}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>

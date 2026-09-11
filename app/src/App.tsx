@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { GraphKernel, GraphEdge, FilterState, CutResult, ObjectType, LinkType, OBJECT_TYPES, LINK_TYPES } from "./types";
 import { fetchGraphKernel, runCutSimulation } from "./lib/api";
 import LandingPage from "./landing/LandingPage";
@@ -19,6 +19,7 @@ import { TimelinePanel } from "./timeline/TimelinePanel";
 import { CopilotPanel } from "./copilot/CopilotPanel";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { CaseProvider, useCase } from "./context/CaseContext";
+import { ToastProvider } from "./context/ToastContext";
 import { LoginScreen } from "./components/auth/LoginScreen";
 import { WorkstationLockScreen } from "./components/auth/WorkstationLockScreen";
 import { PoliceCommandOverview } from "./components/overview/PoliceCommandOverview";
@@ -61,6 +62,34 @@ function WorkbenchContent() {
   const [colorByCommunity, setColorByCommunity] = useState<boolean>(false);
   const [showLabels, setShowLabels] = useState<boolean>(true);
   const [activePattern, setActivePattern] = useState<string | null>(null);
+
+  // Theme state: Persisted in localStorage ("dark" | "light")
+  const [theme, setTheme] = useState<"dark" | "light">(() => {
+    return (localStorage.getItem("gotham_theme") as "dark" | "light") || "dark";
+  });
+
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      localStorage.setItem("gotham_theme", next);
+      document.documentElement.setAttribute("data-theme", next);
+      if (next === "light") {
+        document.documentElement.classList.add("light");
+      } else {
+        document.documentElement.classList.remove("light");
+      }
+      return next;
+    });
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    if (theme === "light") {
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.classList.remove("light");
+    }
+  }, [theme]);
 
   // Counterfactual Arrest Cut Simulation state
   const [arrestTarget, setArrestTarget] = useState<string | null>(null);
@@ -261,21 +290,41 @@ function WorkbenchContent() {
   if (error || !kernel) {
     return (
       <div className="w-screen h-screen bg-[#070a11] flex flex-col items-center justify-center text-slate-300 p-4">
-        <AlertCircle className="w-12 h-12 text-rose-500 mb-3" />
-        <h2 className="text-xl font-bold text-rose-400 mb-1">Graph Initialization Failed</h2>
-        <p className="text-sm text-slate-400 max-w-md text-center mb-4">{error}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-lg border border-slate-700 transition-all"
-        >
-          Retry Connection
-        </button>
+        <div className="max-w-md w-full p-6 rounded-2xl bg-[#0E1216] border border-red-500/50 shadow-2xl flex flex-col gap-4 text-xs font-sans">
+          <div className="flex items-center gap-2 text-red-400 font-bold font-mono uppercase tracking-wider text-xs">
+            <AlertCircle className="w-5 h-5 text-red-400" />
+            <span>WHAT HAPPENED</span>
+          </div>
+          <p className="text-slate-200 text-sm leading-relaxed">
+            {error || "Failed to establish connection to the backend graph kernel."}
+          </p>
+
+          <div className="pt-3 border-t border-[#20252A] flex flex-col gap-2">
+            <span className="text-red-400 font-bold font-mono uppercase tracking-wider text-[10px]">
+              WHAT THE USER CAN DO
+            </span>
+            <ul className="list-disc list-inside text-slate-400 space-y-1 text-[11px] font-mono">
+              <li>Ensure FastAPI backend is active (`python -m uvicorn ...`)</li>
+              <li>Verify network connectivity on port 8000</li>
+              <li>Click 'Retry Connection' below to reload workstation</li>
+            </ul>
+          </div>
+
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-2 w-full py-2.5 bg-[#E21B23] hover:bg-[#FF3038] text-white text-xs font-bold font-mono rounded-xl transition-all cursor-pointer shadow-md shadow-[#E21B23]/30"
+          >
+            Retry Connection
+          </button>
+        </div>
       </div>
     );
   }
 
+  const isLight = theme === "light";
+
   return (
-    <div className="w-screen h-screen bg-[#050607] flex flex-col overflow-hidden text-[#F2F2F2] font-sans select-none">
+    <div className={`w-screen h-screen flex flex-col overflow-hidden font-sans select-none transition-colors duration-200 ${isLight ? "bg-slate-50 text-slate-900" : "bg-[#050607] text-[#F2F2F2]"}`}>
       {/* Top Tactical Header */}
       <Header
         kernel={kernel}
@@ -291,6 +340,8 @@ function WorkbenchContent() {
         }}
         onBackToLanding={() => navigateTo("landing")}
         onUploadClick={() => setIsAdminModalOpen(true)}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       {/* Main 3-Column Dashboard Stage */}
@@ -306,6 +357,7 @@ function WorkbenchContent() {
             else if (tab === "overview" || tab === "graph") setActiveTab("dossier");
           }}
           onOpenAdminModal={() => setIsAdminModalOpen(true)}
+          theme={theme}
         />
 
         {/* Column 2: Center Main Investigation Stage */}
@@ -410,6 +462,17 @@ function WorkbenchContent() {
             onIsolateCommunity={(commId) => {
               setFilterState((prev) => ({ ...prev, communityFilter: commId }));
               setColorByCommunity(true);
+              setSidebarTab("graph");
+            }}
+            onOpenTimeline={() => setSidebarTab("timeline")}
+            onOpenEvidence={() => setSidebarTab("evidence")}
+            onOpenDossier={() => setSidebarTab("dossier")}
+            onOpenGraph={(focusId) => {
+              if (focusId) setSelectedNodeId(focusId);
+              setSidebarTab("graph");
+            }}
+            onSelectPattern={(patternId) => {
+              setActivePattern(patternId);
               setSidebarTab("graph");
             }}
           />
@@ -646,6 +709,13 @@ function WorkbenchContent() {
                 setSelectedNodeId(nid);
                 setSelectedEdge(null);
               }}
+              onOpenTimeline={() => setSidebarTab("timeline")}
+              onOpenEvidence={() => setSidebarTab("evidence")}
+              onOpenDossier={() => setSidebarTab("dossier")}
+              onOpenGraph={(focusId) => {
+                if (focusId) setSelectedNodeId(focusId);
+                setSidebarTab("graph");
+              }}
             />
           )}
         </div>
@@ -671,9 +741,11 @@ function WorkbenchContent() {
 export function App() {
   return (
     <AuthProvider>
-      <CaseProvider>
-        <WorkbenchContent />
-      </CaseProvider>
+      <ToastProvider>
+        <CaseProvider>
+          <WorkbenchContent />
+        </CaseProvider>
+      </ToastProvider>
     </AuthProvider>
   );
 }

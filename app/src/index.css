@@ -32,14 +32,37 @@
   color: #ededed;
 }
 
+html[data-theme="light"], html.light {
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #0F172A;
+  --primary-foreground: #FFFFFF;
+  --secondary: #E2E8F0;
+  --secondary-foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #E2E8F0;
+  --accent-foreground: #0F172A;
+  --border: #CBD5E1;
+  --input: #CBD5E1;
+  color-scheme: light;
+  background-color: #F8FAFC;
+  color: #0F172A;
+}
+
 html, body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background-color: #000000;
-  color: #ededed;
+  background-color: var(--background);
+  color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 code, kbd, samp, pre, .font-mono {
@@ -70,4 +93,60 @@ code, kbd, samp, pre, .font-mono {
   height: 100%;
   position: relative;
   overflow: hidden;
+}
+
+/* =========================================================
+   LIGHT MODE OVERRIDES FOR INNER WORKBENCH SURFACES & CARDS
+   ========================================================= */
+html[data-theme="light"] .bg-\[\#050607\],
+html[data-theme="light"] .bg-\[\#070a11\],
+html[data-theme="light"] .bg-\[\#0A0D10\],
+html[data-theme="light"] .bg-\[\#0E1216\] {
+  background-color: #FFFFFF !important;
+}
+
+html[data-theme="light"] .bg-\[\#0A0D10\]\/95,
+html[data-theme="light"] .bg-\[\#0E1216\]\/95,
+html[data-theme="light"] .bg-\[\#050607\]\/95 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+html[data-theme="light"] .bg-\[\#141920\],
+html[data-theme="light"] .bg-\[\#182029\],
+html[data-theme="light"] .bg-\[\#1a202c\],
+html[data-theme="light"] .bg-\[\#20252A\] {
+  background-color: #F1F5F9 !important;
+}
+
+html[data-theme="light"] .border-\[\#20252A\],
+html[data-theme="light"] .border-\[\#141920\],
+html[data-theme="light"] .border-\[\#2a3038\] {
+  border-color: #E2E8F0 !important;
+}
+
+html[data-theme="light"] .text-white,
+html[data-theme="light"] .text-slate-100,
+html[data-theme="light"] .text-slate-200,
+html[data-theme="light"] .text-slate-300 {
+  color: #0F172A !important;
+}
+
+html[data-theme="light"] .text-\[\#858B92\],
+html[data-theme="light"] .text-\[\#555C63\],
+html[data-theme="light"] .text-slate-400,
+html[data-theme="light"] .text-slate-500 {
+  color: #475569 !important;
+}
+
+html[data-theme="light"] .hover\:bg-\[\#20252A\]:hover,
+html[data-theme="light"] .hover\:bg-\[\#0E1216\]:hover {
+  background-color: #E2E8F0 !important;
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.9);
+}
+
+html[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
 }

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { GraphKernel, CutResult } from "../../types";
 import { runCutSimulation } from "../../lib/api";
+import { useCase } from "../../context/CaseContext";
+import { useToast } from "../../context/ToastContext";
+import { ProvenanceBadge } from "../ProvenanceBadge";
 import {
   Scissors,
   RotateCcw,
@@ -10,6 +13,7 @@ import {
   ArrowRight,
   Activity,
   CheckCircle2,
+  HelpCircle,
 } from "lucide-react";
 
 interface ScenariosViewProps {
@@ -25,8 +29,12 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
   onApplySimulationToGraph,
   onSelectEntity,
 }) => {
+  const { logActivity } = useCase();
+  const { showToast } = useToast();
+
   const [selectedTarget, setSelectedTarget] = useState<string>("person:naveen_bhatia");
   const [loading, setLoading] = useState(false);
+  const [errorState, setErrorState] = useState<{ whatHappened: string; whatUserCanDo: string } | null>(null);
   const [cutResult, setCutResult] = useState<CutResult | null>(kernel?.cut || null);
   const [isAppliedToCanvas, setIsAppliedToCanvas] = useState(false);
 
@@ -58,13 +66,25 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
   const handleRunSimulation = async (targetId: string) => {
     setSelectedTarget(targetId);
     setLoading(true);
+    setErrorState(null);
     try {
       const res = await runCutSimulation(targetId, undefined, undefined, token);
       if (res && res.result) {
         setCutResult(res.result);
+        showToast(`Counterfactual simulation completed for ${targetId}`, "success");
+        logActivity("Executed Arrest Scenario", `Intervention on ${targetId}`);
+      } else {
+        setErrorState({
+          whatHappened: "The cut calculation returned empty result from the server.",
+          whatUserCanDo: "Verify backend service status or try selecting another target entity.",
+        });
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Cut simulation failed:", err);
+      setErrorState({
+        whatHappened: `Failed to compute counterfactual cut simulation (${err?.message || "Network Error"}).`,
+        whatUserCanDo: "Check backend server connectivity on port 8000 and click 'Run Simulation' again.",
+      });
     } finally {
       setLoading(false);
     }
@@ -73,11 +93,14 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
   const handleApplyToCanvas = () => {
     onApplySimulationToGraph(selectedTarget, cutResult);
     setIsAppliedToCanvas(true);
+    showToast(`Simulation disruption applied to main graph canvas`, "info");
+    logActivity("Applied Scenario to Canvas", `Target: ${selectedTarget}`);
   };
 
   const handleResetSimulation = () => {
     onApplySimulationToGraph(null, null);
     setIsAppliedToCanvas(false);
+    showToast(`Canvas view reset to original network baseline`, "info");
   };
 
   return (
@@ -85,18 +108,20 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#20252A]">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[10px] font-mono tracking-[0.2em] text-[#E21B23] uppercase font-bold">
               INVESTIGATION WORKSTATION
             </span>
             <span className="text-zinc-600">•</span>
-            <span className="text-[10px] font-mono tracking-wider text-[#858B92] uppercase">
-              COUNTERFACTUAL INTERVENTION SIMULATION (WHAT IF?)
-            </span>
+            <ProvenanceBadge type="COUNTERFACTUAL SIMULATION" />
+            <ProvenanceBadge type="GRAPH ANALYSIS" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-white mt-1">
-            Operational Scenarios
+            Operational Arrest Scenarios
           </h1>
+          <p className="text-xs text-[#858B92] mt-0.5">
+            Model topological network disruption without altering observed evidence or raw backend records.
+          </p>
         </div>
 
         <div className="flex items-center gap-3">
@@ -106,7 +131,7 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
               className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-mono font-bold transition-all cursor-pointer border border-slate-700"
             >
               <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset Graph Intervention</span>
+              <span>Reset Graph Canvas</span>
             </button>
           ) : (
             <button
@@ -121,12 +146,44 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
         </div>
       </div>
 
-      {/* Main Grid: Scenario Target Selector & Impact Analysis */}
+      {/* Information Banner on Simulation Integrity */}
+      <div className="p-3.5 rounded-xl bg-blue-950/40 border border-blue-800/40 flex items-start gap-3 text-xs text-blue-200">
+        <HelpCircle className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+        <div className="space-y-1">
+          <div className="font-bold font-mono text-[11px] uppercase tracking-wider text-blue-300">
+            INVESTIGATOR PROVENANCE GUARANTEE
+          </div>
+          <p className="text-[11px] text-blue-200/90 leading-relaxed">
+            Scenario simulations calculate counterfactual network states. The <strong>OBSERVED NETWORK</strong> remains pristine in the underlying database; simulations temporarily isolate selected targets to model residual path survivability.
+          </p>
+        </div>
+      </div>
+
+      {/* Error state display if simulation failed */}
+      {errorState && (
+        <div className="p-4 rounded-xl bg-[#25090B] border border-red-500/50 flex flex-col gap-2 text-xs text-red-200 font-sans">
+          <div className="flex items-center gap-2 text-red-400 font-bold font-mono uppercase tracking-wider text-[11px]">
+            <AlertTriangle className="w-4 h-4" />
+            <span>WHAT HAPPENED</span>
+          </div>
+          <p className="text-red-200 font-medium">{errorState.whatHappened}</p>
+
+          <div className="mt-1 pt-2 border-t border-red-900/60 flex flex-col gap-1">
+            <span className="text-red-400 font-bold font-mono uppercase tracking-wider text-[10px]">
+              WHAT THE USER CAN DO
+            </span>
+            <p className="text-red-300 text-[11px]">{errorState.whatUserCanDo}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Main Grid: Target Selector & Impact Analysis */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Left: Interdiction Targets (5 Cols) */}
         <div className="lg:col-span-5 space-y-3">
-          <div className="text-xs text-[#858B92] font-mono pb-1">
-            SELECT INTERVENTION TARGET
+          <div className="flex items-center justify-between text-xs text-[#858B92] font-mono pb-1">
+            <span>SELECT INTERVENTION TARGET</span>
+            <ProvenanceBadge type="BACKEND DATA" />
           </div>
 
           {scenarioTargets.map((target) => {
@@ -164,8 +221,8 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
                 </p>
 
                 <div className="mt-3 pt-2.5 border-t border-[#20252A] flex items-center justify-between">
-                  <span className="text-[11px] font-mono text-zinc-500">
-                    Deterministic Cut Algorithm
+                  <span className="text-[11px] font-mono text-zinc-500 flex items-center gap-1">
+                    <span>Deterministic Cut</span>
                   </span>
                   <button
                     disabled={loading}
@@ -183,52 +240,44 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
         <div className="lg:col-span-7 bg-[#0E1216] border border-[#20252A] rounded-2xl p-6 flex flex-col gap-5">
           <div className="pb-3 border-b border-[#20252A]">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs font-mono font-bold text-[#E21B23] uppercase tracking-wider flex items-center gap-1.5">
-                <span className="px-2 py-0.5 rounded bg-red-950/80 border border-red-500/50 text-[#FF3038] font-bold">
-                  COUNTERFACTUAL SIMULATION
-                </span>
-                <span>• TARGET: {selectedTarget}</span>
-              </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-800/60 text-emerald-400 uppercase">
-                AUTHENTICATED BACKEND CALCULATION
-              </span>
+              <div className="flex items-center gap-2">
+                <ProvenanceBadge type="COUNTERFACTUAL SIMULATION" size="md" />
+                <span className="text-xs font-mono text-[#858B92]">TARGET: {selectedTarget}</span>
+              </div>
+              <ProvenanceBadge type="BACKEND DATA" size="md" />
             </div>
             <h2 className="text-xl font-bold text-white mt-2">
-              Topological Network Disruption (What-If Analysis)
+              Topological Network Disruption Analysis
             </h2>
           </div>
 
           {cutResult ? (
             <div className="space-y-4 text-xs">
-              {/* Distinct Panels: OBSERVED NETWORK vs SIMULATED RESULT */}
+              {/* Clearly Distinguish: OBSERVED NETWORK vs COUNTERFACTUAL SIMULATION */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono">
                 {/* Panel 1: OBSERVED NETWORK */}
-                <div className="p-3.5 rounded-xl bg-[#050607] border border-[#20252A] space-y-1">
+                <div className="p-4 rounded-xl bg-[#050607] border border-cyan-800/40 space-y-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-[#858B92] uppercase font-bold">
+                    <span className="text-[10px] text-cyan-400 uppercase font-bold tracking-wider">
                       OBSERVED NETWORK
                     </span>
-                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-300">
-                      CURRENT BASELINE
-                    </span>
+                    <ProvenanceBadge type="BACKEND DATA" />
                   </div>
                   <div className="text-2xl font-bold text-white mt-1">
                     {cutResult.components_before} Component
                   </div>
                   <div className="text-[11px] text-[#858B92]">
-                    Intact Criminal Network • All primary routes operational
+                    Intact Criminal Network Baseline • All 80 persons & 3,931 links active
                   </div>
                 </div>
 
-                {/* Panel 2: SIMULATED RESULT */}
-                <div className="p-3.5 rounded-xl bg-[#050607] border border-[#E21B23]/50 space-y-1 shadow-[0_0_15px_rgba(226,27,35,0.1)]">
+                {/* Panel 2: COUNTERFACTUAL SIMULATION */}
+                <div className="p-4 rounded-xl bg-[#050607] border border-[#E21B23]/60 space-y-1 shadow-[0_0_15px_rgba(226,27,35,0.1)]">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] text-[#FF3038] uppercase font-bold">
-                      SIMULATED RESULT (CUT)
+                    <span className="text-[10px] text-[#FF3038] uppercase font-bold tracking-wider">
+                      COUNTERFACTUAL SIMULATION
                     </span>
-                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-red-950/80 border border-red-500/40 text-red-300">
-                      SIMULATED
-                    </span>
+                    <ProvenanceBadge type="COUNTERFACTUAL SIMULATION" />
                   </div>
                   <div className="text-2xl font-bold text-[#FF3038] mt-1">
                     {cutResult.components_after} Components
@@ -244,11 +293,14 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
               {/* Severed Primary Path */}
               {cutResult.path_before && (
                 <div className="p-4 rounded-xl bg-[#0A0D10] border border-[#20252A] space-y-2">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#E21B23]" />
-                    <span className="text-[10px] font-mono text-[#858B92] uppercase font-bold tracking-wider">
-                      PRIMARY SEVERED FINANCIAL CONDUIT (DISRUPTED)
-                    </span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#E21B23]" />
+                      <span className="text-[10px] font-mono text-[#858B92] uppercase font-bold tracking-wider">
+                        PRIMARY SEVERED FINANCIAL CONDUIT (DISRUPTED)
+                      </span>
+                    </div>
+                    <ProvenanceBadge type="GRAPH ANALYSIS" />
                   </div>
                   <div className="flex flex-wrap items-center gap-1.5 font-mono text-xs pt-1">
                     {cutResult.path_before.map((nodeId, idx) => (
@@ -274,12 +326,15 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
 
               {/* Residual Surviving Path */}
               {cutResult.residual_path_ph02_ph03 && (
-                <div className="p-4 rounded-xl bg-[#0A0D10] border border-[#20252A] space-y-2">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-amber-400" />
-                    <span className="text-[10px] font-mono text-amber-400 uppercase font-bold tracking-wider">
-                      CRITICAL RESIDUAL SURVIVING RELAY (ALTERNATE CHANNEL)
-                    </span>
+                <div className="p-4 rounded-xl bg-[#0A0D10] border border-amber-900/40 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-amber-400" />
+                      <span className="text-[10px] font-mono text-amber-400 uppercase font-bold tracking-wider">
+                        CRITICAL RESIDUAL SURVIVING RELAY (ALTERNATE CHANNEL)
+                      </span>
+                    </div>
+                    <ProvenanceBadge type="GRAPH ANALYSIS" />
                   </div>
                   <p className="text-[#858B92] text-[11px] leading-relaxed">
                     Even after neutralizing {selectedTarget}, communication and fund flow persists through alternate burner phones <strong>phone:ph02</strong> and <strong>phone:ph03</strong>:
@@ -307,16 +362,16 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
               )}
 
               {/* Operational Action */}
-              <div className="pt-2 flex items-center justify-between">
+              <div className="pt-2 flex items-center justify-between flex-wrap gap-2">
                 <span className="text-[11px] font-mono text-[#858B92]">
-                  Status: {isAppliedToCanvas ? "Active on Canvas" : "Ready to Apply"}
+                  Canvas Status: {isAppliedToCanvas ? "Cut Disruption Active" : "Original Baseline Displayed"}
                 </span>
                 {isAppliedToCanvas ? (
                   <button
                     onClick={handleResetSimulation}
-                    className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono font-bold transition-all cursor-pointer"
+                    className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono font-bold transition-all cursor-pointer border border-slate-700"
                   >
-                    Reset Canvas
+                    Reset Canvas View
                   </button>
                 ) : (
                   <button
@@ -329,8 +384,9 @@ export const ScenariosView: React.FC<ScenariosViewProps> = ({
               </div>
             </div>
           ) : (
-            <div className="p-8 text-center text-xs text-[#858B92] font-mono">
-              SELECT AN ENTITY AND RUN COUNTERFACTUAL ARREST CUT SIMULATION
+            <div className="p-8 text-center text-xs text-[#858B92] font-mono border border-dashed border-[#20252A] rounded-xl flex flex-col items-center justify-center gap-2">
+              <GitFork className="w-8 h-8 text-zinc-600" />
+              <span>SELECT AN ENTITY TARGET AND RUN COUNTERFACTUAL SIMULATION</span>
             </div>
           )}
         </div>

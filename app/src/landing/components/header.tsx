@@ -1,4 +1,3 @@
-'use client';
 import React, { useState } from 'react';
 import { Menu, X, ArrowRight, ShieldCheck } from 'lucide-react';
 import { AshokaEmblem } from './icons/ashoka-emblem';
@@ -23,7 +22,7 @@ export const HeroHeader: React.FC<HeroHeaderProps> = ({ onLaunchWorkbench }) => 
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Brand: Ashoka Emblem + JAAL */}
         <div className="flex items-center gap-3.5 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="text-zinc-200 hover:text-white transition-colors flex items-center">
+          <div className="flex items-center text-zinc-200 hover:text-white transition-colors">
             <img
               src="/jaal-emblem.png"
               alt="JAAL National Emblem Logo"

@@ -1,6 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { GraphKernel } from "../../types";
 import { useCase } from "../../context/CaseContext";
+import { useToast } from "../../context/ToastContext";
+import { ProvenanceBadge } from "../ProvenanceBadge";
 import {
   FileText,
   PhoneCall,
@@ -18,6 +20,7 @@ import {
   Clock,
   Share2,
   Check,
+  RotateCcw,
 } from "lucide-react";
 
 interface EvidenceViewProps {
@@ -42,6 +45,8 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
   onOpenDossier,
 }) => {
   const { activeCase, addToDossier, removeFromDossier, isInDossier } = useCase();
+  const { showToast } = useToast();
+
   const [selectedCategory, setSelectedCategory] = useState<EvidenceCategory>("ALL");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSubjectFilter, setSelectedSubjectFilter] = useState<string>("ALL");
@@ -50,6 +55,7 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
 
   const handleSetStatus = (evidenceId: string, status: "UNREVIEWED" | "REVIEWED" | "FLAGGED") => {
     setReviewStatuses((prev) => ({ ...prev, [evidenceId]: status }));
+    showToast(`Investigator status updated: ${status} (LOCAL PROTOTYPE)`, "info");
   };
 
   // Derive real evidence records from graph kernel
@@ -80,7 +86,7 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
           category: "FIR",
           type: "First Information Report",
           title: n.label || n.id,
-          relatedSubject: n.attributes?.suspect_name || "Syndicate Principals & Shell Entitles",
+          relatedSubject: n.attributes?.suspect_name || "Syndicate Principals & Shell Entities",
           relatedSubjectId: n.attributes?.suspect_id,
           dateTime: n.attributes?.registered_at || n.attributes?.date || "2026-04-12 09:42",
           source: "State Crime Records Bureau / Delhi Special Cell",
@@ -215,22 +221,39 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
 
   const isDetailInDossier = activeDetail ? isInDossier(activeDetail.id) : false;
 
+  const handleToggleDossier = () => {
+    if (!activeDetail) return;
+    if (isDetailInDossier) {
+      removeFromDossier(activeDetail.id);
+      showToast(`Removed ${activeDetail.id} from Case Dossier`, "info");
+    } else {
+      addToDossier({
+        id: activeDetail.id,
+        type: "EVIDENCE",
+        title: activeDetail.title,
+        subtitle: `${activeDetail.category} • ${activeDetail.relatedSubject}`,
+        category: activeDetail.category,
+        targetEntityId: activeDetail.targetNodeId,
+      });
+      showToast(`Evidence added to dossier: ${activeDetail.title}`, "success");
+    }
+  };
+
   return (
     <div className="flex-1 h-full flex flex-col bg-[#050607] text-[#F2F2F2] overflow-hidden select-none font-sans p-6 gap-5">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#20252A] shrink-0">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[10px] font-mono tracking-[0.2em] text-[#E21B23] uppercase font-bold">
               {activeCase.id}
             </span>
             <span className="text-zinc-600">•</span>
-            <span className="text-[10px] font-mono tracking-wider text-[#858B92] uppercase">
-              EVIDENCE REPOSITORY
-            </span>
+            <ProvenanceBadge type="EVIDENCE RECORD" />
+            <ProvenanceBadge type="BACKEND DATA" />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-white mt-1">
-            Evidentiary Material
+            Evidentiary Material & Records
           </h1>
         </div>
 
@@ -283,7 +306,7 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
 
         {/* Subject Filter Dropdown */}
         <div className="flex items-center gap-2">
-          <span className="text-[#858B92] text-[10px] uppercase">Subject:</span>
+          <span className="text-[#858B92] text-[10px] uppercase">Subject Filter:</span>
           <select
             value={selectedSubjectFilter}
             onChange={(e) => setSelectedSubjectFilter(e.target.value)}
@@ -304,8 +327,22 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
         {/* Left: Cards List (7 Cols) */}
         <div className="lg:col-span-7 overflow-y-auto space-y-3 pr-2">
           {filteredRecords.length === 0 ? (
-            <div className="p-8 rounded-xl bg-[#0A0D10] border border-[#20252A] text-center text-xs text-[#858B92] font-mono">
-              NO EVIDENTIARY RECORDS MATCHING FILTER CRITERIA
+            <div className="p-8 rounded-xl bg-[#0A0D10] border border-[#20252A] text-center text-xs text-[#858B92] font-mono flex flex-col items-center justify-center gap-3">
+              <ShieldAlert className="w-8 h-8 text-zinc-600" />
+              <div>
+                <div className="text-white font-bold text-sm">NO EVIDENTIARY RECORDS FOUND</div>
+                <p className="text-zinc-500 mt-1">No items match your active search and category filters.</p>
+              </div>
+              <button
+                onClick={() => {
+                  setSelectedCategory("ALL");
+                  setSelectedSubjectFilter("ALL");
+                  setSearchQuery("");
+                }}
+                className="px-3 py-1.5 rounded-lg bg-[#20252A] hover:bg-[#384048] text-white text-xs font-mono transition-colors"
+              >
+                Reset Search Filters
+              </button>
             </div>
           ) : (
             filteredRecords.map((item) => {
@@ -324,7 +361,7 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-xs font-mono font-bold text-[#E21B23]">
                           {item.id}
                         </span>
@@ -367,15 +404,18 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
             <>
               {/* Header Info */}
               <div className="pb-3 border-b border-[#20252A]">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold text-[#E21B23]">
-                    {activeDetail.id}
-                  </span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#20252A] text-zinc-300 uppercase">
-                    {activeDetail.category}
-                  </span>
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono font-bold text-[#E21B23]">
+                      {activeDetail.id}
+                    </span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#20252A] text-zinc-300 uppercase">
+                      {activeDetail.category}
+                    </span>
+                  </div>
+                  <ProvenanceBadge type="EVIDENCE RECORD" />
                 </div>
-                <h3 className="text-base font-bold text-white mt-1">
+                <h3 className="text-base font-bold text-white mt-1.5">
                   {activeDetail.title}
                 </h3>
                 <div className="text-[11px] font-mono text-[#858B92] mt-1">
@@ -403,9 +443,12 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
 
               {/* Narrative */}
               <div className="space-y-1.5">
-                <span className="text-[10px] font-mono text-[#858B92] uppercase font-bold">
-                  AUTHENTICATED RECORD NARRATIVE
-                </span>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-[#858B92] uppercase font-bold">
+                    AUTHENTICATED RECORD NARRATIVE
+                  </span>
+                  <ProvenanceBadge type="BACKEND DATA" />
+                </div>
                 <div className="p-3 rounded-xl bg-[#050607] border border-[#20252A] text-xs text-slate-200 leading-relaxed font-sans">
                   {activeDetail.description}
                 </div>
@@ -424,7 +467,7 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
                   <div className="p-2.5 rounded-lg bg-[#0A0D10] border border-[#20252A] flex flex-col gap-1.5 text-xs font-mono">
                     <div className="flex items-center justify-between">
                       <span className="text-[#858B92]">Investigator Review Status:</span>
-                      <span className="text-[9px] text-zinc-500 font-mono">LOCAL PROTOTYPE</span>
+                      <ProvenanceBadge type="LOCAL PROTOTYPE" />
                     </div>
                     <div className="grid grid-cols-3 gap-1 pt-0.5">
                       {(["UNREVIEWED", "REVIEWED", "FLAGGED"] as const).map((st) => {
@@ -471,25 +514,12 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
                 </div>
               </div>
 
-              {/* Phase 3 Action Bar (4 Mandatory Actions) */}
+              {/* Action Bar */}
               <div className="mt-auto space-y-2 pt-3 border-t border-[#20252A]">
                 <div className="grid grid-cols-2 gap-2">
                   {/* Action 1: Add to Dossier */}
                   <button
-                    onClick={() => {
-                      if (isDetailInDossier) {
-                        removeFromDossier(activeDetail.id);
-                      } else {
-                        addToDossier({
-                          id: activeDetail.id,
-                          type: "EVIDENCE",
-                          title: activeDetail.title,
-                          subtitle: `${activeDetail.category} • ${activeDetail.relatedSubject}`,
-                          category: activeDetail.category,
-                          targetEntityId: activeDetail.targetNodeId,
-                        });
-                      }
-                    }}
+                    onClick={handleToggleDossier}
                     className={`py-2 px-3 rounded-xl border text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                       isDetailInDossier
                         ? "bg-emerald-950/40 border-emerald-700/60 text-emerald-300"
@@ -527,8 +557,8 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
               </div>
             </>
           ) : (
-            <div className="m-auto text-center text-xs text-[#858B92] font-mono p-6">
-              <ShieldAlert className="w-8 h-8 text-[#555C63] mx-auto mb-2" />
+            <div className="m-auto text-center text-xs text-[#858B92] font-mono p-6 border border-dashed border-[#20252A] rounded-xl flex flex-col items-center justify-center gap-2">
+              <ShieldAlert className="w-8 h-8 text-zinc-600" />
               <span>SELECT AN EVIDENTIARY RECORD TO INSPECT PROVENANCE AND ATTRIBUTES</span>
             </div>
           )}

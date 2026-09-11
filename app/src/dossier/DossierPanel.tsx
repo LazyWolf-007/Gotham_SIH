@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { GraphNode, GraphEdge, PatternHit } from "../types";
+import { useCase } from "../context/CaseContext";
+import { useToast } from "../context/ToastContext";
+import { ProvenanceBadge } from "../components/ProvenanceBadge";
 import {
   Share2,
   BookmarkPlus,
@@ -241,9 +244,10 @@ export const DossierPanel: React.FC<DossierPanelProps> = ({
   onRunScenario,
   patterns,
 }) => {
+  const { addToDossier, removeFromDossier, isInDossier, dossierItems } = useCase();
+  const { showToast } = useToast();
+
   const [activeTab, setActiveTab] = useState<"overview" | "links" | "evidence" | "analytics">("overview");
-  const [savedEntities, setSavedEntities] = useState<string[]>(["person:naveen_bhatia"]);
-  const [isDossierDrawerOpen, setIsDossierDrawerOpen] = useState(false);
 
   // Fallback / default displayed target is Naveen Bhatia
   const targetId = node?.id || "person:naveen_bhatia";
@@ -264,13 +268,22 @@ export const DossierPanel: React.FC<DossierPanelProps> = ({
     node?.metrics?.betweenness_rank_persons ?? (isAccountant ? 1 : 4);
 
   const linksCount = incidentEdges.length > 0 ? incidentEdges.length : 6;
-  const isSaved = savedEntities.includes(targetId);
+  const isSaved = isInDossier(targetId);
 
   const handleToggleSaveToDossier = () => {
     if (isSaved) {
-      setSavedEntities(savedEntities.filter((id) => id !== targetId));
+      removeFromDossier(targetId);
+      showToast(`Removed ${targetLabel} from Case Dossier`, "info");
     } else {
-      setSavedEntities([...savedEntities, targetId]);
+      addToDossier({
+        id: targetId,
+        type: node?.type === "FIR" ? "EVIDENCE" : "SUBJECT",
+        title: targetLabel,
+        subtitle: `${visualMeta.roleLabel} • Betweenness Rank #${betweennessRank}`,
+        category: node?.type || "SUBJECT",
+        targetEntityId: targetId,
+      });
+      showToast(`Added ${targetLabel} to Case Dossier`, "success");
     }
   };
 
@@ -278,6 +291,14 @@ export const DossierPanel: React.FC<DossierPanelProps> = ({
     <div className="w-full h-full flex flex-col justify-between bg-[#050607] border-l border-[#20252A] p-4 select-none shrink-0 overflow-y-auto z-30 font-sans">
       {/* Top Main Dossier Card */}
       <div className="bg-[#0E1216] border border-[#20252A] rounded-2xl p-4 shadow-xl space-y-4">
+        {/* Header Provenance Bar */}
+        <div className="flex items-center justify-between border-b border-[#20252A] pb-2">
+          <span className="text-[10px] font-mono text-[#858B92] uppercase font-bold">
+            SUBJECT DOSSIER
+          </span>
+          <ProvenanceBadge type="GRAPH ANALYSIS" />
+        </div>
+
         {/* Profile Header Row */}
         <div className="flex gap-3.5 items-start">
           {/* Tactical Forensic Image Frame */}
@@ -386,7 +407,7 @@ export const DossierPanel: React.FC<DossierPanelProps> = ({
                 : "text-[#858B92] hover:text-white"
             }`}
           >
-            Evidence (12)
+            Evidence
           </button>
           <button
             onClick={() => setActiveTab("analytics")}
@@ -396,7 +417,7 @@ export const DossierPanel: React.FC<DossierPanelProps> = ({
                 : "text-[#858B92] hover:text-white"
             }`}
           >
-            Analytics
+            Metrics
           </button>
         </div>
 
@@ -430,7 +451,10 @@ export const DossierPanel: React.FC<DossierPanelProps> = ({
             <div className="space-y-2 pt-1">
               <div className="grid grid-cols-2 gap-2">
                 <button
-                  onClick={() => onIsolateNeighborhood(targetId)}
+                  onClick={() => {
+                    onIsolateNeighborhood(targetId);
+                    showToast(`Isolated 2-hop neighborhood for ${targetId}`, "info");
+                  }}
                   className="flex items-center justify-center gap-1.5 py-2 px-2.5 rounded-xl bg-[#0A0D10] hover:bg-[#20252A] border border-[#20252A] text-slate-200 text-xs font-semibold transition-all cursor-pointer shadow-sm group"
                 >
                   <Share2 className="w-3.5 h-3.5 text-[#858B92] group-hover:text-white" />
@@ -446,13 +470,16 @@ export const DossierPanel: React.FC<DossierPanelProps> = ({
                   }`}
                 >
                   {isSaved ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <FolderPlus className="w-3.5 h-3.5 text-[#858B92]" />}
-                  <span className="truncate">{isSaved ? "Saved to Dossier" : "Add to Dossier"}</span>
+                  <span className="truncate">{isSaved ? "In Dossier" : "Add to Dossier"}</span>
                 </button>
               </div>
 
               {/* Critical Red Intervention Action */}
               <button
-                onClick={() => onRunArrestSimulation(targetId)}
+                onClick={() => {
+                  onRunArrestSimulation(targetId);
+                  showToast(`Executing counterfactual arrest simulation on ${targetId}`, "success");
+                }}
                 className="w-full py-2.5 px-3 rounded-xl bg-[#E21B23] hover:bg-[#FF3038] text-white text-xs font-bold font-mono transition-all shadow-md shadow-[#E21B23]/30 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Scissors className="w-3.5 h-3.5" />
@@ -516,8 +543,9 @@ export const DossierPanel: React.FC<DossierPanelProps> = ({
 
         {activeTab === "evidence" && (
           <div className="space-y-2 text-xs font-mono">
-            <div className="text-[10px] text-[#858B92] uppercase">
-              ATTACHED EVIDENTIARY SOURCING
+            <div className="text-[10px] text-[#858B92] uppercase flex items-center justify-between">
+              <span>ATTACHED EVIDENTIARY SOURCING</span>
+              <ProvenanceBadge type="EVIDENCE RECORD" />
             </div>
             <div className="p-2.5 rounded-lg bg-[#0A0D10] border border-[#20252A]">
               <div className="text-white font-bold">FIR-2026-014</div>
@@ -536,8 +564,9 @@ export const DossierPanel: React.FC<DossierPanelProps> = ({
 
         {activeTab === "analytics" && (
           <div className="space-y-2 text-xs font-mono">
-            <div className="text-[10px] text-[#858B92] uppercase">
-              TOPOLOGICAL CENTRALITY PROFILE
+            <div className="text-[10px] text-[#858B92] uppercase flex items-center justify-between">
+              <span>TOPOLOGICAL CENTRALITY PROFILE</span>
+              <ProvenanceBadge type="GRAPH ANALYSIS" />
             </div>
             <div className="p-2.5 rounded-lg bg-[#0A0D10] border border-[#20252A] flex justify-between">
               <span className="text-[#858B92]">Betweenness Centrality:</span>
@@ -564,17 +593,17 @@ export const DossierPanel: React.FC<DossierPanelProps> = ({
         {/* Saved Dossier Entities Pill List */}
         <div className="p-2.5 rounded-xl bg-[#0A0D10] border border-[#20252A]">
           <div className="flex items-center justify-between text-[10px] font-mono text-[#858B92] uppercase pb-1">
-            <span>COLLECTED INVESTIGATION DOSSIER ({savedEntities.length})</span>
-            <span className="text-emerald-400 font-bold">READY</span>
+            <span>COLLECTED DOSSIER ITEMS ({dossierItems.length})</span>
+            <span className="text-emerald-400 font-bold">SYNCHRONIZED</span>
           </div>
           <div className="flex flex-wrap gap-1 mt-1">
-            {savedEntities.map((id) => (
+            {dossierItems.map((item) => (
               <span
-                key={id}
-                onClick={() => onSelectNeighbor(id)}
+                key={item.id}
+                onClick={() => item.targetEntityId && onSelectNeighbor(item.targetEntityId)}
                 className="px-2 py-0.5 rounded bg-[#20252A] hover:bg-[#E21B23]/20 hover:border-[#E21B23] border border-[#384048] text-[10px] font-mono text-white cursor-pointer transition-colors"
               >
-                {id.split(":")[1] || id}
+                {item.title.split(" ")[0] || item.id}
               </span>
             ))}
           </div>

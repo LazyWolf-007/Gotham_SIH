@@ -33,14 +33,17 @@ interface SidebarNavProps {
   activeTab: SidebarTab;
   onSelectTab: (tab: SidebarTab) => void;
   onOpenAdminModal?: () => void;
+  theme?: "dark" | "light";
 }
 
 export const SidebarNav: React.FC<SidebarNavProps> = ({
   activeTab,
   onSelectTab,
   onOpenAdminModal,
+  theme = "dark",
 }) => {
   const { user, lockWorkstation, logout } = useAuth();
+  const isLight = theme === "light";
 
   const navItems: { id: SidebarTab; label: string; icon: React.FC<{ className?: string }> }[] = [
     { id: "overview", label: "Overview", icon: LayoutDashboard },
@@ -56,10 +59,10 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   ];
 
   return (
-    <aside className="w-56 h-full flex flex-col justify-between bg-[#050607] border-r border-[#20252A] px-3 py-4 select-none shrink-0 z-30">
+    <aside className={`w-56 h-full flex flex-col justify-between border-r px-3 py-4 select-none shrink-0 z-30 transition-colors duration-200 ${isLight ? "bg-white border-slate-200 text-slate-900" : "bg-[#050607] border-[#20252A] text-white"}`}>
       {/* Top Navigation Items */}
       <div className="space-y-1">
-        <div className="px-3 pb-2 text-[10px] font-mono tracking-widest text-[#555C63] uppercase font-bold">
+        <div className={`px-3 pb-2 text-[10px] font-mono tracking-widest uppercase font-bold ${isLight ? "text-slate-400" : "text-[#555C63]"}`}>
           NAVIGATION
         </div>
         {navItems.map((item) => {
@@ -70,9 +73,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
             <button
               key={item.id}
               onClick={() => onSelectTab(item.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 group relative ${
+              className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 group relative cursor-pointer ${
                 isActive
-                  ? "text-white bg-[#E21B23]/15 border border-[#E21B23]/40 shadow-sm"
+                  ? isLight
+                    ? "text-[#E21B23] bg-red-50 border border-red-200 font-bold shadow-sm"
+                    : "text-white bg-[#E21B23]/15 border border-[#E21B23]/40 shadow-sm"
+                  : isLight
+                  ? "text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-transparent"
                   : "text-[#858B92] hover:text-white hover:bg-[#0E1216] border border-transparent"
               }`}
             >
@@ -82,7 +89,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
               )}
               <Icon
                 className={`w-4 h-4 shrink-0 transition-colors ${
-                  isActive ? "text-[#FF3038]" : "text-[#555C63] group-hover:text-slate-200"
+                  isActive ? "text-[#FF3038]" : isLight ? "text-slate-400 group-hover:text-slate-700" : "text-[#555C63] group-hover:text-slate-200"
                 }`}
               />
               <span className="truncate tracking-wide">{item.label}</span>

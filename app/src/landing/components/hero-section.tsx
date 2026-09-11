@@ -31,17 +31,15 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
 
   return (
     <section id="home" className="relative min-h-screen w-full bg-black text-white flex flex-col justify-between overflow-hidden pt-20 md:pt-24 select-none">
-      {/* Background Tactical Image with Dark Vignette */}
+      {/* Background Tactical Image with Crisp Visibility */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <img
-          src="/jaal-bg.jpg"
+          src="/jaal-bg.png"
           alt="JAAL War Room Intelligence Map"
-          className="w-full h-full object-cover object-center transform scale-100 filter brightness-[0.82] contrast-[1.12]"
-          style={{ imageRendering: 'auto' }}
+          className="w-full h-full object-cover object-center filter brightness-[1.15] contrast-[1.08] saturate-[1.08]"
         />
-        {/* Subtle vignette and left gradient for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/50 to-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/70" />
+        {/* Soft, minimal left gradient only behind the headline for clean readability */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
       </div>
 
       {/* Main Center Container */}
@@ -89,20 +87,20 @@ export default function HeroSection({ onLaunchWorkbench }: HeroSectionProps) {
             </div>
 
             {/* Giant Title */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-sans font-black tracking-tight leading-[0.98] text-white">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-sans font-black tracking-tight leading-[0.98] text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.95)]">
               INTELLIGENCE
               <br />
               THAT BRINGS
               <br />
               CRIMINAL NETWORKS
               <br />
-              <span className="text-[#f83a3a] drop-shadow-[0_0_35px_rgba(248,58,58,0.55)]">
+              <span className="text-[#f83a3a] drop-shadow-[0_0_35px_rgba(248,58,58,0.7)]">
                 INTO FOCUS.
               </span>
             </h1>
 
             {/* Paragraph Description */}
-            <p className="text-zinc-300 text-xs sm:text-sm md:text-base leading-relaxed max-w-md font-normal">
+            <p className="text-zinc-200 text-xs sm:text-sm md:text-base leading-relaxed max-w-md font-normal drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
               JAAL is an investigation workbench that unifies disparate data, reveals hidden links,
               and helps officers act faster with evidence-backed insights.
             </p>

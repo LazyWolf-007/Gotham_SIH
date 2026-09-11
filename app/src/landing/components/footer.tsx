@@ -7,7 +7,11 @@ export default function FooterSection() {
     <footer id="team" className="py-16 bg-black border-t border-zinc-900 text-white">
       <div className="mx-auto max-w-6xl px-6 flex flex-col items-center text-center space-y-6">
         <div className="flex items-center gap-3">
-          <AshokaEmblem className="w-8 h-8 text-zinc-400" />
+          <img
+            src="/jaal-emblem.png"
+            alt="JAAL Logo"
+            className="w-7 h-9 object-contain"
+          />
           <div className="text-left">
             <span className="font-serif font-black text-xl tracking-wider text-white">JAAL</span>
             <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">

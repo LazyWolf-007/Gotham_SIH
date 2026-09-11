@@ -23,19 +23,18 @@ export const HeroHeader: React.FC<HeroHeaderProps> = ({ onLaunchWorkbench }) => 
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Brand: Ashoka Emblem + JAAL */}
         <div className="flex items-center gap-3.5 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-          <div className="text-zinc-200 hover:text-white transition-colors">
-            <AshokaEmblem className="w-9 h-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+          <div className="text-zinc-200 hover:text-white transition-colors flex items-center">
+            <img
+              src="/jaal-emblem.png"
+              alt="JAAL National Emblem Logo"
+              className="w-10 h-12 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]"
+            />
           </div>
-          <div className="flex flex-col">
-            <div className="flex items-center gap-2">
-              <span className="font-serif font-black text-2xl tracking-[0.15em] text-white leading-none">
-                JAAL
-              </span>
-              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-red-950/80 text-red-400 border border-red-800/60">
-                LIVE INTEL
-              </span>
-            </div>
-            <span className="text-[10px] tracking-[0.25em] text-zinc-400 font-mono uppercase mt-0.5">
+          <div className="flex flex-col justify-center">
+            <span className="font-sans font-bold text-2xl sm:text-3xl tracking-[0.08em] text-white leading-none">
+              JAAL
+            </span>
+            <span className="text-[11px] sm:text-xs tracking-[0.22em] text-zinc-300 font-sans font-medium uppercase mt-1">
               OPERATION GREY LEDGER
             </span>
           </div>

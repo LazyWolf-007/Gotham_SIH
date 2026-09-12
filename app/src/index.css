@@ -96,57 +96,181 @@ code, kbd, samp, pre, .font-mono {
 }
 
 /* =========================================================
-   LIGHT MODE OVERRIDES FOR INNER WORKBENCH SURFACES & CARDS
+   LIGHT MODE: MINIMALIST BLACK OUTER LINE & CRISP CONTRAST
    ========================================================= */
+
+/* 1. Base Surfaces & Cards */
+html[data-theme="light"], html.light {
+  --background: #FFFFFF;
+  --foreground: #000000;
+  --border: #000000;
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+  background-color: #FAFAFA !important;
+}
+
 html[data-theme="light"] .bg-\[\#050607\],
 html[data-theme="light"] .bg-\[\#070a11\],
 html[data-theme="light"] .bg-\[\#0A0D10\],
-html[data-theme="light"] .bg-\[\#0E1216\] {
+html[data-theme="light"] .bg-\[\#0E1216\],
+html[data-theme="light"] .bg-\[\#0f172a\],
+html[data-theme="light"] .bg-slate-900\/90 {
   background-color: #FFFFFF !important;
 }
 
 html[data-theme="light"] .bg-\[\#0A0D10\]\/95,
+html[data-theme="light"] .bg-\[\#0A0D11\]\/90,
+html[data-theme="light"] .bg-\[\#0A0D11\]\/95,
 html[data-theme="light"] .bg-\[\#0E1216\]\/95,
 html[data-theme="light"] .bg-\[\#050607\]\/95 {
-  background-color: rgba(255, 255, 255, 0.95) !important;
+  background-color: rgba(255, 255, 255, 0.98) !important;
 }
 
+/* Secondary Inner Elements */
+html[data-theme="light"] .bg-\[\#12171E\],
 html[data-theme="light"] .bg-\[\#141920\],
 html[data-theme="light"] .bg-\[\#182029\],
 html[data-theme="light"] .bg-\[\#1a202c\],
-html[data-theme="light"] .bg-\[\#20252A\] {
-  background-color: #F1F5F9 !important;
+html[data-theme="light"] .bg-\[\#20252A\],
+html[data-theme="light"] .bg-slate-100 {
+  background-color: #F4F4F5 !important;
 }
 
+/* 2. MINIMALIST SOLID BLACK OUTER LINES ON ALL CARDS, PANELS & BORDERS */
+html[data-theme="light"] .border,
 html[data-theme="light"] .border-\[\#20252A\],
 html[data-theme="light"] .border-\[\#141920\],
-html[data-theme="light"] .border-\[\#2a3038\] {
-  border-color: #E2E8F0 !important;
+html[data-theme="light"] .border-\[\#2a3038\],
+html[data-theme="light"] .border-\[\#384048\],
+html[data-theme="light"] .border-slate-200,
+html[data-theme="light"] .border-slate-300,
+html[data-theme="light"] .border-slate-700,
+html[data-theme="light"] .border-slate-800,
+html[data-theme="light"] .border-zinc-700,
+html[data-theme="light"] .border-zinc-800,
+html[data-theme="light"] .border-black\/10,
+html[data-theme="light"] .border-black\/20 {
+  border-color: #000000 !important;
 }
 
+/* Dividing Border Lines */
+html[data-theme="light"] .border-b,
+html[data-theme="light"] .border-b-\[\#20252A\],
+html[data-theme="light"] .border-b-slate-200,
+html[data-theme="light"] .border-b-slate-800 {
+  border-bottom-color: #000000 !important;
+}
+
+html[data-theme="light"] .border-t,
+html[data-theme="light"] .border-t-\[\#20252A\],
+html[data-theme="light"] .border-t-slate-200,
+html[data-theme="light"] .border-t-slate-800 {
+  border-top-color: #000000 !important;
+}
+
+html[data-theme="light"] .border-l,
+html[data-theme="light"] .border-l-\[\#20252A\],
+html[data-theme="light"] .border-l-slate-200 {
+  border-left-color: #000000 !important;
+}
+
+html[data-theme="light"] .border-r,
+html[data-theme="light"] .border-r-\[\#20252A\],
+html[data-theme="light"] .border-r-slate-200 {
+  border-right-color: #000000 !important;
+}
+
+/* 3. FIX ALL FADED TEXT & HIGH CONTRAST INK */
 html[data-theme="light"] .text-white,
 html[data-theme="light"] .text-slate-100,
 html[data-theme="light"] .text-slate-200,
 html[data-theme="light"] .text-slate-300 {
-  color: #0F172A !important;
+  color: #000000 !important;
+  font-weight: 600;
 }
 
+/* Ensure tactical badges and red primary buttons retain crisp white text */
+html[data-theme="light"] body {
+  background-color: #FAFAFA !important;
+  color: #000000 !important;
+}
+
+html[data-theme="light"] .hub-badge,
+html[data-theme="light"] .hub-badge *,
+html[data-theme="light"] button.bg-\[\#E21B23\],
+html[data-theme="light"] button.bg-\[\#E21B23\] * {
+  color: #FFFFFF !important;
+}
+
+/* Faded labels, subtitles, and captions become crisp bold dark text */
 html[data-theme="light"] .text-\[\#858B92\],
 html[data-theme="light"] .text-\[\#555C63\],
 html[data-theme="light"] .text-slate-400,
-html[data-theme="light"] .text-slate-500 {
-  color: #475569 !important;
+html[data-theme="light"] .text-slate-500,
+html[data-theme="light"] .text-slate-600,
+html[data-theme="light"] .text-zinc-400,
+html[data-theme="light"] .text-zinc-500 {
+  color: #18181B !important;
+}
+
+/* Uppercase tracking tags (e.g. ACTIVE CASES, HIGH PRIORITY, EVIDENCE ITEMS) */
+html[data-theme="light"] span.text-\[\#858B92\],
+html[data-theme="light"] span.text-\[\#555C63\],
+html[data-theme="light"] .tracking-wider,
+html[data-theme="light"] .tracking-widest {
+  color: #000000 !important;
+}
+
+/* Colored accent metrics: ensure punchy, legible contrast */
+html[data-theme="light"] .text-emerald-400,
+html[data-theme="light"] .text-emerald-300 {
+  color: #047857 !important;
+  font-weight: 700;
+}
+
+html[data-theme="light"] .text-\[\#FF3038\],
+html[data-theme="light"] .text-red-400 {
+  color: #DC2626 !important;
+  font-weight: 700;
+}
+
+html[data-theme="light"] .text-amber-400,
+html[data-theme="light"] .text-amber-300 {
+  color: #B45309 !important;
+  font-weight: 700;
+}
+
+html[data-theme="light"] .text-sky-400,
+html[data-theme="light"] .text-sky-300,
+html[data-theme="light"] .text-cyan-400,
+html[data-theme="light"] .text-cyan-300 {
+  color: #0284C7 !important;
+  font-weight: 700;
+}
+
+/* 4. Minimalist Buttons & Pills */
+html[data-theme="light"] .bg-zinc-800,
+html[data-theme="light"] .bg-zinc-900 {
+  background-color: #F4F4F5 !important;
+  color: #000000 !important;
+  border: 1px solid #000000 !important;
 }
 
 html[data-theme="light"] .hover\:bg-\[\#20252A\]:hover,
 html[data-theme="light"] .hover\:bg-\[\#0E1216\]:hover {
-  background-color: #E2E8F0 !important;
+  background-color: #E4E4E7 !important;
+}
+
+/* Minimalist Clean Shadow for Cards */
+html[data-theme="light"] .rounded-2xl.border,
+html[data-theme="light"] .rounded-xl.border {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
 
 html[data-theme="light"] ::-webkit-scrollbar-track {
-  background: rgba(241, 245, 249, 0.9);
+  background: rgba(244, 244, 245, 0.9);
 }
 
 html[data-theme="light"] ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.5);
+  background: rgba(0, 0, 0, 0.3);
 }

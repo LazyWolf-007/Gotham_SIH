@@ -28,9 +28,17 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
     useEffect(() => {
       const img = new Image();
       img.crossOrigin = "anonymous";
-      img.onload = () => setBaseImage(img);
-      img.src = imageSrc;
+      img.onload = () => {
+        setBaseImage(img);
+      };
+      img.src = `${imageSrc}?v=${Date.now()}`;
     }, [imageSrc]);
+
+    useEffect(() => {
+      if (baseImage) {
+        captureTexture();
+      }
+    }, [baseImage, userName]);
 
     const captureTexture = async () => {
       const canvas = document.createElement("canvas");
@@ -40,7 +48,7 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
 
       if (!ctx) return;
 
-      // Draw base card image
+      // Draw base card image (fills entire canvas for front and back mapping)
       if (baseImage) {
         ctx.drawImage(baseImage, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
       } else {
@@ -48,39 +56,18 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
         ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
       }
 
-      // Draw user name / title
-      const displayName = userName || "CHIEF INVESTIGATOR";
-      ctx.fillStyle = textColor;
-      ctx.font = 'bold 50px "Inter", monospace';
-      ctx.textAlign = "right";
-      ctx.textBaseline = "middle";
-
-      const textX = CANVAS_SIZE / 2 - 55;
-      const textY = CANVAS_SIZE - 400;
-      ctx.fillText(displayName.toUpperCase(), textX, textY);
-
-      // Render agency label
-      if (city) {
+      // If user has provided a custom name that differs from default, overlay it smoothly
+      const isCustomName = userName && !["INVESTIGATOR", "CHIEF INVESTIGATOR", "OFFICER-01", "YOUR NAME"].includes(userName.trim().toUpperCase());
+      if (isCustomName) {
+        ctx.fillStyle = "#0a0a0c";
+        // Cover placeholder badge name slot
+        ctx.fillRect(CANVAS_SIZE / 4 - 180, CANVAS_SIZE - 280, 360, 60);
+        
         ctx.fillStyle = textColor;
-        ctx.font = '600 44px "Inter", monospace';
-        ctx.textAlign = "right";
+        ctx.font = 'bold 44px "Inter", sans-serif';
+        ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-
-        const cityTextX = CANVAS_SIZE / 2 - 55;
-        const cityTextY = CANVAS_SIZE - 1226;
-        ctx.fillText(city.toUpperCase(), cityTextX, cityTextY);
-      }
-
-      // Render case label
-      if (date) {
-        ctx.fillStyle = "#38bdf8";
-        ctx.font = 'bold 42px "Inter", monospace';
-        ctx.textAlign = "right";
-        ctx.textBaseline = "middle";
-
-        const dateTextX = CANVAS_SIZE / 2 - 55;
-        const dateTextY = CANVAS_SIZE - 1170;
-        ctx.fillText(date.toUpperCase(), dateTextX, dateTextY);
+        ctx.fillText(userName.toUpperCase(), CANVAS_SIZE / 4, CANVAS_SIZE - 250);
       }
 
       const dataUrl = canvas.toDataURL("image/png");

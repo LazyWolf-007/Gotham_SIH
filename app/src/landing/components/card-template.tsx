@@ -30,9 +30,17 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
     useEffect(() => {
       const img = new Image();
       img.crossOrigin = "anonymous";
-      img.onload = () => setBaseImage(img);
-      img.src = imageSrc;
+      img.onload = () => {
+        setBaseImage(img);
+      };
+      img.src = `${imageSrc}?v=${Date.now()}`;
     }, [imageSrc]);
+
+    useEffect(() => {
+      if (baseImage) {
+        captureTexture();
+      }
+    }, [baseImage, userName]);
 
     const captureTexture = async () => {
       const canvas = document.createElement("canvas");
@@ -42,58 +50,26 @@ const CardTemplate = forwardRef<CardTemplateRef, CardTemplateProps>(
       
       if (!ctx) return;
 
-      // Draw base card image (fills entire canvas)
+      // Draw base card image (fills entire canvas for front and back mapping)
       if (baseImage) {
         ctx.drawImage(baseImage, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
       } else {
-        // Fallback black background if image not loaded
-        ctx.fillStyle = "#000000";
+        ctx.fillStyle = "#090d16";
         ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
       }
 
-      // Draw user name at the bottom left area (below the geometric pattern)
-      const displayName = userName || "YOUR NAME";
-      ctx.fillStyle = textColor;
-      ctx.font = 'normal 48px "Geist Mono", monospace';
-      ctx.textAlign = "right";
-      ctx.textBaseline = "middle";
-      
-      const textX = (CANVAS_SIZE / 2) - 55;
-      const textY = CANVAS_SIZE - 400;
-      ctx.fillText(displayName.toUpperCase(), textX, textY);
-
-      // Render city label
-      if (city) {
-        const cityRender = canvas.getContext("2d");
-
-        if (!cityRender) return;
-
-        cityRender.fillStyle = textColor;
-        cityRender.font = 'normal 48px "Geist Mono", monospace';
-        cityRender.textAlign = "right";
-        cityRender.textBaseline = "middle";
-
-        const cityTextX = (CANVAS_SIZE / 2) - 55;
-        const cityTextY = CANVAS_SIZE - 1226;
-        cityRender.fillText(city.toUpperCase(), cityTextX, cityTextY);
+      // If user has provided a custom name that differs from default, overlay it smoothly
+      const isCustomName = userName && !["INVESTIGATOR", "CHIEF INVESTIGATOR", "OFFICER-01", "YOUR NAME"].includes(userName.trim().toUpperCase());
+      if (isCustomName) {
+        ctx.fillStyle = "#0a0a0c";
+        ctx.fillRect(CANVAS_SIZE / 4 - 180, CANVAS_SIZE - 280, 360, 60);
+        
+        ctx.fillStyle = textColor;
+        ctx.font = 'bold 44px "Inter", sans-serif';
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(userName.toUpperCase(), CANVAS_SIZE / 4, CANVAS_SIZE - 250);
       }
-
-      // Render date label
-      if (date) {
-        const dateRender = canvas.getContext("2d");
-
-        if (!dateRender) return;
-
-        dateRender.fillStyle = '#878787';
-        dateRender.font = 'normal 48px "Geist Mono", monospace';
-        dateRender.textAlign = "right";
-        dateRender.textBaseline = "middle";
-
-        const dateTextX = (CANVAS_SIZE / 2) - 55;
-        const dateTextY = CANVAS_SIZE - 1170;
-        dateRender.fillText(date.toUpperCase(), dateTextX, dateTextY);
-      }
-
 
       const dataUrl = canvas.toDataURL("image/png");
       onTextureReady(dataUrl);

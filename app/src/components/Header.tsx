@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { GraphKernel, ObjectType } from "../types";
 import { CaseSelector } from "./case/CaseSelector";
+import { useCase } from "../context/CaseContext";
+import { filterCaseScopedNetwork } from "../lib/entityAdapter";
 import {
   Search,
   User,
@@ -39,14 +41,28 @@ export const Header: React.FC<HeaderProps> = ({
   theme = "dark",
   onToggleTheme,
 }) => {
+  const { activeCase } = useCase();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
-  const meta = kernel?.meta;
-  const personCount = meta?.object_counts?.Person || 80;
-  const phoneCount = meta?.object_counts?.Phone || 40;
-  const accCount = meta?.object_counts?.Account || 30;
-  const firCount = meta?.object_counts?.FIR || 60;
+  // Derive real case-scoped counts dynamically based on active case
+  const caseScopedData = React.useMemo(() => {
+    if (!kernel) return null;
+    return filterCaseScopedNetwork(activeCase.id, kernel.nodes, kernel.edges);
+  }, [activeCase.id, kernel]);
+
+  const personCount = caseScopedData
+    ? caseScopedData.nodes.filter((n) => n.type === "Person").length
+    : kernel?.meta?.object_counts?.Person || 0;
+  const phoneCount = caseScopedData
+    ? caseScopedData.nodes.filter((n) => n.type === "Phone").length
+    : kernel?.meta?.object_counts?.Phone || 0;
+  const accCount = caseScopedData
+    ? caseScopedData.nodes.filter((n) => n.type === "Account").length
+    : kernel?.meta?.object_counts?.Account || 0;
+  const firCount = caseScopedData
+    ? caseScopedData.nodes.filter((n) => n.type === "FIR").length
+    : kernel?.meta?.object_counts?.FIR || 0;
 
   // Search Results preview
   const searchResults = React.useMemo(() => {
@@ -87,8 +103,8 @@ export const Header: React.FC<HeaderProps> = ({
             <span className={`font-sans font-black text-xl tracking-[0.1em] leading-none group-hover:text-[#FF3038] transition-colors ${isLight ? "text-slate-900" : "text-white"}`}>
               JAAL
             </span>
-            <span className={`text-[10px] tracking-[0.2em] font-mono font-medium uppercase mt-0.5 ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
-              OPERATION GREY LEDGER
+            <span className={`text-[10px] tracking-[0.2em] font-mono font-medium uppercase mt-0.5 truncate max-w-[180px] ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
+              {activeCase.name || "NATIONAL INTELLIGENCE"}
             </span>
           </div>
         </div>

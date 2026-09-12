@@ -250,10 +250,10 @@ function Band({maxSpeed = 50, minSpeed = 0, isMobile = false, cardTextureUrl}: B
                             <meshPhysicalMaterial
                                 map={cardTextureUrl && customCardTexture ? customCardTexture : materials.base.map}
                                 map-anisotropy={16}
-                                clearcoat={isMobile ? 0 : 1}
-                                clearcoatRoughness={0.15}
-                                roughness={0.9}
-                                metalness={0.8}
+                                clearcoat={isMobile ? 0 : 0.8}
+                                clearcoatRoughness={0.1}
+                                roughness={0.35}
+                                metalness={0.1}
                             />
                         </mesh>
                         <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3}/>

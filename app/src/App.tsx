@@ -1,10 +1,13 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { GraphKernel, GraphEdge, FilterState, CutResult, ObjectType, LinkType, OBJECT_TYPES, LINK_TYPES } from "./types";
 import { fetchGraphKernel, runCutSimulation } from "./lib/api";
+import { filterCaseScopedNetwork } from "./lib/entityAdapter";
 import LandingPage from "./landing/LandingPage";
 import { Header } from "./components/Header";
 import { DemoScriptTour } from "./components/DemoScriptTour";
 import { GraphCanvas } from "./canvas/GraphCanvas";
+import { GlobeCanvas } from "./canvas/GlobeCanvas";
+import { GeoMap2DCanvas } from "./canvas/GeoMap2DCanvas";
 import { SidebarNav, SidebarTab } from "./components/SidebarNav";
 import { DetectedPatternsRow } from "./components/patterns/DetectedPatternsRow";
 import { CaseManagementView } from "./components/case/CaseManagementView";
@@ -62,6 +65,7 @@ function WorkbenchContent() {
   const [colorByCommunity, setColorByCommunity] = useState<boolean>(false);
   const [showLabels, setShowLabels] = useState<boolean>(true);
   const [activePattern, setActivePattern] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<"3d" | "2d">("3d");
 
   // Theme state: Persisted in localStorage ("dark" | "light")
   const [theme, setTheme] = useState<"dark" | "light">(() => {
@@ -176,6 +180,42 @@ function WorkbenchContent() {
     init();
   }, [user, token, activeCase.id]);
 
+  // Case-Scoped Graph Network (Source of truth: selected activeCase)
+  const caseScopedData = useMemo(() => {
+    if (!kernel) return { nodes: [], edges: [] };
+    const scoped = filterCaseScopedNetwork(activeCase.id, kernel.nodes, kernel.edges);
+    const nodes = scoped.nodes.map((an) => {
+      const raw = kernel.nodes.find((kn) => kn.id === an.id);
+      return (
+        raw || {
+          id: an.id,
+          type: an.type,
+          label: an.label,
+          attributes: an.attributes,
+          metrics: an.metrics,
+        }
+      );
+    });
+    const edges = scoped.edges.map((ae) => ae.raw);
+    return { nodes, edges };
+  }, [activeCase.id, kernel]);
+
+  // Automatically synchronize selectedNodeId and Dossier to the primary target of the selected case
+  useEffect(() => {
+    if (!caseScopedData.nodes.length) return;
+    const currentStillValid = caseScopedData.nodes.some((n) => n.id === selectedNodeId);
+    if (!currentStillValid) {
+      const primaryNode =
+        caseScopedData.nodes.find((n) => n.id === "person:naveen_bhatia" || n.id === "person:p71" || n.id === "person:p38") ||
+        caseScopedData.nodes.find((n) => n.type === "Person") ||
+        caseScopedData.nodes[0];
+      if (primaryNode) {
+        setSelectedNodeId(primaryNode.id);
+        setSelectedEdge(null);
+      }
+    }
+  }, [activeCase.id, caseScopedData.nodes, selectedNodeId]);
+
   // Selected Node data accessor
   const selectedNode = useMemo(() => {
     if (!kernel || !selectedNodeId) return null;
@@ -245,7 +285,10 @@ function WorkbenchContent() {
     } else {
       return (
         <LoginScreen
-          onBackToLanding={() => navigateTo("landing")}
+          onBackToLanding={() => {
+            navigateTo("landing");
+            window.history.replaceState({ page: "landing" }, "", "/");
+          }}
           onLoginSuccess={() => navigateTo("workbench")}
         />
       );
@@ -393,6 +436,7 @@ function WorkbenchContent() {
             onGenerateReport={() => {
               setIsGlobalReportModalOpen(true);
             }}
+            theme={theme}
           />
         ) : sidebarTab === "cases" ? (
           <CaseManagementView
@@ -410,6 +454,7 @@ function WorkbenchContent() {
             onOpenAnalytics={() => setSidebarTab("analytics")}
             onOpenScenarios={() => setSidebarTab("scenarios")}
             onOpenDossier={() => setSidebarTab("dossier")}
+            theme={theme}
           />
         ) : sidebarTab === "evidence" ? (
           <EvidenceView
@@ -422,6 +467,7 @@ function WorkbenchContent() {
             }}
             onOpenTimeline={() => setSidebarTab("timeline")}
             onOpenDossier={() => setSidebarTab("dossier")}
+            theme={theme}
           />
         ) : sidebarTab === "dossier" ? (
           <DossierView
@@ -438,6 +484,7 @@ function WorkbenchContent() {
               setSidebarTab("graph");
               setActiveTab("dossier");
             }}
+            theme={theme}
           />
         ) : sidebarTab === "timeline" ? (
           <TimelineView
@@ -449,6 +496,7 @@ function WorkbenchContent() {
               setActiveTab("dossier");
             }}
             onOpenEvidence={() => setSidebarTab("evidence")}
+            theme={theme}
           />
         ) : sidebarTab === "analytics" ? (
           <AnalyticsView
@@ -475,6 +523,7 @@ function WorkbenchContent() {
               setActivePattern(patternId);
               setSidebarTab("graph");
             }}
+            theme={theme}
           />
         ) : sidebarTab === "communities" ? (
           <CommunitiesView
@@ -510,135 +559,95 @@ function WorkbenchContent() {
             }}
           />
         ) : (
-          /* Default Network Overview / Graph Canvas Stage */
+          /* Default Network Overview / Graph Canvas Stage (Strictly 2 Modes: 3D Globe & 2D Geographic) */
           <div className="flex-1 flex flex-col p-3 gap-2.5 bg-[#050607] overflow-hidden min-w-0">
-            {/* Breadcrumbs & Layout Bar */}
+            {/* Breadcrumbs & Mode Switcher Bar */}
             <div className="flex items-center justify-between px-1 text-xs select-none shrink-0">
               <div className="flex items-center gap-2 font-mono">
                 <span
                   className="text-[#858B92] font-medium hover:text-white cursor-pointer transition-colors"
                   onClick={() => navigateTo("landing")}
                 >
-                  Operation Grey Ledger
+                  {activeCase.name}
                 </span>
                 <span className="text-[#555C63]">›</span>
-                <span className="text-white font-semibold tracking-wide">Network Overview</span>
+                <span className="text-white font-semibold tracking-wide">
+                  {viewMode === "3d" ? "3D Case Intelligence Globe" : "2D Geographic Intelligence Map"}
+                </span>
               </div>
 
-              <div className="flex items-center gap-2">
-                {/* Quick Link Filters: All / Calls / Money */}
+              <div className="flex items-center gap-3">
+                {/* STRICTLY ONLY TWO VISUAL MODES: 3D Globe / 2D Geographic */}
                 <div className="flex items-center bg-[#0E1216] border border-[#20252A] rounded-lg p-0.5 text-[11px] font-mono">
                   <button
-                    onClick={() =>
-                      setFilterState((prev) => ({
-                        ...prev,
-                        selectedLinkTypes: new Set(LINK_TYPES as any),
-                        selectedObjectTypes: new Set(OBJECT_TYPES as any),
-                      }))
-                    }
-                    className={`px-2 py-0.5 rounded cursor-pointer transition-colors ${
-                      filterState.selectedLinkTypes.size > 2
-                        ? "bg-[#20252A] text-white font-bold"
+                    onClick={() => setViewMode("3d")}
+                    className={`px-3 py-1 rounded cursor-pointer transition-colors flex items-center gap-1.5 font-bold ${
+                      viewMode === "3d"
+                        ? "bg-[#E21B23] text-white shadow-sm"
                         : "text-[#858B92] hover:text-white"
                     }`}
                   >
-                    All
+                    <span>3D Globe</span>
                   </button>
                   <button
-                    onClick={() =>
-                      setFilterState((prev) => ({
-                        ...prev,
-                        selectedLinkTypes: new Set(["CALLED"]),
-                        selectedObjectTypes: new Set(["Person", "Phone"]),
-                      }))
-                    }
-                    className={`px-2 py-0.5 rounded cursor-pointer transition-colors ${
-                      filterState.selectedLinkTypes.size === 1 && filterState.selectedLinkTypes.has("CALLED")
-                        ? "bg-sky-950/80 text-sky-300 border border-sky-600/50 font-bold"
+                    onClick={() => setViewMode("2d")}
+                    className={`px-3 py-1 rounded cursor-pointer transition-colors flex items-center gap-1.5 font-bold ${
+                      viewMode === "2d"
+                        ? "bg-[#E21B23] text-white shadow-sm"
                         : "text-[#858B92] hover:text-white"
                     }`}
                   >
-                    Calls
-                  </button>
-                  <button
-                    onClick={() =>
-                      setFilterState((prev) => ({
-                        ...prev,
-                        selectedLinkTypes: new Set(["PAID"]),
-                        selectedObjectTypes: new Set(["Person", "Account", "Organization"]),
-                      }))
-                    }
-                    className={`px-2 py-0.5 rounded cursor-pointer transition-colors ${
-                      filterState.selectedLinkTypes.size === 1 && filterState.selectedLinkTypes.has("PAID")
-                        ? "bg-emerald-950/80 text-emerald-300 border border-emerald-600/50 font-bold"
-                        : "text-[#858B92] hover:text-white"
-                    }`}
-                  >
-                    Money
+                    <span>2D Geographic</span>
                   </button>
                 </div>
 
-                {/* Layout Dropdown */}
-                <select
-                  value={layoutName}
-                  onChange={(e) => setLayoutName(e.target.value)}
-                  className="bg-[#0E1216] border border-[#20252A] text-slate-300 text-[11px] rounded-lg px-2.5 py-1 font-mono outline-none hover:border-[#384048] transition-colors cursor-pointer"
-                >
-                  <option value="cose">Force Directed (CoSE)</option>
-                  <option value="concentric">Concentric Centrality</option>
-                  <option value="breadthfirst">Hierarchical Flow</option>
-                  <option value="circle">Circular Ring</option>
-                  <option value="grid">Orthogonal Grid</option>
-                </select>
-
-                {/* Community Toggle */}
-                <button
-                  onClick={() => setColorByCommunity((prev) => !prev)}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-mono border transition-all cursor-pointer ${
-                    colorByCommunity
-                      ? "bg-purple-950/60 border-purple-500/60 text-purple-300 shadow-sm"
-                      : "bg-[#0E1216] border-[#20252A] text-[#858B92] hover:text-white"
-                  }`}
-                >
-                  Communities
-                </button>
-
                 <div className="flex items-center gap-1.5 text-[11px] text-[#858B92] font-mono ml-1">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                  <span className="tracking-wider hidden xl:inline">ACTIVE GRAPH</span>
+                  <span className="tracking-wider hidden xl:inline">
+                    {viewMode === "3d" ? "3D WEBGL ENGINE" : "2D FLAT EARTH"}
+                  </span>
                 </div>
               </div>
             </div>
 
-            {/* Cytoscape Canvas Container */}
-            <div className="flex-1 rounded-2xl border border-[#20252A] overflow-hidden relative bg-[#050607] shadow-2xl">
-              <GraphCanvas
-                nodes={kernel.nodes}
-                edges={kernel.edges}
-                selectedNodeId={selectedNodeId}
-                onSelectNode={(nid) => {
-                  setSelectedNodeId(nid);
-                  setSelectedEdge(null);
-                }}
-                selectedEdgeId={selectedEdge ? `${selectedEdge.source}-${selectedEdge.target}-${selectedEdge.type}` : null}
-                onSelectEdge={(edge) => {
-                  setSelectedEdge(edge);
-                  setSelectedNodeId(null);
-                }}
-                filterState={filterState}
-                colorByCommunity={colorByCommunity}
-                activePattern={activePattern}
-                patterns={kernel.patterns}
-                arrestTarget={arrestTarget}
-                arrestCutResult={arrestCutResult}
-                highlightedNodeIds={highlightedNodeIds}
-                layoutName={layoutName}
-                onLayoutChange={(layout) => setLayoutName(layout)}
-                showLabels={showLabels}
-                onResetView={resetFilters}
-                onClearPattern={() => setActivePattern(null)}
-                onClearArrest={() => setArrestTarget(null)}
-              />
+            {/* Main Center Canvas Container */}
+            <div className={`flex-1 rounded-2xl border overflow-hidden relative shadow-2xl transition-colors duration-200 ${isLight ? "bg-white border-black" : "bg-[#050607] border-[#20252A]"}`}>
+              {viewMode === "3d" ? (
+                <GlobeCanvas
+                  caseId={activeCase.id}
+                  caseName={activeCase.name}
+                  caseAgency={activeCase.agency}
+                  caseStatus={activeCase.status}
+                  casePriority={activeCase.priority}
+                  nodes={caseScopedData.nodes}
+                  edges={caseScopedData.edges}
+                  selectedNodeId={selectedNodeId}
+                  onSelectNode={(nid) => {
+                    setSelectedNodeId(nid);
+                    setSelectedEdge(null);
+                  }}
+                  theme={theme}
+                  onOpenDossier={() => setSidebarTab("dossier")}
+                  onOpenTimeline={() => setSidebarTab("timeline")}
+                  onOpenEvidence={() => setSidebarTab("evidence")}
+                  onResetFilters={resetFilters}
+                />
+              ) : (
+                <GeoMap2DCanvas
+                  caseId={activeCase.id}
+                  caseName={activeCase.name}
+                  caseAgency={activeCase.agency}
+                  nodes={caseScopedData.nodes}
+                  edges={caseScopedData.edges}
+                  selectedNodeId={selectedNodeId}
+                  onSelectNode={(nid) => {
+                    setSelectedNodeId(nid);
+                    setSelectedEdge(null);
+                  }}
+                  theme={theme}
+                  onOpenDossier={() => setSidebarTab("dossier")}
+                />
+              )}
 
               {/* Sacred Demo Tour Guide Floating Overlay */}
               <DemoScriptTour
@@ -656,69 +665,72 @@ function WorkbenchContent() {
                   setActivePattern(next);
                   setFilterState((prev) => ({ ...prev, activePattern: next }));
                 }}
+                theme={theme}
               />
             </div>
           </div>
         )}
 
-        {/* Column 3: Right Intelligence Dossier / Timeline / Copilot Panel */}
-        <div className="w-[380px] xl:w-[420px] h-full flex flex-col z-20 border-l border-[#20252A] shadow-2xl bg-[#050607] shrink-0">
-          {activeTab === "dossier" && (
-            <DossierPanel
-              node={selectedNode}
-              selectedEdge={selectedEdge}
-              incidentEdges={incidentEdges}
-              onSelectNeighbor={(nid) => {
-                setSelectedNodeId(nid);
-                setSelectedEdge(null);
-              }}
-              onIsolateNeighborhood={handleIsolateNeighborhood}
-              onRunArrestSimulation={handleRunArrestSimulation}
-              onAskCopilot={handleAskCopilot}
-              onRunScenario={() => setSidebarTab("scenarios")}
-              patterns={kernel.patterns}
-            />
-          )}
-
-          {activeTab === "timeline" && (
-            <TimelinePanel
-              edges={kernel.edges}
-              nodes={kernel.nodes}
-              onSelectEvent={(src, tgt, rawEdge) => {
-                if (rawEdge) {
-                  setSelectedEdge(rawEdge);
-                  setSelectedNodeId(null);
-                } else {
-                  setSelectedNodeId(src);
+        {/* Column 3: Right Intelligence Dossier / Timeline / Copilot Panel (Only shown on Graph view) */}
+        {sidebarTab === "graph" && (
+          <div className={`w-[380px] xl:w-[420px] h-full flex flex-col z-20 border-l shadow-2xl shrink-0 transition-colors duration-200 ${isLight ? "bg-white border-black text-black" : "bg-[#050607] border-[#20252A] text-white"}`}>
+            {activeTab === "dossier" && (
+              <DossierPanel
+                node={selectedNode}
+                selectedEdge={selectedEdge}
+                incidentEdges={incidentEdges}
+                onSelectNeighbor={(nid) => {
+                  setSelectedNodeId(nid);
                   setSelectedEdge(null);
-                }
-              }}
-              onFilterAfterTime={(time) =>
-                setFilterState((prev) => ({ ...prev, timeWindowStart: time }))
-              }
-              selectedTimeFilter={filterState.timeWindowStart}
-            />
-          )}
+                }}
+                onIsolateNeighborhood={handleIsolateNeighborhood}
+                onRunArrestSimulation={handleRunArrestSimulation}
+                onAskCopilot={handleAskCopilot}
+                onRunScenario={() => setSidebarTab("scenarios")}
+                patterns={kernel.patterns}
+              />
+            )}
 
-          {activeTab === "copilot" && (
-            <CopilotPanel
-              selectedNodeId={selectedNodeId}
-              nodes={kernel.nodes}
-              onHighlightNodes={(nids) => setHighlightedNodeIds(nids)}
-              onSelectNode={(nid) => {
-                setSelectedNodeId(nid);
-                setSelectedEdge(null);
-              }}
-              onOpenTimeline={() => setSidebarTab("timeline")}
-              onOpenEvidence={() => setSidebarTab("evidence")}
-              onOpenDossier={() => setSidebarTab("dossier")}
-              onOpenGraph={(focusId) => {
-                if (focusId) setSelectedNodeId(focusId);
-                setSidebarTab("graph");
-              }}
-            />
-          )}
-        </div>
+            {activeTab === "timeline" && (
+              <TimelinePanel
+                edges={kernel.edges}
+                nodes={kernel.nodes}
+                onSelectEvent={(src, tgt, rawEdge) => {
+                  if (rawEdge) {
+                    setSelectedEdge(rawEdge);
+                    setSelectedNodeId(null);
+                  } else {
+                    setSelectedNodeId(src);
+                    setSelectedEdge(null);
+                  }
+                }}
+                onFilterAfterTime={(time) =>
+                  setFilterState((prev) => ({ ...prev, timeWindowStart: time }))
+                }
+                selectedTimeFilter={filterState.timeWindowStart}
+              />
+            )}
+
+            {activeTab === "copilot" && (
+              <CopilotPanel
+                selectedNodeId={selectedNodeId}
+                nodes={kernel.nodes}
+                onHighlightNodes={(nids) => setHighlightedNodeIds(nids)}
+                onSelectNode={(nid) => {
+                  setSelectedNodeId(nid);
+                  setSelectedEdge(null);
+                }}
+                onOpenTimeline={() => setSidebarTab("timeline")}
+                onOpenEvidence={() => setSidebarTab("evidence")}
+                onOpenDossier={() => setSidebarTab("dossier")}
+                onOpenGraph={(focusId) => {
+                  if (focusId) setSelectedNodeId(focusId);
+                  setSidebarTab("graph");
+                }}
+              />
+            )}
+          </div>
+        )}
       </div>
 
       {/* Official Investigation Report Dossier Modal */}

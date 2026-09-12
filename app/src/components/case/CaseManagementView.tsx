@@ -42,6 +42,7 @@ interface CaseManagementViewProps {
   onOpenAnalytics: () => void;
   onOpenScenarios: () => void;
   onOpenDossier: () => void;
+  theme?: "dark" | "light";
 }
 
 export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
@@ -52,7 +53,9 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
   onOpenAnalytics,
   onOpenScenarios,
   onOpenDossier,
+  theme = "dark",
 }) => {
+  const isLight = theme === "light";
   const {
     activeCase,
     cases,
@@ -213,9 +216,17 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
   ];
 
   return (
-    <div className="flex-1 h-full flex flex-col bg-[#050607] text-[#F2F2F2] overflow-y-auto select-none font-sans p-6 gap-6">
+    <div
+      className={`flex-1 h-full flex flex-col overflow-y-auto select-none font-sans p-6 gap-6 transition-colors duration-200 ${
+        isLight ? "bg-[#FAFAFA] text-slate-900" : "bg-[#050607] text-[#F2F2F2]"
+      }`}
+    >
       {/* Top Header & Breadcrumbs */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#20252A] shrink-0">
+      <div
+        className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b shrink-0 ${
+          isLight ? "border-slate-200" : "border-[#20252A]"
+        }`}
+      >
         <div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-mono tracking-[0.2em] text-[#E21B23] uppercase font-bold">
@@ -320,7 +331,11 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
                   }}
                   className={`p-4 rounded-xl border transition-all cursor-pointer relative ${
                     isSelected
-                      ? "bg-[#0E1216] border-[#E21B23]/70 shadow-[0_0_20px_rgba(226,27,35,0.15)]"
+                      ? isLight
+                        ? "bg-red-50/70 border-red-500 shadow-sm"
+                        : "bg-[#0E1216] border-[#E21B23]/70 shadow-[0_0_20px_rgba(226,27,35,0.15)]"
+                      : isLight
+                      ? "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50 shadow-sm"
                       : "bg-[#0A0D10] border-[#20252A] hover:border-[#384048] hover:bg-[#0E1216]"
                   }`}
                 >
@@ -331,27 +346,41 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
 
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-xs font-mono font-bold text-[#E21B23]">
                           {c.id}
                         </span>
                         <ProvenanceBadge type={c.isPrototypeRecord ? "LOCAL PROTOTYPE" : "BACKEND DATA"} />
                         {isActiveWorkspace && (
-                          <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-[#E21B23]/20 border border-[#E21B23]/40 text-[#FF3038] uppercase">
+                          <span
+                            className={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded uppercase border ${
+                              isLight
+                                ? "bg-red-100 border-red-300 text-red-700"
+                                : "bg-[#E21B23]/20 border-[#E21B23]/40 text-[#FF3038]"
+                            }`}
+                          >
                             ACTIVE
                           </span>
                         )}
                       </div>
-                      <h3 className="text-base font-bold text-white mt-1">{c.name}</h3>
+                      <h3 className={`text-base font-bold mt-1 ${isLight ? "text-slate-900" : "text-white"}`}>
+                        {c.name}
+                      </h3>
                     </div>
 
                     <div className="flex flex-col items-end gap-1 shrink-0">
                       <span
                         className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded border uppercase ${
                           c.status === "ACTIVE"
-                            ? "bg-emerald-950/40 border-emerald-800/60 text-emerald-400"
+                            ? isLight
+                              ? "bg-emerald-50 border-emerald-300 text-emerald-700"
+                              : "bg-emerald-950/40 border-emerald-800/60 text-emerald-400"
                             : c.status === "UNDER REVIEW"
-                            ? "bg-amber-950/40 border-amber-800/60 text-amber-400"
+                            ? isLight
+                              ? "bg-amber-50 border-amber-300 text-amber-800"
+                              : "bg-amber-950/40 border-amber-800/60 text-amber-400"
+                            : isLight
+                            ? "bg-slate-100 border-slate-300 text-slate-700"
                             : "bg-zinc-900 border-zinc-700 text-zinc-400"
                         }`}
                       >
@@ -371,11 +400,15 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
                     </div>
                   </div>
 
-                  <p className="text-xs text-[#858B92] line-clamp-2 mt-2 leading-relaxed">
+                  <p className={`text-xs line-clamp-2 mt-2 leading-relaxed ${isLight ? "text-slate-600" : "text-[#858B92]"}`}>
                     {c.summary}
                   </p>
 
-                  <div className="grid grid-cols-2 gap-2 mt-3 pt-3 border-t border-[#20252A] text-[11px] font-mono text-[#858B92]">
+                  <div
+                    className={`grid grid-cols-2 gap-2 mt-3 pt-3 border-t text-[11px] font-mono ${
+                      isLight ? "border-slate-200 text-slate-500" : "border-[#20252A] text-[#858B92]"
+                    }`}
+                  >
                     <div className="flex items-center gap-1.5">
                       <Building className="w-3.5 h-3.5 text-[#555C63]" />
                       <span className="truncate">{c.agency}</span>
@@ -392,18 +425,32 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
         </div>
 
         {/* Right: Case Workspace (7 Cols) */}
-        <div className="lg:col-span-7 bg-[#0E1216] border border-[#20252A] rounded-2xl p-6 flex flex-col gap-5">
+        <div
+          className={`lg:col-span-7 border rounded-2xl p-6 flex flex-col gap-5 ${
+            isLight ? "bg-white border-slate-200 shadow-sm" : "bg-[#0E1216] border-[#20252A]"
+          }`}
+        >
           {/* Workspace Header */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b border-[#20252A]">
+          <div
+            className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-4 border-b ${
+              isLight ? "border-slate-200" : "border-[#20252A]"
+            }`}
+          >
             <div>
-              <div className="flex items-center gap-2 font-mono text-xs text-[#858B92]">
+              <div
+                className={`flex items-center gap-2 font-mono text-xs ${
+                  isLight ? "text-slate-500" : "text-[#858B92]"
+                }`}
+              >
                 <span className="text-[#E21B23] font-bold">{selectedCaseDetail.id}</span>
                 <span>•</span>
-                <span className="text-white font-semibold">{selectedCaseDetail.priority} PRIORITY</span>
+                <span className={`font-semibold ${isLight ? "text-slate-900" : "text-white"}`}>
+                  {selectedCaseDetail.priority} PRIORITY
+                </span>
                 <span>•</span>
                 <span>REGISTERED {selectedCaseDetail.createdDate}</span>
               </div>
-              <h2 className="text-xl font-bold text-white mt-1">
+              <h2 className={`text-xl font-bold mt-1 ${isLight ? "text-slate-900" : "text-white"}`}>
                 {selectedCaseDetail.name}
               </h2>
             </div>
@@ -419,7 +466,11 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
           </div>
 
           {/* Workspace Sub-Tabs (All 8 Required Tabs) */}
-          <div className="flex items-center gap-1.5 border-b border-[#20252A] pb-2 text-xs font-mono overflow-x-auto">
+          <div
+            className={`flex items-center gap-1.5 border-b pb-2 text-xs font-mono overflow-x-auto ${
+              isLight ? "border-slate-200" : "border-[#20252A]"
+            }`}
+          >
             {(
               [
                 "overview",
@@ -438,7 +489,7 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
                   <button
                     key={tab}
                     onClick={() => onOpenCaseNetwork(selectedCaseDetail.id)}
-                    className="px-3 py-1.5 rounded-lg uppercase tracking-wider text-[#E21B23] hover:text-[#FF3038] hover:bg-[#20252A] font-bold transition-all flex items-center gap-1"
+                    className="px-3 py-1.5 rounded-lg uppercase tracking-wider text-[#E21B23] hover:text-[#FF3038] hover:bg-slate-100 font-bold transition-all flex items-center gap-1 cursor-pointer"
                   >
                     <span>Network</span>
                     <ExternalLink className="w-3 h-3" />
@@ -450,7 +501,7 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
                   <button
                     key={tab}
                     onClick={onOpenScenarios}
-                    className="px-3 py-1.5 rounded-lg uppercase tracking-wider text-amber-400 hover:text-amber-300 hover:bg-[#20252A] font-bold transition-all flex items-center gap-1"
+                    className="px-3 py-1.5 rounded-lg uppercase tracking-wider text-amber-600 hover:text-amber-700 hover:bg-slate-100 font-bold transition-all flex items-center gap-1 cursor-pointer"
                   >
                     <span>Scenarios</span>
                     <Scissors className="w-3 h-3" />
@@ -464,7 +515,11 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
                   onClick={() => setActiveWorkspaceTab(tab)}
                   className={`px-3 py-1.5 rounded-lg uppercase tracking-wider transition-all cursor-pointer ${
                     activeWorkspaceTab === tab
-                      ? "bg-[#20252A] text-white font-bold border border-[#384048]"
+                      ? isLight
+                        ? "bg-slate-100 text-slate-900 font-bold border border-slate-300"
+                        : "bg-[#20252A] text-white font-bold border border-[#384048]"
+                      : isLight
+                      ? "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
                       : "text-[#858B92] hover:text-white"
                   }`}
                 >
@@ -478,56 +533,142 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
           {activeWorkspaceTab === "overview" && (
             <div className="space-y-4 text-xs">
               {/* Case Summary Card */}
-              <div className="p-4 rounded-xl bg-[#0A0D10] border border-[#20252A] space-y-2">
-                <span className="text-[10px] font-mono text-[#858B92] uppercase font-bold tracking-wider">
+              <div
+                className={`p-4 rounded-xl border space-y-2 ${
+                  isLight ? "bg-slate-50 border-slate-200" : "bg-[#0A0D10] border-[#20252A]"
+                }`}
+              >
+                <span
+                  className={`text-[10px] font-mono uppercase font-bold tracking-wider ${
+                    isLight ? "text-slate-500" : "text-[#858B92]"
+                  }`}
+                >
                   CASE INTELLIGENCE SUMMARY
                 </span>
-                <p className="text-[#F2F2F2] leading-relaxed">
+                <p className={`leading-relaxed ${isLight ? "text-slate-700" : "text-[#F2F2F2]"}`}>
                   {selectedCaseDetail.summary}
                 </p>
-                <div className="text-[11px] font-mono text-[#858B92] pt-2 flex items-center gap-4">
+                <div
+                  className={`text-[11px] font-mono pt-2 flex items-center gap-4 ${
+                    isLight ? "text-slate-500" : "text-[#858B92]"
+                  }`}
+                >
                   <span>
-                    Assigned Officer: <strong className="text-white">{selectedCaseDetail.leadOfficer}</strong>
+                    Assigned Officer:{" "}
+                    <strong className={isLight ? "text-slate-900" : "text-white"}>
+                      {selectedCaseDetail.leadOfficer}
+                    </strong>
                   </span>
                   <span>
-                    Agency: <strong className="text-white">{selectedCaseDetail.agency}</strong>
+                    Agency:{" "}
+                    <strong className={isLight ? "text-slate-900" : "text-white"}>
+                      {selectedCaseDetail.agency}
+                    </strong>
                   </span>
                 </div>
               </div>
 
               {/* Statistics Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="p-3 rounded-xl bg-[#050607] border border-[#20252A]">
-                  <div className="text-[10px] font-mono text-[#858B92] uppercase">Subjects</div>
-                  <div className="text-lg font-bold text-white font-mono mt-0.5">{totalPersons}</div>
-                  <div className="text-[10px] text-[#555C63]">Identified Persons</div>
+                <div
+                  className={`p-3 rounded-xl border ${
+                    isLight ? "bg-slate-50 border-slate-200" : "bg-[#050607] border-[#20252A]"
+                  }`}
+                >
+                  <div
+                    className={`text-[10px] font-mono uppercase ${
+                      isLight ? "text-slate-500" : "text-[#858B92]"
+                    }`}
+                  >
+                    Subjects
+                  </div>
+                  <div
+                    className={`text-lg font-bold font-mono mt-0.5 ${
+                      isLight ? "text-slate-900" : "text-white"
+                    }`}
+                  >
+                    {totalPersons}
+                  </div>
+                  <div className={`text-[10px] ${isLight ? "text-slate-500" : "text-[#555C63]"}`}>
+                    Identified Persons
+                  </div>
                 </div>
-                <div className="p-3 rounded-xl bg-[#050607] border border-[#20252A]">
-                  <div className="text-[10px] font-mono text-[#858B92] uppercase">Accounts</div>
-                  <div className="text-lg font-bold text-emerald-400 font-mono mt-0.5">{totalAccounts}</div>
-                  <div className="text-[10px] text-[#555C63]">Financial Conduits</div>
+                <div
+                  className={`p-3 rounded-xl border ${
+                    isLight ? "bg-slate-50 border-slate-200" : "bg-[#050607] border-[#20252A]"
+                  }`}
+                >
+                  <div
+                    className={`text-[10px] font-mono uppercase ${
+                      isLight ? "text-slate-500" : "text-[#858B92]"
+                    }`}
+                  >
+                    Accounts
+                  </div>
+                  <div className="text-lg font-bold text-emerald-600 dark:text-emerald-400 font-mono mt-0.5">
+                    {totalAccounts}
+                  </div>
+                  <div className={`text-[10px] ${isLight ? "text-slate-500" : "text-[#555C63]"}`}>
+                    Financial Conduits
+                  </div>
                 </div>
-                <div className="p-3 rounded-xl bg-[#050607] border border-[#20252A]">
-                  <div className="text-[10px] font-mono text-[#858B92] uppercase">FIR Filings</div>
-                  <div className="text-lg font-bold text-[#FF3038] font-mono mt-0.5">{totalFIRs}</div>
-                  <div className="text-[10px] text-[#555C63]">Official Filings</div>
+                <div
+                  className={`p-3 rounded-xl border ${
+                    isLight ? "bg-slate-50 border-slate-200" : "bg-[#050607] border-[#20252A]"
+                  }`}
+                >
+                  <div
+                    className={`text-[10px] font-mono uppercase ${
+                      isLight ? "text-slate-500" : "text-[#858B92]"
+                    }`}
+                  >
+                    FIR Filings
+                  </div>
+                  <div className="text-lg font-bold text-[#E21B23] font-mono mt-0.5">
+                    {totalFIRs}
+                  </div>
+                  <div className={`text-[10px] ${isLight ? "text-slate-500" : "text-[#555C63]"}`}>
+                    Official Filings
+                  </div>
                 </div>
-                <div className="p-3 rounded-xl bg-[#050607] border border-[#20252A]">
-                  <div className="text-[10px] font-mono text-[#858B92] uppercase">Connections</div>
-                  <div className="text-lg font-bold text-amber-400 font-mono mt-0.5">{totalEdges}</div>
-                  <div className="text-[10px] text-[#555C63]">Typed Links</div>
+                <div
+                  className={`p-3 rounded-xl border ${
+                    isLight ? "bg-slate-50 border-slate-200" : "bg-[#050607] border-[#20252A]"
+                  }`}
+                >
+                  <div
+                    className={`text-[10px] font-mono uppercase ${
+                      isLight ? "text-slate-500" : "text-[#858B92]"
+                    }`}
+                  >
+                    Connections
+                  </div>
+                  <div className="text-lg font-bold text-amber-600 dark:text-amber-400 font-mono mt-0.5">
+                    {totalEdges}
+                  </div>
+                  <div className={`text-[10px] ${isLight ? "text-slate-500" : "text-[#555C63]"}`}>
+                    Typed Links
+                  </div>
                 </div>
               </div>
 
               {/* Key Subjects Spotlight */}
-              <div className="p-4 rounded-xl bg-[#0A0D10] border border-[#20252A] space-y-2">
+              <div
+                className={`p-4 rounded-xl border space-y-2 ${
+                  isLight ? "bg-slate-50 border-slate-200" : "bg-[#0A0D10] border-[#20252A]"
+                }`}
+              >
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-[#858B92] uppercase font-bold tracking-wider">
+                  <span
+                    className={`text-[10px] font-mono uppercase font-bold tracking-wider ${
+                      isLight ? "text-slate-500" : "text-[#858B92]"
+                    }`}
+                  >
                     PRIMARY TARGETS & BOTTLENECK NODES
                   </span>
                   <button
                     onClick={() => setActiveWorkspaceTab("subjects")}
-                    className="text-[11px] font-mono text-[#E21B23] hover:underline"
+                    className="text-[11px] font-mono text-[#E21B23] hover:underline cursor-pointer"
                   >
                     View All Subjects →
                   </button>
@@ -536,20 +677,32 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
                   {subjects.slice(0, 3).map((sub) => (
                     <div
                       key={sub.id}
-                      className="flex items-center justify-between p-2 rounded-lg bg-[#0E1216] border border-[#20252A]"
+                      className={`flex items-center justify-between p-2 rounded-lg border ${
+                        isLight
+                          ? "bg-white border-slate-200"
+                          : "bg-[#0E1216] border-[#20252A]"
+                      }`}
                     >
                       <div className="flex items-center gap-2">
                         <span className="w-2 h-2 rounded-full bg-[#E21B23]" />
-                        <span className="font-semibold text-white">{sub.name}</span>
-                        <span className="text-[10px] font-mono text-zinc-500">({sub.role})</span>
+                        <span className={`font-semibold ${isLight ? "text-slate-900" : "text-white"}`}>
+                          {sub.name}
+                        </span>
+                        <span className={`text-[10px] font-mono ${isLight ? "text-slate-500" : "text-zinc-500"}`}>
+                          ({sub.role})
+                        </span>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-mono text-amber-400 font-bold">
+                        <span className="text-[10px] font-mono text-amber-600 dark:text-amber-400 font-bold">
                           {sub.importance}
                         </span>
                         <button
                           onClick={() => onOpenCaseNetwork(selectedCaseDetail.id, sub.id)}
-                          className="px-2 py-0.5 rounded bg-[#20252A] text-slate-200 hover:text-white hover:bg-[#E21B23] transition-colors"
+                          className={`px-2 py-0.5 rounded transition-colors text-xs font-mono cursor-pointer ${
+                            isLight
+                              ? "bg-slate-100 hover:bg-[#E21B23] text-slate-800 hover:text-white border border-slate-200"
+                              : "bg-[#20252A] text-slate-200 hover:text-white hover:bg-[#E21B23]"
+                          }`}
                         >
                           Focus
                         </button>
@@ -560,18 +713,38 @@ export const CaseManagementView: React.FC<CaseManagementViewProps> = ({
               </div>
 
               {/* Detected Patterns Row */}
-              <div className="p-4 rounded-xl bg-[#0A0D10] border border-[#20252A] space-y-2">
-                <span className="text-[10px] font-mono text-[#858B92] uppercase font-bold tracking-wider">
+              <div
+                className={`p-4 rounded-xl border space-y-2 ${
+                  isLight ? "bg-slate-50 border-slate-200" : "bg-[#0A0D10] border-[#20252A]"
+                }`}
+              >
+                <span
+                  className={`text-[10px] font-mono uppercase font-bold tracking-wider ${
+                    isLight ? "text-slate-500" : "text-[#858B92]"
+                  }`}
+                >
                   DETECTED INVESTIGATIVE PATTERNS
                 </span>
                 <div className="grid grid-cols-2 gap-2 pt-1 font-mono text-xs">
-                  <div className="p-2.5 rounded-lg bg-[#0E1216] border border-[#20252A]">
-                    <div className="text-emerald-400 font-bold">Hawala Cycle</div>
-                    <div className="text-[10px] text-[#858B92] mt-0.5">4 Accounts Circular Flow</div>
+                  <div
+                    className={`p-2.5 rounded-lg border ${
+                      isLight ? "bg-white border-slate-200" : "bg-[#0E1216] border-[#20252A]"
+                    }`}
+                  >
+                    <div className="text-emerald-600 dark:text-emerald-400 font-bold">Hawala Cycle</div>
+                    <div className={`text-[10px] mt-0.5 ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
+                      4 Accounts Circular Flow
+                    </div>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-[#0E1216] border border-[#20252A]">
-                    <div className="text-sky-400 font-bold">Mule Call Burst</div>
-                    <div className="text-[10px] text-[#858B92] mt-0.5">phone:ph03 (141 Calls)</div>
+                  <div
+                    className={`p-2.5 rounded-lg border ${
+                      isLight ? "bg-white border-slate-200" : "bg-[#0E1216] border-[#20252A]"
+                    }`}
+                  >
+                    <div className="text-sky-600 dark:text-sky-400 font-bold">Mule Call Burst</div>
+                    <div className={`text-[10px] mt-0.5 ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
+                      phone:ph03 (141 Calls)
+                    </div>
                   </div>
                 </div>
               </div>

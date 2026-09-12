@@ -24,6 +24,7 @@ interface TimelineViewProps {
   kernel: GraphKernel | null;
   onSelectEntity: (entityId: string) => void;
   onOpenEvidence?: (evidenceId?: string) => void;
+  theme?: "dark" | "light";
 }
 
 type TimelineCategory = "ALL" | "CALLS" | "TRANSACTIONS" | "FIR" | "SURVEILLANCE";
@@ -32,7 +33,9 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   kernel,
   onSelectEntity,
   onOpenEvidence,
+  theme = "dark",
 }) => {
+  const isLight = theme === "light";
   const { activeCase, addToDossier, isInDossier } = useCase();
   const { showToast } = useToast();
 
@@ -186,9 +189,17 @@ export const TimelineView: React.FC<TimelineViewProps> = ({
   const activeEvent = filteredEvents.find((e) => e.id === selectedEventId) || filteredEvents[0] || null;
 
   return (
-    <div className="flex-1 h-full flex flex-col bg-[#050607] text-[#F2F2F2] overflow-hidden select-none font-sans p-6 gap-5">
+    <div
+      className={`flex-1 h-full flex flex-col overflow-hidden select-none font-sans p-6 gap-5 transition-colors duration-200 ${
+        isLight ? "bg-[#FAFAFA] text-slate-900" : "bg-[#050607] text-[#F2F2F2]"
+      }`}
+    >
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#20252A] shrink-0">
+      <div
+        className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b shrink-0 ${
+          isLight ? "border-slate-200" : "border-[#20252A]"
+        }`}
+      >
         <div>
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[10px] font-mono tracking-[0.2em] text-[#E21B23] uppercase font-bold">

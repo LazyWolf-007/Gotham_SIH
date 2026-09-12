@@ -28,6 +28,7 @@ interface EvidenceViewProps {
   onSelectEntity: (entityId: string) => void;
   onOpenTimeline?: (eventId?: string) => void;
   onOpenDossier?: () => void;
+  theme?: "dark" | "light";
 }
 
 type EvidenceCategory =
@@ -43,7 +44,9 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
   onSelectEntity,
   onOpenTimeline,
   onOpenDossier,
+  theme = "dark",
 }) => {
+  const isLight = theme === "light";
   const { activeCase, addToDossier, removeFromDossier, isInDossier } = useCase();
   const { showToast } = useToast();
 
@@ -240,9 +243,17 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
   };
 
   return (
-    <div className="flex-1 h-full flex flex-col bg-[#050607] text-[#F2F2F2] overflow-hidden select-none font-sans p-6 gap-5">
+    <div
+      className={`flex-1 h-full flex flex-col overflow-hidden select-none font-sans p-6 gap-5 transition-colors duration-200 ${
+        isLight ? "bg-[#FAFAFA] text-slate-900" : "bg-[#050607] text-[#F2F2F2]"
+      }`}
+    >
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#20252A] shrink-0">
+      <div
+        className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b shrink-0 ${
+          isLight ? "border-slate-200" : "border-[#20252A]"
+        }`}
+      >
         <div>
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[10px] font-mono tracking-[0.2em] text-[#E21B23] uppercase font-bold">
@@ -339,7 +350,9 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
                   setSelectedSubjectFilter("ALL");
                   setSearchQuery("");
                 }}
-                className="px-3 py-1.5 rounded-lg bg-[#20252A] hover:bg-[#384048] text-white text-xs font-mono transition-colors"
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-colors ${
+                  isLight ? "bg-slate-200 hover:bg-slate-300 text-slate-800" : "bg-[#20252A] hover:bg-[#384048] text-white"
+                }`}
               >
                 Reset Search Filters
               </button>
@@ -355,7 +368,11 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
                   onClick={() => setSelectedItem(item)}
                   className={`p-4 rounded-xl border transition-all cursor-pointer relative ${
                     isSelected
-                      ? "bg-[#0E1216] border-[#E21B23] shadow-md shadow-[#E21B23]/10"
+                      ? isLight
+                        ? "bg-red-50/70 border-red-400 shadow-sm"
+                        : "bg-[#0E1216] border-[#E21B23] shadow-md shadow-[#E21B23]/10"
+                      : isLight
+                      ? "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                       : "bg-[#0A0D10] border-[#20252A] hover:border-[#384048] hover:bg-[#0E1216]"
                   }`}
                 >
@@ -365,32 +382,44 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
                         <span className="text-xs font-mono font-bold text-[#E21B23]">
                           {item.id}
                         </span>
-                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#20252A] text-zinc-300 border border-[#384048] uppercase">
+                        <span
+                          className={`text-[9px] font-mono px-1.5 py-0.5 rounded uppercase border ${
+                            isLight
+                              ? "bg-slate-100 border-slate-300 text-slate-700"
+                              : "bg-[#20252A] border-[#384048] text-zinc-300"
+                          }`}
+                        >
                           {item.type}
                         </span>
                         {inDossier && (
-                          <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-950/60 border border-emerald-700/60 text-emerald-300">
+                          <span
+                            className={`text-[9px] font-mono px-1.5 py-0.5 rounded border ${
+                              isLight
+                                ? "bg-emerald-50 border-emerald-300 text-emerald-700"
+                                : "bg-emerald-950/60 border-emerald-700/60 text-emerald-300"
+                            }`}
+                          >
                             IN DOSSIER
                           </span>
                         )}
                       </div>
-                      <h4 className="text-sm font-bold text-white mt-1 truncate">
+                      <h4 className={`text-sm font-bold mt-1 truncate ${isLight ? "text-slate-900" : "text-white"}`}>
                         {item.title}
                       </h4>
                     </div>
 
-                    <span className="text-[10px] font-mono text-[#858B92] shrink-0">
+                    <span className={`text-[10px] font-mono shrink-0 ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
                       {item.dateTime}
                     </span>
                   </div>
 
-                  <p className="text-xs text-[#858B92] line-clamp-2 mt-2 leading-relaxed font-sans">
+                  <p className={`text-xs line-clamp-2 mt-2 leading-relaxed font-sans ${isLight ? "text-slate-600" : "text-[#858B92]"}`}>
                     {item.description}
                   </p>
 
-                  <div className="flex items-center justify-between mt-3 pt-2.5 border-t border-[#20252A] text-[11px] font-mono text-[#858B92]">
-                    <span className="truncate">Subject: <strong className="text-slate-200">{item.relatedSubject}</strong></span>
-                    <span className="text-emerald-400 font-bold">{item.status}</span>
+                  <div className={`flex items-center justify-between mt-3 pt-2.5 border-t text-[11px] font-mono ${isLight ? "border-slate-200 text-slate-500" : "border-[#20252A] text-[#858B92]"}`}>
+                    <span className="truncate">Subject: <strong className={isLight ? "text-slate-900" : "text-slate-200"}>{item.relatedSubject}</strong></span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold">{item.status}</span>
                   </div>
                 </div>
               );
@@ -399,42 +428,42 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
         </div>
 
         {/* Right: Detailed Inspection Card (5 Cols) */}
-        <div className="lg:col-span-5 bg-[#0E1216] border border-[#20252A] rounded-2xl p-5 overflow-y-auto flex flex-col gap-4">
+        <div className={`lg:col-span-5 border rounded-2xl p-5 overflow-y-auto flex flex-col gap-4 ${isLight ? "bg-white border-slate-200 shadow-sm" : "bg-[#0E1216] border-[#20252A]"}`}>
           {activeDetail ? (
             <>
               {/* Header Info */}
-              <div className="pb-3 border-b border-[#20252A]">
+              <div className={`pb-3 border-b ${isLight ? "border-slate-200" : "border-[#20252A]"}`}>
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-mono font-bold text-[#E21B23]">
                       {activeDetail.id}
                     </span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#20252A] text-zinc-300 uppercase">
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded uppercase border ${isLight ? "bg-slate-100 border-slate-300 text-slate-700" : "bg-[#20252A] border-zinc-700 text-zinc-300"}`}>
                       {activeDetail.category}
                     </span>
                   </div>
                   <ProvenanceBadge type="EVIDENCE RECORD" />
                 </div>
-                <h3 className="text-base font-bold text-white mt-1.5">
+                <h3 className={`text-base font-bold mt-1.5 ${isLight ? "text-slate-900" : "text-white"}`}>
                   {activeDetail.title}
                 </h3>
-                <div className="text-[11px] font-mono text-[#858B92] mt-1">
+                <div className={`text-[11px] font-mono mt-1 ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
                   Indexed: {activeDetail.dateTime} • Case: {activeCase.id}
                 </div>
               </div>
 
               {/* Related Subject */}
-              <div className="p-3 rounded-xl bg-[#0A0D10] border border-[#20252A] flex items-center justify-between text-xs">
+              <div className={`p-3 rounded-xl border flex items-center justify-between text-xs ${isLight ? "bg-slate-50 border-slate-200" : "bg-[#0A0D10] border-[#20252A]"}`}>
                 <div>
-                  <span className="text-[10px] font-mono text-[#858B92] uppercase">
+                  <span className={`text-[10px] font-mono uppercase ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
                     Primary Associated Subject
                   </span>
-                  <div className="font-bold text-white mt-0.5">{activeDetail.relatedSubject}</div>
+                  <div className={`font-bold mt-0.5 ${isLight ? "text-slate-900" : "text-white"}`}>{activeDetail.relatedSubject}</div>
                 </div>
                 {activeDetail.targetNodeId && (
                   <button
                     onClick={() => onSelectEntity(activeDetail.targetNodeId)}
-                    className="px-2.5 py-1 rounded bg-[#20252A] hover:bg-[#E21B23] text-white text-[10px] font-mono transition-colors cursor-pointer"
+                    className={`px-2.5 py-1 rounded text-[10px] font-mono transition-colors cursor-pointer border ${isLight ? "bg-slate-100 hover:bg-[#E21B23] text-slate-800 hover:text-white border-slate-300" : "bg-[#20252A] hover:bg-[#E21B23] text-white border-zinc-700"}`}
                   >
                     View Subject
                   </button>
@@ -444,29 +473,29 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
               {/* Narrative */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono text-[#858B92] uppercase font-bold">
+                  <span className={`text-[10px] font-mono uppercase font-bold ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
                     AUTHENTICATED RECORD NARRATIVE
                   </span>
                   <ProvenanceBadge type="BACKEND DATA" />
                 </div>
-                <div className="p-3 rounded-xl bg-[#050607] border border-[#20252A] text-xs text-slate-200 leading-relaxed font-sans">
+                <div className={`p-3 rounded-xl border text-xs leading-relaxed font-sans ${isLight ? "bg-slate-50 border-slate-200 text-slate-800" : "bg-[#050607] border-[#20252A] text-slate-200"}`}>
                   {activeDetail.description}
                 </div>
               </div>
 
               {/* Metadata Key-Value pairs */}
               <div className="space-y-2">
-                <span className="text-[10px] font-mono text-[#858B92] uppercase font-bold">
+                <span className={`text-[10px] font-mono uppercase font-bold ${isLight ? "text-slate-500" : "text-[#858B92]"}`}>
                   EVIDENTIARY RECORD METADATA
                 </span>
                 <div className="space-y-1.5">
-                  <div className="p-2 rounded-lg bg-[#0A0D10] border border-[#20252A] flex items-center justify-between text-xs font-mono">
-                    <span className="text-[#858B92]">Source Feed:</span>
-                    <span className="text-white font-semibold">{activeDetail.source}</span>
+                  <div className={`p-2 rounded-lg border flex items-center justify-between text-xs font-mono ${isLight ? "bg-slate-50 border-slate-200" : "bg-[#0A0D10] border-[#20252A]"}`}>
+                    <span className={isLight ? "text-slate-500" : "text-[#858B92]"}>Source Feed:</span>
+                    <span className={`font-semibold ${isLight ? "text-slate-900" : "text-white"}`}>{activeDetail.source}</span>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-[#0A0D10] border border-[#20252A] flex flex-col gap-1.5 text-xs font-mono">
+                  <div className={`p-2.5 rounded-lg border flex flex-col gap-1.5 text-xs font-mono ${isLight ? "bg-slate-50 border-slate-200" : "bg-[#0A0D10] border-[#20252A]"}`}>
                     <div className="flex items-center justify-between">
-                      <span className="text-[#858B92]">Investigator Review Status:</span>
+                      <span className={isLight ? "text-slate-500" : "text-[#858B92]"}>Investigator Review Status:</span>
                       <ProvenanceBadge type="LOCAL PROTOTYPE" />
                     </div>
                     <div className="grid grid-cols-3 gap-1 pt-0.5">
@@ -481,10 +510,18 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
                             className={`py-1 px-1.5 rounded text-[10px] font-mono font-semibold transition-all cursor-pointer ${
                               isSelected
                                 ? st === "FLAGGED"
-                                  ? "bg-red-950/80 border border-red-600/80 text-red-300"
+                                  ? isLight
+                                    ? "bg-red-100 border border-red-300 text-red-700"
+                                    : "bg-red-950/80 border border-red-600/80 text-red-300"
                                   : st === "REVIEWED"
-                                  ? "bg-emerald-950/80 border border-emerald-600/80 text-emerald-300"
+                                  ? isLight
+                                    ? "bg-emerald-100 border border-emerald-300 text-emerald-700"
+                                    : "bg-emerald-950/80 border border-emerald-600/80 text-emerald-300"
+                                  : isLight
+                                  ? "bg-slate-200 border border-slate-300 text-slate-900 font-bold"
                                   : "bg-slate-800 border border-slate-600 text-white"
+                                : isLight
+                                ? "bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                                 : "bg-[#050607] border border-[#20252A] text-zinc-400 hover:text-white"
                             }`}
                           >
@@ -494,19 +531,19 @@ export const EvidenceView: React.FC<EvidenceViewProps> = ({
                       })}
                     </div>
                   </div>
-                  <div className="p-2 rounded-lg bg-[#0A0D10] border border-[#20252A] flex items-center justify-between text-xs font-mono">
-                    <span className="text-[#858B92]">Integrity Status:</span>
-                    <span className="text-emerald-400 font-bold">{activeDetail.status}</span>
+                  <div className={`p-2 rounded-lg border flex items-center justify-between text-xs font-mono ${isLight ? "bg-slate-50 border-slate-200" : "bg-[#0A0D10] border-[#20252A]"}`}>
+                    <span className={isLight ? "text-slate-500" : "text-[#858B92]"}>Integrity Status:</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold">{activeDetail.status}</span>
                   </div>
                   {Object.entries(activeDetail.metadata)
                     .slice(0, 5)
                     .map(([k, v]) => (
                       <div
                         key={k}
-                        className="p-2 rounded-lg bg-[#0A0D10] border border-[#20252A] flex items-center justify-between text-xs font-mono"
+                        className={`p-2 rounded-lg border flex items-center justify-between text-xs font-mono ${isLight ? "bg-slate-50 border-slate-200" : "bg-[#0A0D10] border-[#20252A]"}`}
                       >
-                        <span className="text-[#858B92]">{k}:</span>
-                        <span className="text-white font-semibold truncate max-w-[200px]">
+                        <span className={isLight ? "text-slate-500" : "text-[#858B92]"}>{k}:</span>
+                        <span className={`font-semibold truncate max-w-[200px] ${isLight ? "text-slate-900" : "text-white"}`}>
                           {typeof v === "object" ? JSON.stringify(v) : String(v)}
                         </span>
                       </div>

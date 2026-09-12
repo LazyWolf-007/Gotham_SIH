@@ -32,6 +32,7 @@ interface AnalyticsViewProps {
   onOpenDossier?: () => void;
   onOpenGraph?: (focusId?: string) => void;
   onSelectPattern?: (patternId: string) => void;
+  theme?: "dark" | "light";
 }
 
 export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
@@ -43,7 +44,9 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
   onOpenDossier,
   onOpenGraph,
   onSelectPattern,
+  theme = "dark",
 }) => {
+  const isLight = theme === "light";
   const meta = kernel?.meta;
   const nodes = kernel?.nodes || [];
   const edges = kernel?.edges || [];
@@ -67,9 +70,17 @@ export const AnalyticsView: React.FC<AnalyticsViewProps> = ({
   const vehCount = meta?.object_counts?.Vehicle || 25;
 
   return (
-    <div className="flex-1 h-full flex flex-col bg-[#050607] text-[#F2F2F2] overflow-y-auto select-none font-sans p-5 gap-5">
+    <div
+      className={`flex-1 h-full flex flex-col overflow-y-auto select-none font-sans p-5 gap-5 transition-colors duration-200 ${
+        isLight ? "bg-[#FAFAFA] text-slate-900" : "bg-[#050607] text-[#F2F2F2]"
+      }`}
+    >
       {/* Header: POLICE INTELLIGENCE BRIEFING */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3.5 border-b border-[#20252A] shrink-0">
+      <div
+        className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-3.5 border-b shrink-0 ${
+          isLight ? "border-slate-200" : "border-[#20252A]"
+        }`}
+      >
         <div>
           <div className="flex items-center gap-2 flex-wrap">
             <span className="px-2 py-0.5 rounded bg-[#E21B23]/20 text-[#FF3038] text-[9px] font-mono font-bold tracking-widest uppercase border border-[#E21B23]/40">

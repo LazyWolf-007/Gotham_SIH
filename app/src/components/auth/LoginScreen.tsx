@@ -45,109 +45,72 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLog
 
   return (
     <div className="relative w-screen h-screen overflow-hidden select-none bg-[#030712] text-white font-sans flex">
-      {/* Background Image Container (login-bg.png containing left uniform + right parliament) */}
+      {/* Crisp Background Image Container */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
         style={{ backgroundImage: `url('/login-bg.png')` }}
-      >
-        {/* Subtle Vignette Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-black/70" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50" />
-      </div>
+      />
 
-      {/* Back to Portal Button */}
+      {/* Top Left: Back to Portal Button */}
       {onBackToLanding && (
         <button
           onClick={onBackToLanding}
-          className="absolute top-5 left-5 z-30 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/70 hover:bg-black/90 border border-white/20 text-xs text-zinc-300 hover:text-white transition-all backdrop-blur-md cursor-pointer shadow-lg group"
+          className="absolute top-6 left-6 z-30 flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/50 hover:bg-black/80 border border-white/20 text-xs text-zinc-300 hover:text-white transition-all backdrop-blur-md cursor-pointer shadow-lg group"
         >
           <ArrowLeft className="w-3.5 h-3.5 text-red-400 group-hover:-translate-x-0.5 transition-transform" />
           <span>Back to Portal</span>
         </button>
       )}
 
-      {/* TWO SECTIONS LAYOUT */}
-      <div className="relative z-10 w-full h-full flex flex-col md:flex-row">
+      {/* Top Right Header Motto */}
+      <div className="absolute top-6 right-8 z-20 flex items-center gap-6 text-[11px] font-sans font-bold tracking-[0.3em] text-zinc-400/90 uppercase">
+        <span>PEOPLE</span>
+        <span>DATA</span>
+        <span>JUSTICE</span>
+      </div>
 
-        {/* ================= SECTION 1: LEFT PANEL (~30% Width) ================= */}
-        <div className="w-full md:w-[30%] xl:w-[28%] h-auto md:h-full p-8 md:p-12 flex flex-col justify-between border-b md:border-b-0 md:border-r border-white/10 bg-black/30 backdrop-blur-[2px]">
-          {/* Top Slogan */}
-          <div>
-            <div className="text-xs font-semibold tracking-[0.25em] text-zinc-300 uppercase">
-              SAME DATA.
-            </div>
-            <div className="text-xs font-extrabold tracking-[0.25em] text-white uppercase mt-0.5">
-              DEEPER TRUTH.
-            </div>
-          </div>
-
-          {/* Bottom Action Pillar List */}
-          <div className="mt-8 md:mt-0 space-y-2.5 text-xs font-mono tracking-[0.3em] text-zinc-300/80 uppercase">
-            <div className="hover:text-red-400 transition-colors">INVESTIGATE</div>
-            <div className="hover:text-red-400 transition-colors">ANALYZE</div>
-            <div className="hover:text-red-400 transition-colors">SIMULATE</div>
-            <div className="hover:text-red-400 transition-colors">ACT</div>
-          </div>
-        </div>
-
-        {/* ================= SECTION 2: RIGHT PANEL (~70% Width) ================= */}
-        <div className="flex-1 h-full p-6 md:p-12 flex flex-col justify-between items-center relative overflow-y-auto">
-          {/* Top Right Header Motto */}
-          <div className="w-full flex justify-end items-center gap-6 text-[11px] font-sans font-bold tracking-[0.3em] text-zinc-400 uppercase">
-            <span>PEOPLE</span>
-            <span>DATA</span>
-            <span>JUSTICE</span>
-          </div>
-
-          {/* Centered Glassmorphic Login Modal */}
-          <div className="w-full max-w-md my-auto bg-[#0a101d]/85 border border-slate-700/60 backdrop-blur-2xl rounded-3xl p-8 sm:p-10 shadow-[0_0_60px_rgba(0,0,0,0.9)]">
+      {/* Main Container: Login Card positioned right after the left police section (~34% to 38% from left) */}
+      <div className="relative z-10 w-full h-full flex items-center justify-start pl-[6%] md:pl-[34%] lg:pl-[36%] xl:pl-[38%] pr-6 py-6">
+        {/* Glassmorphic Login Card */}
+        <div className="w-full max-w-[400px] xl:max-w-[420px] bg-[#0a121d]/60 border border-white/15 backdrop-blur-xl rounded-[28px] p-7 sm:p-8 shadow-[0_20px_60px_rgba(0,0,0,0.85),inset_0_1px_1px_rgba(255,255,255,0.15)]">
             
-            {/* Modal Header: Emblem + JAAL Branding */}
-            <div className="flex items-center gap-4 mb-6">
+            {/* Header: Emblem + JAAL Branding */}
+            <div className="flex items-center gap-3.5 mb-5">
               <img
                 src="/jaal-emblem.png"
                 alt="National Emblem"
-                className="w-10 h-12 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]"
+                className="w-9 h-11 object-contain filter drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]"
               />
               <div>
-                <div className="flex items-center gap-2">
-                  <h1 className="text-2xl font-extrabold tracking-widest text-white font-sans leading-none">
-                    JAAL
-                  </h1>
-                  <span className="text-[9px] font-mono bg-red-950/80 text-red-400 border border-red-500/40 px-2 py-0.5 rounded uppercase tracking-widest">
-                    NCRB / MHA
-                  </span>
-                </div>
-                <p className="text-[11px] font-mono tracking-wider text-zinc-400 uppercase mt-1">
+                <h1 className="text-2xl font-black tracking-widest text-white font-sans leading-tight">
+                  JAAL
+                </h1>
+                <p className="text-[10px] font-mono tracking-widest text-zinc-400 uppercase">
                   OPERATION GREY LEDGER
                 </p>
               </div>
             </div>
 
-            {/* Section Title */}
-            <div className="mb-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-white tracking-tight">
-                  SECURE INVESTIGATION PORTAL
-                </h2>
-              </div>
-              <div className="flex items-center gap-2 mt-1 font-mono text-[10px] text-[#858B92]">
-                <span className="text-[#FF3038] font-bold">AUTHORIZED PERSONNEL ONLY</span>
-                <span>•</span>
-                <span className="text-emerald-400">SYSTEM STATUS: OPERATIONAL</span>
-              </div>
+            {/* Subheading */}
+            <div className="mb-5">
+              <h2 className="text-base font-bold text-white tracking-tight">
+                Secure Access
+              </h2>
+              <p className="text-xs text-zinc-400 mt-0.5">
+                For Authorized Personnel Only
+              </p>
             </div>
 
             {error && (
-              <div className="mb-5 p-3.5 rounded-xl bg-[#E21B23]/15 border border-[#E21B23]/40 text-[#FF3038] text-xs flex items-center gap-2.5 font-mono">
-                <AlertCircle className="w-4 h-4 text-[#FF3038] shrink-0" />
+              <div className="mb-4 p-3 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs flex items-center gap-2.5 font-mono">
+                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
             {/* Form Inputs */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Officer ID / Badge ID Input */}
+            <form onSubmit={handleSubmit} className="space-y-3.5">
+              {/* Username / Email Input */}
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                   <User className="w-4 h-4 text-zinc-400" />
@@ -157,8 +120,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLog
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Officer ID / Badge ID"
-                  className="w-full bg-[#080d19]/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E21B23] focus:ring-1 focus:ring-[#E21B23] transition-all font-sans"
+                  placeholder="Username / Email"
+                  className="w-full bg-[#0b1422]/70 border border-slate-700/60 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-red-500/80 focus:ring-1 focus:ring-red-500/50 transition-all font-sans"
                 />
               </div>
 
@@ -173,7 +136,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLog
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full bg-[#080d19]/90 border border-slate-700/80 rounded-xl pl-10 pr-10 py-3 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-[#E21B23] focus:ring-1 focus:ring-[#E21B23] transition-all font-sans"
+                  className="w-full bg-[#0b1422]/70 border border-slate-700/60 rounded-xl pl-10 pr-10 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-red-500/80 focus:ring-1 focus:ring-red-500/50 transition-all font-sans"
                 />
                 <button
                   type="button"
@@ -185,15 +148,15 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLog
               </div>
 
               {/* Options Row */}
-              <div className="flex items-center justify-between text-xs py-1">
+              <div className="flex items-center justify-between text-xs py-0.5">
                 <label className="flex items-center gap-2 cursor-pointer text-zinc-300 hover:text-white transition-colors">
                   <input
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-[#E21B23] focus:ring-[#E21B23] focus:ring-offset-0 cursor-pointer"
+                    className="w-3.5 h-3.5 rounded border-slate-700 bg-slate-900 text-red-600 focus:ring-red-500 focus:ring-offset-0 cursor-pointer"
                   />
-                  <span>Remember workstation</span>
+                  <span>Remember me</span>
                 </label>
                 <a
                   href="#forgot"
@@ -201,7 +164,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLog
                     e.preventDefault();
                     alert("Please contact NCRB Master Admin to reset officer workstation credentials.");
                   }}
-                  className="text-[#FF3038] hover:text-red-300 font-medium transition-colors"
+                  className="text-red-400 hover:text-red-300 font-medium transition-colors"
                 >
                   Forgot password?
                 </a>
@@ -211,59 +174,60 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onBackToLanding, onLog
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-bold text-sm tracking-wider uppercase transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-2 font-mono"
+                className="w-full py-2.5 rounded-xl bg-[#E63946] hover:bg-[#D62839] active:bg-[#C1121F] text-white font-bold text-sm tracking-wide transition-all shadow-lg shadow-red-600/30 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-1"
               >
                 {loading ? (
                   <span className="animate-pulse">Authenticating...</span>
                 ) : (
                   <>
-                    <span>SIGN IN</span>
+                    <span>Sign In</span>
                     <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
 
-              {/* Secondary: Use Demo Investigator */}
+              {/* Divider: OR */}
+              <div className="flex items-center gap-3 my-2">
+                <div className="flex-1 h-px bg-slate-700/50" />
+                <span className="text-[10px] font-mono uppercase text-zinc-500 tracking-wider">OR</span>
+                <div className="flex-1 h-px bg-slate-700/50" />
+              </div>
+
+              {/* Government SSO Button */}
               <button
                 type="button"
                 onClick={async () => {
-                  setEmail("kartik@jaal.gov.in");
+                  setEmail("officer@jaal.gov.in");
                   setPassword("investigator123");
                   try {
                     setLoading(true);
-                    await login("kartik@jaal.gov.in", "investigator123");
+                    await login("officer@jaal.gov.in", "investigator123");
                     if (onLoginSuccess) onLoginSuccess();
                   } catch (e: any) {
-                    setError(e?.message || "Demo investigator login failed");
+                    setError(e?.message || "Government SSO authentication failed");
                   } finally {
                     setLoading(false);
                   }
                 }}
-                className="w-full py-2.5 px-3 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-200 hover:text-white text-xs font-mono flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
+                className="w-full py-2 px-3 rounded-xl bg-[#0b1422]/60 hover:bg-[#111e33]/80 border border-slate-700/50 text-zinc-200 hover:text-white text-xs font-sans font-medium flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm"
               >
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>Use Demo Investigator (Kartik • IND-IO-26189)</span>
+                <img
+                  src="/jaal-emblem.png"
+                  alt="Gov Emblem"
+                  className="w-3.5 h-4 object-contain opacity-90"
+                />
+                <span>Sign In with Government SSO</span>
               </button>
             </form>
 
-            {/* Prototype Authentication Notice */}
-            <div className="mt-6 pt-4 border-t border-slate-800/80 flex flex-col items-center gap-1.5 text-center">
-              <div className="flex items-center gap-2 text-[11px] text-zinc-400 font-mono">
-                <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-                <span>LOCAL PROTOTYPE AUTHENTICATION</span>
-              </div>
-              <span className="text-[10px] text-zinc-500 font-sans">
-                Authorized for NCRB / Special Cell Operational Review
-              </span>
+            {/* Footer Shield Tag */}
+            <div className="mt-5 pt-3 flex items-center justify-center gap-1.5 text-center text-[10px] text-zinc-400/80">
+              <ShieldCheck className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
+              <span>Secured. Monitored. For a safer tomorrow.</span>
             </div>
 
           </div>
-
-          {/* Empty Bottom Balance for Right Panel Flex */}
-          <div className="h-4" />
         </div>
-
       </div>
-    </div>
-  );
-};
+    );
+  };

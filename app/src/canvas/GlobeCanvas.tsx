@@ -1109,7 +1109,7 @@ export const GlobeCanvas: React.FC<GlobeCanvasProps> = ({
       {/* =========================================================================
           4. FLOATING TOP-CENTER ARCS FILTER PILLS
           ========================================================================= */}
-      <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-1.5 pointer-events-auto">
+      <div className="absolute top-3 right-4 z-40 flex items-center gap-1.5 flex-wrap pointer-events-auto">
         <div
           className={`flex items-center rounded-xl p-1 shadow-2xl text-xs font-mono border backdrop-blur-xl ${
             isLight ? "bg-white/95 border-slate-300 text-slate-900" : "bg-[#0B0F15]/85 border-white/10 text-white"
